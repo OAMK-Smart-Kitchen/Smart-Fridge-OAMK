@@ -1,5 +1,9 @@
 # Smart-Fridge
 The first project of the 'Smart Kitchen' commissioned by OAMK University of Applied Sciences in Oulu - Finland.
+
+The concept: [Prezi](http://prezi.com/kkwk0fvxtakd/?utm_campaign=share&utm_medium=copy&rc=ex0share)
+
+
 Dedicated to Tom Mampaey and Bernd Verhofstadt (Erasmus students from Belgium) by:
 
 ### Contactpersons Finland:
