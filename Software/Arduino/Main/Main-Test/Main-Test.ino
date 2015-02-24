@@ -14,7 +14,10 @@ int minLengthID = 40;  // minimale lengte van NFC-tag ID
 // NFC-ID's
 const String Banana = "1188611854245125125125141153151143159229235";
 const String Cucumber = "118150150205245125125125141153151143159229235";
+const String Vegetables = "95951741188653153229235095951741188653153229235";
 const String Milk = "1185424654237125125125141153151143159229235";
+const String Ketchup = "11824610854245125125125141153151143159229235";
+
 // Ultrasonic
 #define echoPin 7
 #define trigPin 8
@@ -39,13 +42,10 @@ void setup() {
 void loop()
 {
   // ----- NFC-Tag Detection -----
-
-  if (Serial.available() > 0 ) {
+  if (Serial.available()) {
     incomingByte = Serial.read();
     if (incomingByte == 0 && productID.length() >= minLengthID)
     {
-      //Serial.println(productID);
-
       Serial.print("NFC-ID: ");
       // Software on computer will do this in futere (Database)
 
@@ -57,15 +57,23 @@ void loop()
       {
         Serial.println("Cucumber");
       }
+      else if (productID == Vegetables)
+      {
+        Serial.println("Box with vegetables");
+      }
       else if (productID == Milk)
       {
         Serial.println("Milk");
+      }
+      else if (productID == Ketchup)
+      {
+        Serial.println("Ketchup");
       }
       else
       {
         Serial.println(productID);
       }
-      
+
       /* switch (productID) {
           case "rf": //Yellow
             Serial.println("Banana");
@@ -87,6 +95,7 @@ void loop()
 
         }*/
       productID = "";
+      //readSensor == true;
     }
     else
     {
@@ -96,33 +105,36 @@ void loop()
 
     // ----- End NFF-Tag detection -----
     /*
-        // ----- Ultrasonic User-detection -----
-        digitalWrite(trigPin, LOW);
-        delayMicroseconds(2);
+            // ----- Ultrasonic User-detection -----
+            if(readSensor == true)
+            {
+            digitalWrite(trigPin, LOW);
+            delayMicroseconds(2);
 
-        digitalWrite(trigPin, HIGH);
-        delayMicroseconds(10);
+            digitalWrite(trigPin, HIGH);
+            delayMicroseconds(10);
 
-        digitalWrite(trigPin, LOW);
-        duration = pulseIn(echoPin, HIGH);
+            digitalWrite(trigPin, LOW);
+            duration = pulseIn(echoPin, HIGH);
 
-        //Convert to cm based on speed of sound.
-        distance = duration / 58.2;
+            //Convert to cm based on speed of sound.
+            distance = duration / 58.2;
 
-        if (distance >= maximumRange || distance <= minimumRange) {
-          Serial.println("Nobody in front of fridge");
-          digitalWrite(LEDPin, LOW);
-        }
-        else {
-          Serial.print("User detected on: ");
-          Serial.println(distance);
-          digitalWrite(LEDPin, HIGH);
-        }
+            if (distance >= maximumRange || distance <= minimumRange) {
+              Serial.println("Nobody in front of fridge");
+              digitalWrite(LEDPin, LOW);
+            }
+            else {
+              Serial.print("User detected on: ");
+              Serial.println(distance);
+              digitalWrite(LEDPin, HIGH);
+            }
 
-        delay(500);
-        // ----- Ultrasonic User-detection -----
-    */
-  }
+            delay(500); */
+      //}
+    // ----- Ultrasonic User-detection -----
+
+}
 
 }
 
