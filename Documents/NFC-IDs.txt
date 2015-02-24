@@ -1,0 +1,6 @@
+Yellow: 2207
+Red: 2371
+Green: 2454
+White: 2367
+Black: 2295
+Big Nokia: 1254
