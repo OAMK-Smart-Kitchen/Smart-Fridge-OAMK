@@ -6,18 +6,15 @@ This int will be sended serial to the computer and the he will compare it with t
  */
 
 // NFC
-int incomingByte;   // for incoming serial data
-String productID;
-String tempString;
+int incomingByte = 0;   // for incoming serial data
+String productID = "";
+String tempString = "";
 int minLengthID = 40;  // minimale lengte van NFC-tag ID
 
 // NFC-ID's
-const String Banana 1188611854245125125125141153151143159229235;
-const String Cucumber 1188611854245125125125141153151143159229235;
-  //NFC-ID
-  enum Products {Banana,Cucumber,Tomato};
-
-
+const String Banana = "1188611854245125125125141153151143159229235";
+const String Cucumber = "118150150205245125125125141153151143159229235";
+const String Milk = "1185424654237125125125141153151143159229235";
 // Ultrasonic
 #define echoPin 7
 #define trigPin 8
@@ -31,7 +28,7 @@ boolean readSensor = true;
 void setup() {
   // Serials
   Serial.begin(9600);
-  
+
   // Ultrasonic
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -47,32 +44,48 @@ void loop()
     incomingByte = Serial.read();
     if (incomingByte == 0 && productID.length() >= minLengthID)
     {
-        Products product = 
       //Serial.println(productID);
 
       Serial.print("NFC-ID: ");
       // Software on computer will do this in futere (Database)
-    /* switch (productID) {
-        case "rf": //Yellow
-          Serial.println("Banana");
-          break;
-        case "fr": //Red
-          Serial.println("Hamburger");
-          break;
-        case "fe": //Green
-          Serial.println("Cucumber");
-          break;
-        case "frgr"://White
-          Serial.println("Box with vegetables");
-          break;
-        case "efef": //Black
-          Serial.println("Milk");
-          break;
-        default:
-          Serial.println(productID);
 
-      }*/
-      Serial.println(productID);
+      if (productID == Banana)
+      {
+        Serial.println("Banana");
+      }
+      else if (productID == Cucumber)
+      {
+        Serial.println("Cucumber");
+      }
+      else if (productID == Milk)
+      {
+        Serial.println("Milk");
+      }
+      else
+      {
+        Serial.println(productID);
+      }
+      
+      /* switch (productID) {
+          case "rf": //Yellow
+            Serial.println("Banana");
+            break;
+          case "fr": //Red
+            Serial.println("Hamburger");
+            break;
+          case "fe": //Green
+            Serial.println("Cucumber");
+            break;
+          case "frgr"://White
+            Serial.println("Box with vegetables");
+            break;
+          case "efef": //Black
+            Serial.println("Milk");
+            break;
+          default:
+            Serial.println(productID);
+
+        }*/
       productID = "";
     }
     else
@@ -80,7 +93,6 @@ void loop()
       tempString = String(incomingByte);
       productID = productID + tempString;
     }
-
 
     // ----- End NFF-Tag detection -----
     /*
