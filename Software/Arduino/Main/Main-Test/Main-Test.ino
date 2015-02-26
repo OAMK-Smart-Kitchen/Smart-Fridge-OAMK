@@ -18,6 +18,7 @@ const String Vegetables = "95951741188653153229235095951741188653153229235";
 const String Milk = "1185424654237125125125141153151143159229235";
 const String Ketchup = "11824610854245125125125141153151143159229235";
 
+
 // Ultrasonic
 #define echoPin 7
 #define trigPin 8
@@ -42,13 +43,12 @@ void setup() {
 void loop()
 {
   // ----- NFC-Tag Detection -----
-  if (Serial.available()) {
+  if (Serial.available() >0) {
     incomingByte = Serial.read();
     if (incomingByte == 0 && productID.length() >= minLengthID)
     {
       Serial.print("NFC-ID: ");
       // Software on computer will do this in futere (Database)
-
       if (productID == Banana)
       {
         Serial.println("Banana");
@@ -101,8 +101,8 @@ void loop()
     {
       tempString = String(incomingByte);
       productID = productID + tempString;
-    }
 
+    }
     // ----- End NFF-Tag detection -----
     /*
             // ----- Ultrasonic User-detection -----
@@ -131,10 +131,10 @@ void loop()
             }
 
             delay(500); */
-      //}
+    //}
     // ----- Ultrasonic User-detection -----
 
-}
+  }
 
 }
 
