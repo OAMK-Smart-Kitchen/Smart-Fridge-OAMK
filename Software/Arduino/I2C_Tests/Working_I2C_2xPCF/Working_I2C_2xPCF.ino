@@ -7,6 +7,7 @@ void setup()
 {
   Wire.begin();
   Serial.begin(9600);
+   pinMode(13, OUTPUT);
 }
  
 void loop()
@@ -19,6 +20,7 @@ void loop()
  
   if(iInput<255)         //If the value less than 255
   {
+    Serial.println(iInput);
     if (iInput==254) // P0
     { 
       iOutput = 1; 
@@ -30,7 +32,6 @@ void loop()
     if (iInput==251) // P2
     { 
       iOutput = 4; 
-          Serial.println("4");
     }; 
     if (iInput==247) // P3
     { 
@@ -39,5 +40,7 @@ void loop()
   }
   Wire.beginTransmission(56);  //Begin transmission to PCF8574 (with the LEDs)(address: 111000)
   Wire.write(iOutput);         //Send data to PCF8574 (with the LEDs)
+  
   Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)
+  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
 }
