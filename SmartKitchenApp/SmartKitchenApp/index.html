@@ -33,6 +33,8 @@
     <script type="text/javascript" src="js/source/controllers/login.js"></script>
     <script type="text/javascript" src="js/source/controllers/getstarted.js"></script>
     <script type="text/javascript" src="js/source/controllers/about.js"></script>
+    <script type="text/javascript" src="js/source/controllers/dashboard.js"></script>
+    <script type="text/javascript" src="js/source/controllers/members.js"></script>
 
     <!-- Javascript Services-->
     <script type="text/javascript" src="js/source/services/loginservice.js"></script>
@@ -98,7 +100,6 @@
             <nav class="collapse navbar-collapse spa-navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav">
                     <li ng-show="currentPage == '/get-started' || currentPage == '/about' || currentPage == '/login' || currentPage == '/'" ng-class="{'active' : currentPage == '/get-started'}">
-                        <!--ng-hide="{'false' : currentPage == '/get-started', 'false' : currentPage == '/about', 'false' : currentPage == '/'}"-->
                         <a role="button" data-ng-click="goToGetStarted()">Get Started</a>
                     </li>
                     <li ng-show="currentPage == '/get-started' || currentPage == '/about' || currentPage == '/login' || currentPage == '/'" ng-class="{'active' : currentPage == '/about'}">
