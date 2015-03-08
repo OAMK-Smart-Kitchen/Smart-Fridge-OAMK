@@ -2,8 +2,7 @@ app.controller('login', [
     '$scope',
     '$location',
     '$rootScope',
-    'loginservice',
-    function ($scope, $location, $rootScope, loginservice) {
+    function ($scope, $location, $rootScope) {
 
         /*
         Stap1: functie Init
@@ -33,11 +32,26 @@ app.controller('login', [
         ------------------
         */
 
+        $scope.loginFailed = false;
+        $scope.loginStatus = 0;
 
         /* Stap5: Scope functions
         -------------------------
         */
 
+
+
+        //NAVIGATION
+        $scope.goToDashboard = function () {
+            $location.path("/dashboard/:kitchen.id/member");
+            console.log("Navigate to Member Dasboard");
+            console.log("Kitchen ID: " + kitchen.id);
+        };
+
+        $scope.goToRegister = function () {
+            $location.path("/register");
+            console.log("Navigate to register");
+        };
 
         /* Stap6: init aanroepen
         --------------------
