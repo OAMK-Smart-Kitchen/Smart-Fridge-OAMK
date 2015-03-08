@@ -8,7 +8,7 @@ app.CryptoJS = function (message) {
 
 //dataTemplates
 //Teacher Object
-app.Teacher = function () {
+app.Member = function () {
     this.Id = null;
     this.Username = null;
     this.FirstName = null;
