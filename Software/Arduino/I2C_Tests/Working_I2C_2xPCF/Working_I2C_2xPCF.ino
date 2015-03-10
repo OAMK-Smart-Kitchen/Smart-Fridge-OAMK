@@ -16,11 +16,12 @@ void loop()
   if(Wire.available())   // If bytes are available to be recieved
   {
     iInput = Wire.read();// Read a byte
+    Serial.println(iInput);
   }
  
-  if(iInput<255)         //If the value less than 255
+  if(iInput<=255)         //If the value less than 255
   {
-    Serial.println(iInput);
+    
     if (iInput==254) // P0
     { 
       iOutput = 1; 
@@ -35,12 +36,18 @@ void loop()
     }; 
     if (iInput==247) // P3
     { 
-      iOutput = 8; 
-    }; 
+      iOutput = 9; 
+    };
+    if (iInput==222) // P3
+    { 
+      iOutput = 9; 
+    };
+    
   }
   Wire.beginTransmission(56);  //Begin transmission to PCF8574 (with the LEDs)(address: 111000)
   Wire.write(iOutput);         //Send data to PCF8574 (with the LEDs)
-  
+  Serial.println(iOutput);
   Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)
-  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+  //digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+  //iOutput = 0;
 }

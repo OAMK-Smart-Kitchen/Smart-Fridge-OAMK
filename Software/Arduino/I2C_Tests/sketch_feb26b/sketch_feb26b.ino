@@ -19,6 +19,7 @@ void loop()
  
   if(iInput<255)         //If the value less than 255
   {
+    Serial.println(iInput);
     if (iInput==254) // P0
     { 
       iOutput = 1; 
@@ -30,7 +31,6 @@ void loop()
     if (iInput==251) // P2
     { 
       iOutput = 4; 
-          Serial.println("4");
     }; 
     if (iInput==247) // P3
     { 
