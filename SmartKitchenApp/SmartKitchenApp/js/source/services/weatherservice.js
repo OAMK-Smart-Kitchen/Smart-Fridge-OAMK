@@ -20,8 +20,8 @@
             var request = $.ajax({
                 url: WeatherURL + lati + ',' + longi,
                 dataType: "jsonp",
-                success: function (data) {
-                    console.log(data);
+                success: function (response) {
+                    //console.log(response);
                 }
             });
 
@@ -60,9 +60,7 @@
         // I transform the successful response, unwrapping the application data
         // from the API response payload.
         function handleSuccess(response) {
-
-            return (response.data);
-
+            return (response);
         }
 
     }]);

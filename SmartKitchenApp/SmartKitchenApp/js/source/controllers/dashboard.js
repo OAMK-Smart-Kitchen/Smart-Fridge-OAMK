@@ -23,25 +23,6 @@ app.controller('dashboard', [
         ------------------------------------------
         */
 
-        //var mysrclat= 0; var mysrclong = 0;
-
-        //$scope.coords = function($scope) {
-        //    if (navigator.geolocation) {
-        //        navigator.geolocation.getCurrentPosition(function (position) {
-        //            mysrclat = position.coords.latitude; 
-        //            mysrclong = position.coords.longitude;
-        //            console.log(mysrclat);
-        //            console.log(mysrclong);
-        //        });
-
-        //    }
-
-
-        //var coords = geolocation.getLocation().then(function (data) {
-        //    console.log("LAT: " + data.coords.latitude);
-        //    console.log("LONG: " + data.coords.longitude);
-        //    return { lat: data.coords.latitude, long: data.coords.longitude };
-        //});
 
         /*
         Stap3: Controller functions (niet in scope!)
@@ -60,8 +41,8 @@ app.controller('dashboard', [
                     console.log(longi);
                     weatherservice.getWeather(lati, longi)
                        .then(function (data) {
-
-                           console.log(data);
+                           $scope.weather = angular.fromJson(data);;
+                           console.log($scope.weather);
 
                        });
                 });
