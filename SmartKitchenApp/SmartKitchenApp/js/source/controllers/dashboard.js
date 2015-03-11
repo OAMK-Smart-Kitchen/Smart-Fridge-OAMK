@@ -2,7 +2,8 @@ app.controller('dashboard', [
     '$scope',
     '$location',
     '$rootScope',
-    function ($scope, $location, $rootScope) {
+    'geolocation',
+    function ($scope, $location, $rootScope, geolocation) {
 
         /*
         Stap1: functie Init
@@ -13,6 +14,7 @@ app.controller('dashboard', [
 
         var init = function () {
             console.log('dashboard controller started');
+            
         };
 
         /*
@@ -27,14 +29,22 @@ app.controller('dashboard', [
         --------------------------------------------
         */
 
-
+        var weatherForecast = function () {
+            return { monday: "0", tuesday: "2"};
+        };
      
         /*
         Stap4: Scope vars
         ------------------
         */
 
+        $scope.coords = geolocation.getLocation().then(function (data) {
+            console.log("LAT: " + data.coords.latitude);
+            console.log("LONG: " + data.coords.longitude);
+            return { lat: data.coords.latitude, long: data.coords.longitude };
+        });
 
+        $scope.weather = weatherForecast();
 
         /* Stap5: Scope functions
         -------------------------

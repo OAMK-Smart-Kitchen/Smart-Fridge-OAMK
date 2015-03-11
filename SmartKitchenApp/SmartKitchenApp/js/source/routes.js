@@ -21,10 +21,18 @@ window.routes =
     "/about": {
         templateUrl: basePath + 'about.html',
         requireLogin: false
-    }
+    },
 
     // LOGIN REQUIRED
+    "/dashboard": {
+        templateUrl: basePath + 'dashboard/dashboard.html',
+        requireLogin: false
+    },
 
+    "/members": {
+        templateUrl: basePath + 'dashboard/members.html',
+        requireLogin: false
+    }
 
 };
 
@@ -49,12 +57,12 @@ app.config(function ($routeProvider) {
         var urlArray = next.split("#");
         var routeName = urlArray[1];
 
-       /* if (window.routes[routeName].requireLogin == true) {
-            if (app.CurrentMember.Id == undefined) { //Check on service if logged in yet.
-                $location.path('/');
-                //event.preventDefault();            
-            }
-        } */
+        /* if (window.routes[routeName].requireLogin == true) {
+             if (app.CurrentMember.Id == undefined) { //Check on service if logged in yet.
+                 $location.path('/');
+                 //event.preventDefault();            
+             }
+         } */
     });
 
 });

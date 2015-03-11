@@ -43,7 +43,8 @@ app.controller('login', [
 
         //NAVIGATION
         $scope.goToDashboard = function () {
-            $location.path("/dashboard/:kitchen.id/member");
+            //$location.path("/dashboard/:kitchen.id/member");
+            $location.path("/members");
             console.log("Navigate to Member Dasboard");
             console.log("Kitchen ID: " + kitchen.id);
         };

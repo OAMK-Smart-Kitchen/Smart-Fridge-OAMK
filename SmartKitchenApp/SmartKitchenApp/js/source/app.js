@@ -1,4 +1,4 @@
-var app = angular.module('SmartKitchenApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'jsonDate', 'typeFilter' ]);
+var app = angular.module('SmartKitchenApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'jsonDate', 'typeFilter', 'geolocation']);
 
 //app.serviceUrl = 'http://partibookservice.cloudapp.net/service.svc/';
 //app.blobUrl = 'https://partibookservice.blob.core.windows.net/images/';
@@ -16,7 +16,7 @@ app.Member = function () {
     this.Email = null;
     this.Password = null;
 };
-app.CurrentTeacher = new app.Teacher();
+app.CurrentMember = new app.Member();
 //Lesson Object
 app.Lesson = function () {
     this.Id = null;

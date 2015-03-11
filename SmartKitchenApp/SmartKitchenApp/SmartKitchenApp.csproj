@@ -85,6 +85,16 @@
     <Content Include="img\favicons\mstile-310x150.png" />
     <Content Include="img\favicons\mstile-310x310.png" />
     <Content Include="img\favicons\mstile-70x70.png" />
+    <Content Include="img\icons\cook_book-256.png" />
+    <Content Include="img\icons\shoppingbag.png" />
+    <Content Include="img\icons\graph.png" />
+    <Content Include="img\icons\joypad.png" />
+    <Content Include="img\icons\temperature-256.png" />
+    <Content Include="img\icons\wine.png" />
+    <Content Include="img\icons\settings.png" />
+    <Content Include="img\icons\male3-128.png" />
+    <Content Include="img\icons\male3-256.png" />
+    <Content Include="img\icons\weather.png" />
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
     <Content Include="js\source\controllers\members.js" />
@@ -97,6 +107,7 @@
     <Content Include="js\vendor\angular-resource.min.js.map" />
     <Content Include="js\vendor\angular-route.min.js.map" />
     <Content Include="js\vendor\angular.min.js.map" />
+    <Content Include="js\vendor\angularjs-geolocation.min.js" />
     <Content Include="js\vendor\jquery.min.map" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -104,6 +115,7 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="img\favicons\manifest.json" />
+    <None Include="Properties\PublishProfiles\Strato.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
