@@ -63,6 +63,7 @@ app.controller('rootcontroller', [
             $location.path("/");
         };
 
+        $rootScope.getCopyright = "\u00A9 " + new Date().getFullYear() + " Smart Kitchen Project";
 
         /* Stap6: init aanroepen
         --------------------
