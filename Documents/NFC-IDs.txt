@@ -27,3 +27,7 @@ DUE
 Don't forget in Hardware:
 Pull-up resistors on SDA and SCL
 Headers/ Led-flatcable
+
+
+I2C, bit van adress doen omdat Wire-lib werkt met 7 bits (schrijf en leesbit wegdoen) zodat het onder 124(?) blijft
+http://playground.arduino.cc/Main/WireLibraryDetailedReference

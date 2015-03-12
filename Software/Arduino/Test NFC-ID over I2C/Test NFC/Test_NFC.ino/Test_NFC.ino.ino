@@ -14,7 +14,7 @@ void setup()
  
 void loop()
 {
-  Wire.requestFrom(72,6);// Adres 1001 0001 (last 1 to READ) Hex is 0x91, Read 6 bytes (ID min 43 chars)
+  Wire.requestFrom(72,1);// Adres 1001 0001 (last 1 to READ) Hex is 0x91, Read 6 bytes (ID min 43 chars)
   if(Wire.available())   // If bytes are available to be recieved
   {
     iInput = Wire.read();// Read a byte
