@@ -66,3 +66,10 @@ app.TypeEnum = {
     Test3: 2,
     Test4: 3
 };
+
+//FILTERS
+app.filter('slice', function () {
+    return function (arr, start, end) {
+        return arr.slice(start, end);
+    };
+});

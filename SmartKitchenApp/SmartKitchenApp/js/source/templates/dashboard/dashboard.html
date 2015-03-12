@@ -62,8 +62,11 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="row" >
-                            <div class="col-sm-6" ng-repeat="weather in forecast">
-                                <div class="row" style="text-align:left;"><h4>{{weather.day}} <span class="label label-info">{{weather.min}}°C</span> <span class="label label-danger">{{weather.max}}°C</span></h4></div>
+                            <div class="col-sm-6" >
+                                <div class="row" style="text-align:left;" ng-repeat="weather in forecast | slice:0:3"><h4>{{weather.day}} <span class="label label-info">{{weather.min}}°C</span> <span class="label label-danger">{{weather.max}}°C</span></h4></div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row" style="text-align:left;" ng-repeat="weather in forecast | slice:3:6"><h4>{{weather.day}} <span class="label label-info">{{weather.min}}°C</span> <span class="label label-danger">{{weather.max}}°C</span></h4></div>
                             </div>
                         </div>
                         <div class="row"><h6>Powered by <a href="http://forecast.io/" target="_blank">Forecast</a></h6></div>

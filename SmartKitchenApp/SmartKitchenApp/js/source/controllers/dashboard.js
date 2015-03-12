@@ -5,7 +5,7 @@ app.controller('dashboard', [
     'geolocation',
     'weatherservice',
     '$q',
-    function ($scope, $location, $rootScope, geolocation, weatherservice,$q) {
+    function ($scope, $location, $rootScope, geolocation, weatherservice, $q) {
 
         /*
         Stap1: functie Init
@@ -43,16 +43,19 @@ app.controller('dashboard', [
                     weatherservice.getWeather(lati, longi)
                        .then(function (data) {
                            var weather = angular.fromJson(data);
-                           console.log(weather);
+                           
+                           var tempArr = [];
+                           //console.log(weather);
                            for (var i = 0; i < 6; i++) {
                                var resMinF = weather.daily.data[i].temperatureMin;
                                var resMaxF = weather.daily.data[i].temperatureMax;
                                var resMinC = Math.round(((resMinF - 32) / 1.8) * 10) / 10;
                                var resMaxC = Math.round(((resMaxF - 32) / 1.8) * 10) / 10;
-                               var resTimeUnix = weather.daily.data[i].time + 7200; //GMT+2 -> 3600 (1h) * 2 = 7200
+                               var resTimeUnix = weather.daily.data[i].time; //GMT+2 -> 3600 (1h) * 2 = 7200
 
                                var d = new Date();
                                d.setSeconds(resTimeUnix);
+                               
                                var weekday = new Array(7);
                                weekday[0] = "Sunday";
                                weekday[1] = "Monday";
@@ -64,9 +67,10 @@ app.controller('dashboard', [
 
                                var resTimeDay = weekday[d.getDay()];
 
-                               $scope.forecast.push({ 'min': "" + resMinC + "", 'max': "" + resMaxC + "", 'day': "" + resTimeDay + "" });
+                               tempArr.push({ 'min': "" + resMinC + "", 'max': "" + resMaxC + "", 'day': "" + resTimeDay + "" });
                            }
-                           console.log($scope.forecast);
+                           $scope.forecast = tempArr;
+                           //console.log($scope.forecast);
                            $scope.$apply();
                        });
                 });
@@ -79,7 +83,6 @@ app.controller('dashboard', [
         ------------------
         */
 
-        $scope.forecast = [];
 
         /* Stap5: Scope functions
         -------------------------
