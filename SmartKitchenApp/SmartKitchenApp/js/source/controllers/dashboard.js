@@ -4,7 +4,8 @@ app.controller('dashboard', [
     '$rootScope',
     'geolocation',
     'weatherservice',
-    function ($scope, $location, $rootScope, geolocation, weatherservice) {
+    '$q',
+    function ($scope, $location, $rootScope, geolocation, weatherservice,$q) {
 
         /*
         Stap1: functie Init
@@ -41,9 +42,20 @@ app.controller('dashboard', [
                     console.log(longi);
                     weatherservice.getWeather(lati, longi)
                        .then(function (data) {
-                           $scope.weather = angular.fromJson(data);;
-                           console.log($scope.weather);
-
+                           var weather = angular.fromJson(data);
+                           $scope.dailyWeatherTimeZone = weather.timezone;
+                           console.log(weather);
+                           for (var i = 0; i < 6; i++) {
+                               var resMinF = weather.daily.data[i].temperatureMax;
+                               var resMaxF = weather.daily.data[i].temperatureMin;
+                               var resMinC = Math.round(((resMinF - 32) / 1.8) * 10) / 10;
+                               var resMaxC = Math.round(((resMaxF - 32) / 1.8) * 10) / 10;
+                               var resTime = weather.daily.data[i].time;
+                               $scope.forecast.push({ 'min': "" + resMinC + "", 'max': "" + resMaxC + "", 'time': "" + resTime + "" });
+                               //$scope.dailyWeatherTime.push(weather.daily.data[i].time+7200); //GMT+2 -> 3600 (1h) * 2 = 7200
+                           }
+                           //console.log($scope.dailyWeatherTimeZone);
+                           console.log($scope.forecast);
                        });
                 });
 
@@ -55,7 +67,8 @@ app.controller('dashboard', [
         ------------------
         */
 
-        $scope.weather;
+        $scope.dailyWeatherTimeZone;
+        $scope.forecast = [];
 
         /* Stap5: Scope functions
         -------------------------

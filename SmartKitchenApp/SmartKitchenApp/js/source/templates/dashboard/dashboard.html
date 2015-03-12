@@ -61,16 +61,14 @@
                         <img src="img/icons/weather.png" class="img-circle" style="height:150px; margin:auto;" />
                     </div>
                     <div class="col-sm-8">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row" style="text-align:left;"><h4>Monday</h4></div>
-                                <div class="row" style="text-align:left;"><h4>Tuesday</h4></div>
-                                <div class="row" style="text-align:left;"><h4>Wednesday</h4></div>
+                        <div class="row" >
+                            <div class="col-sm-6" ng-repeat="weather in forecast">
+                                <div class="row" style="text-align:left;"><h4>{{weather.max}}°C</h4></div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="row" style="text-align:left;"><h4>Thursday </h4></div>
-                                <div class="row" style="text-align:left;"><h4>Friday</h4></div>
-                                <div class="row" style="text-align:left;"><h4>Saturday </h4></div>
+                                <div class="row" style="text-align:left;"><h4>{{weather.max}}°C</h4></div>
+                                <div class="row" style="text-align:left;"><h4>{{weather.max}}°C</h4></div>
+                                <div class="row" style="text-align:left;"><h4>{{weather.max}}°C</h4></div>
                             </div>
                         </div>
                         <div class="row"><h6>Powered by <a href="http://forecast.io/" target="_blank">Forecast</a></h6></div>
