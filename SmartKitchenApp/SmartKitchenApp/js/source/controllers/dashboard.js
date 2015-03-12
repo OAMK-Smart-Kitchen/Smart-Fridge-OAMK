@@ -43,19 +43,31 @@ app.controller('dashboard', [
                     weatherservice.getWeather(lati, longi)
                        .then(function (data) {
                            var weather = angular.fromJson(data);
-                           $scope.dailyWeatherTimeZone = weather.timezone;
                            console.log(weather);
                            for (var i = 0; i < 6; i++) {
-                               var resMinF = weather.daily.data[i].temperatureMax;
-                               var resMaxF = weather.daily.data[i].temperatureMin;
+                               var resMinF = weather.daily.data[i].temperatureMin;
+                               var resMaxF = weather.daily.data[i].temperatureMax;
                                var resMinC = Math.round(((resMinF - 32) / 1.8) * 10) / 10;
                                var resMaxC = Math.round(((resMaxF - 32) / 1.8) * 10) / 10;
-                               var resTime = weather.daily.data[i].time;
-                               $scope.forecast.push({ 'min': "" + resMinC + "", 'max': "" + resMaxC + "", 'time': "" + resTime + "" });
-                               //$scope.dailyWeatherTime.push(weather.daily.data[i].time+7200); //GMT+2 -> 3600 (1h) * 2 = 7200
+                               var resTimeUnix = weather.daily.data[i].time + 7200; //GMT+2 -> 3600 (1h) * 2 = 7200
+
+                               var d = new Date();
+                               d.setSeconds(resTimeUnix);
+                               var weekday = new Array(7);
+                               weekday[0] = "Sunday";
+                               weekday[1] = "Monday";
+                               weekday[2] = "Tuesday";
+                               weekday[3] = "Wednesday";
+                               weekday[4] = "Thursday";
+                               weekday[5] = "Friday";
+                               weekday[6] = "Saturday";
+
+                               var resTimeDay = weekday[d.getDay()];
+
+                               $scope.forecast.push({ 'min': "" + resMinC + "", 'max': "" + resMaxC + "", 'day': "" + resTimeDay + "" });
                            }
-                           //console.log($scope.dailyWeatherTimeZone);
                            console.log($scope.forecast);
+                           $scope.$apply();
                        });
                 });
 
@@ -67,7 +79,6 @@ app.controller('dashboard', [
         ------------------
         */
 
-        $scope.dailyWeatherTimeZone;
         $scope.forecast = [];
 
         /* Stap5: Scope functions
