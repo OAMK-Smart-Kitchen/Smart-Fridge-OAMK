@@ -16,9 +16,18 @@ const String Banana = "1188611854245125125125141153151143159229235";
 const String Cucumber = "118150150205245125125125141153151143159229235";
 const String Vegetables = "95951741188653153229235095951741188653153229235";
 const String Milk = "1185424654237125125125141153151143159229235";
-const String Ketchup = "11824610854245125125125141153151143159229235";
+const String Ketchup = "118246147115125159125125141153151143159229235";
+const String NokiaID = "1019417886611451252292350101941788661145125229235";
 const String PhoneTom = "21424618224615024611886235021424618224615024611886235";
 const String PhoneHenry = "21424618224615024611886235021424618224615024611886235";
+
+/*
+#define RGB_ADDRESS_M1 57
+#define RGB_ADDRESS_M2
+#define RGB_ADDRESS_M3
+#define RGB_ADDRESS_M4
+#define RGB_ADDRESS_M5
+*/
 
 // LED - driver
 #include <Wire.h>
@@ -51,6 +60,13 @@ void setup() {
 
 void loop()
 {
+  // ----- Switch-control -----
+  Wire.beginTransmission(58);  //Begin transmission to PCF8574 to activate RX (address: 111010)
+  Wire.write(1);         //Send data to PCF8574 (with the LEDs)
+  Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)
+  // ----- End Switch-control -----
+  Wire.requestFrom(57, 1); // Begin transmission to PCF8574 with the buttons
+
   // ----- NFC-Tag Detection -----
   if (Serial.available() > 0) {
     incomingByte = Serial.read();
@@ -65,6 +81,7 @@ void loop()
       else if (productID == Cucumber)
       {
         Serial.println("Cucumber");
+        iOutput = 2;
       }
       else if (productID == Vegetables)
       {
@@ -77,6 +94,11 @@ void loop()
       else if (productID == Ketchup)
       {
         Serial.println("Ketchup");
+        iOutput = 1;
+      }
+      else if (productID == NokiaID)
+      {
+        Serial.println("Why is there a Nokia in your fridge?");
       }
       else
       {
@@ -145,27 +167,27 @@ void loop()
 
   }
 
-  
+
   // ----- LED-DRIVER -----
-  Wire.requestFrom(57, 1); // Begin transmission to PCF8574 with the buttons
+  /*Wire.requestFrom(57, 1); // Begin transmission to PCF8574 with the buttons
   if (Wire.available())  // If bytes are available to be recieved
   {
     iInput = Wire.read();// Read a byte
-  }
+  }*/
 
   if (iInput < 255)      //If the value less than 255
   {
-   // Serial.print("Color detected: ");
+    // Serial.print("Color detected: ");
     //Serial.print(iInput);
     if (iInput == 254) // P0
     {
       iOutput = 1;
-      Serial.println(" RED");
+      //Serial.println(" RED");
     };
     if (iInput == 253) // P1
     {
       iOutput = 2;
-      Serial.println(" GREEN");
+      //Serial.println(" GREEN");
     };
     if (iInput == 251) // P2
     {

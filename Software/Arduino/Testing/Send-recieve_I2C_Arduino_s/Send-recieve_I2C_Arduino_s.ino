@@ -1,9 +1,11 @@
 void setup() {
- Serial.begin(9600);
+ Serial.begin(4800);
 
 }
 
 void loop() {
-  Serial.println('A');
-  //delay(1000);
+  Serial.println("ABCDEFGHIJK");
+  //Serial.print(10);
+  //Serial.print(13);
+  delay(1000);
 }
