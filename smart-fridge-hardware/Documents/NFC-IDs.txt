@@ -1,0 +1,33 @@
+Yellow: 2207
+Red: 2371
+Green: 2454
+White: 2367
+Black: 2295
+Big Nokia: 1254
+
+Banana = "1188611854245125125125141153151143159229235";
+Cucumber = "118150150205245125125125141153151143159229235";
+Vegetables = "95951741188653153229235095951741188653153229235";
+Milk = "1185424654237125125125141153151143159229235";
+Ketchup = "11824610854245125125125141153151143159229235";
+
+-----------------------------------------
+
+MAX232, RS232, 
+Bussysteem
+Kristal (geen ronde waardes?)
+(nooit exacte halen van bvb 20MHz, als ge da berekent moet ge op een deelgetal komen van de gebruikte baudrate (bvb 9600) als da ni zo is kunt ge slechte communicatie hebben)
+bvb: 18.432MHz)
+I2C( zie datasheet SC16IS750: p 37 to 40 SCL SDA,... en PCF)
+SMD
+Ultrasoon
+DUE
+
+------------------------------------------
+Don't forget in Hardware:
+Pull-up resistors on SDA and SCL
+Headers/ Led-flatcable
+
+
+I2C, bit van adress doen omdat Wire-lib werkt met 7 bits (schrijf en leesbit wegdoen) zodat het onder 124(?) blijft
+http://playground.arduino.cc/Main/WireLibraryDetailedReference
