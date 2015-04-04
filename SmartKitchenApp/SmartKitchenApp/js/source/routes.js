@@ -32,6 +32,11 @@ window.routes =
     "/members": {
         templateUrl: basePath + 'dashboard/members.html',
         requireLogin: false
+    },
+
+    "/myprofile": {
+        templateUrl: basePath + 'dashboard/profile.html',
+        requireLogin: false
     }
 
 };

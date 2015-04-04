@@ -87,6 +87,8 @@
     <Content Include="img\favicons\mstile-70x70.png" />
     <Content Include="img\icons\add.png" />
     <Content Include="img\icons\cook_book-256.png" />
+    <Content Include="img\icons\measure-256.png" />
+    <Content Include="img\icons\scale-weight-256.png" />
     <Content Include="img\icons\shoppingbag.png" />
     <Content Include="img\icons\graph.png" />
     <Content Include="img\icons\joypad.png" />
@@ -98,6 +100,7 @@
     <Content Include="img\icons\weather.png" />
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
+    <Content Include="js\source\controllers\myProfile.js" />
     <Content Include="js\source\controllers\members.js" />
     <Content Include="js\source\controllers\dashboard.js" />
     <Content Include="js\source\controllers\about.js" />
@@ -106,6 +109,7 @@
     <Content Include="js\source\services\weatherservice.js" />
     <Content Include="js\source\templates\dashboard\dashboard.html" />
     <Content Include="js\source\templates\dashboard\members.html" />
+    <Content Include="js\source\templates\dashboard\profile.html" />
     <Content Include="js\vendor\angular-resource.min.js.map" />
     <Content Include="js\vendor\angular-route.min.js.map" />
     <Content Include="js\vendor\angular.min.js.map" />

@@ -1,0 +1,103 @@
+﻿<div data-ng-controller="myprofile" class="container" style="margin-bottom:20px;">
+    <h1 class="text-center">My Profile</h1><br />
+    <div class="row">
+        <!-- USER DATA -->
+        <div class="col-sm-7">
+
+            <form name="profileForm" ng-submit="editProfile(profileForm.$valid)" novalidate>
+                <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
+                <!-- FIRSTNAME -->
+                <div class="form-group" ng-class="{ 'has-error' : profileForm.firstname.$invalid && !profileForm.firstname.$pristine }">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="addon-firstname"><b>Firstname</b></span>
+                        <input type="text" name="firstname" aria-describedby="addon-firstname" class="form-control" ng-model="Member.Firstname" ng-minlength="2" placeholder="Firstname" required autofocus>
+                    </div>
+                    <p ng-show="profileForm.firstname.$invalid && !profileForm.firstname.$pristine" class="help-block">Your firstname is required.</p>
+                </div>
+
+                <!-- LASTNAME -->
+                <div class="form-group" ng-class="{ 'has-error' : profileForm.lastname.$invalid && !profileForm.lastname.$pristine }">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="addon-lastname"><b>Lastname</b></span>
+                        <input type="text" name="lastname" aria-describedby="addon-lastname" class="form-control" ng-model="Member.Lastname" ng-minlength="2" placeholder="Lastname" required>
+                    </div>
+                    <p ng-show="profileForm.lastname.$invalid && !profileForm.lastname.$pristine" class="help-block">Your lastname is required.</p>
+                </div>
+
+                <!-- DATE OF BIRTH -->
+                <div class="form-group" ng-class="{ 'has-error' : profileForm.dateofbirth.$invalid && !profileForm.dateofbirth.$pristine }">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="addon-dateofbirth"><b>Date of Birth</b></span>
+                        <input type="date" name="dateofbirth" aria-describedby="addon-dateofbirth" class="form-control" ng-model="Member.DateOfBrith" placeholder="Date of birth" required>
+                    </div>
+                    <p ng-show="profileForm.dateofbirth.$invalid && !profileForm.dateofbirth.$pristine" class="help-block">Your Date of Birth is required.</p>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="form-group" ng-class="{ 'has-error' : profileForm.email.$invalid && !profileForm.email.$pristine }">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="addon-email"><b>Email</b></span>
+                        <input type="email" name="email" aria-describedby="addon-email" class="form-control" ng-model="Member.Email" placeholder="Email" required>
+                    </div>
+                    <p ng-show="profileForm.email.$invalid && !profileForm.email.$pristine" class="help-block">Your Email is required.</p>
+                </div>
+
+                <!-- GAME MODE -->
+                <div class="form-group" data-toggle="buttons">
+                    <style>
+                        .btn.active {
+                            display: none;
+                        }
+
+                        .btn span:nth-of-type(1) {
+                            display: none;
+                        }
+
+                        .btn span:last-child {
+                            display: block;
+                        }
+
+                        .btn.active span:nth-of-type(1) {
+                            display: block;
+                        }
+
+                        .btn.active span:last-child {
+                            display: none;
+                        }
+                    </style>
+                    <label class="btn btn-success active" style="width:100%;">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked>
+                        <i class="fa fa-check"></i> Game Mode Activated
+                    </label>
+                    <label class="btn btn-danger" style="width:100%;">
+                        <input type="radio" name="options" id="option2" autocomplete="off">
+                        <i class="fa fa-warning"></i> Game Mode Deactivated
+                    </label>
+                </div>
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" class="btn btn-primary" ng-disabled="profileForm.$invalid">Save Changes</button>
+
+            </form><br />
+
+        </div>
+        <!-- PROFILE PICTURE -->
+        <div class="col-sm-5" style="padding:20px;text-align:center;">
+            <img src="img/icons/male3-256.png" height="250px" class="img-circle" style="display:block;margin: 0 auto;" /><br />
+            <button class="btn btn-warning" style="margin: 0 auto;">Change</button>
+        </div>
+        <!-- BODY LENGTH -->
+        <div class="col-sm-6" style="vertical-align: middle;">
+            <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
+                <img src="img/icons/measure-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
+                <h1 class="text-right" style="display:inline;font-size: 400%;"><b>175 cm</b></h1>
+            </button>
+        </div>
+        <!-- BODY WEIGHT -->
+        <div class="col-sm-6" style="vertical-align: middle;">
+            <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
+                <img src="img/icons/scale-weight-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
+                <p class="text-right" style="display:inline;font-size: 400%;"><b>65 kg</b></p>
+            </button>
+        </div>
+    </div>
+</div>
