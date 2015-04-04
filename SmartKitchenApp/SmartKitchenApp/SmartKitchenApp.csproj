@@ -85,6 +85,7 @@
     <Content Include="img\favicons\mstile-310x150.png" />
     <Content Include="img\favicons\mstile-310x310.png" />
     <Content Include="img\favicons\mstile-70x70.png" />
+    <Content Include="img\icons\add.png" />
     <Content Include="img\icons\cook_book-256.png" />
     <Content Include="img\icons\shoppingbag.png" />
     <Content Include="img\icons\graph.png" />

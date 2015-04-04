@@ -34,12 +34,19 @@ app.controller('members', [
         ------------------
         */
 
-
+        
 
         /* Stap5: Scope functions
         -------------------------
         */
         
+        $scope.addMember = function () {
+
+        };
+
+        $scope.selectMember = function (MemberID) {
+
+        };
 
        
         /* Stap6: init aanroepen
