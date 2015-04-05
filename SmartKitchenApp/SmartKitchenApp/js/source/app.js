@@ -31,3 +31,10 @@ app.Kitchen = function () {
     this.TemperatureFridge = null;
 }
 app.CurrentKitchen = new app.Kitchen();
+
+//FILTERS
+app.filter('slice', function () {
+    return function (arr, start, end) {
+        return arr.slice(start, end);
+    };
+});
