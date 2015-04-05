@@ -88,7 +88,33 @@ app.controller('dashboard', [
         -------------------------
         */
 
+        $scope.goToHealthGame = function () {
+            console.log("NOT AVAILABLE");
+        };
 
+        $scope.goToMyHealth = function () {
+            console.log("Navigate to My Health");
+            $location.path("/dashboard/myhealth");
+        };
+
+        $scope.goToMyProfile = function () {
+            console.log("Navigate to My Profile");
+            $location.path("/dashboard/myprofile");
+        };
+
+        $scope.goToShoppingBag = function () {
+            console.log("Navigate to Shoppingbag");
+            $location.path("/dashboard/shoppingbag");
+        };
+
+        $scope.goToProducts = function () {
+            console.log("Navigate to Products");
+            $location.path("/dashboard/products");
+        };
+
+        $scope.goToRecipes = function () {
+            console.log("NOT AVAILABLE");
+        };
 
         /* Stap6: init aanroepen
         --------------------

@@ -34,11 +34,35 @@ window.routes =
         requireLogin: false
     },
 
-    "/myprofile": {
-        templateUrl: basePath + 'dashboard/profile.html',
+    "/dashboard/myprofile": {
+        templateUrl: basePath + 'dashboard/myprofile.html',
+        requireLogin: false
+    },
+
+    "/dashboard/myhealth": {
+        templateUrl: basePath + 'dashboard/myhealth.html',
+        requireLogin: false
+    },
+
+    "/dashboard/myhealth/bmi": {
+        templateUrl: basePath + 'dashboard/mybmi.html',
+        requireLogin: false
+    },
+
+    "/dashboard/myhealth/points": {
+        templateUrl: basePath + 'dashboard/mypoints.html',
+        requireLogin: false
+    },
+
+    "/dashboard/shoppingbag": {
+        templateUrl: basePath + 'dashboard/shoppingbag.html',
+        requireLogin: false
+    },
+
+    "/dashboard/products": {
+        templateUrl: basePath + 'dashboard/products.html',
         requireLogin: false
     }
-
 };
 
 app.config(function ($routeProvider) {
@@ -62,12 +86,12 @@ app.config(function ($routeProvider) {
         var urlArray = next.split("#");
         var routeName = urlArray[1];
 
-        /* if (window.routes[routeName].requireLogin == true) {
-             if (app.CurrentMember.Id == undefined) { //Check on service if logged in yet.
-                 $location.path('/');
-                 //event.preventDefault();            
-             }
-         } */
+        if (window.routes[routeName].requireLogin == true) {
+            if (app.CurrentKitchen.Id == undefined) { //Check on service if logged in yet.
+                $location.path('/');
+                //event.preventDefault();
+            }
+        }
     });
 
 });

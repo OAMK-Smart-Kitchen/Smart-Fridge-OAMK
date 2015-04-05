@@ -107,11 +107,6 @@ app.controller('login', [
             }
         };
 
-        $scope.goToRegister = function () {
-            $location.path("/register");
-            console.log("Navigate to register");
-        };
-
         /* Stap6: init aanroepen
         --------------------
         */

@@ -108,6 +108,9 @@
                     <li ng-show="currentPage == '/get-started' || currentPage == '/about' || currentPage == '/login' || currentPage == '/'" ng-class="{'active' : currentPage == '/about'}">
                         <a role="button" data-ng-click="goToAbout()">About</a>
                     </li>
+                    <li ng-show="currentPage != '/get-started' && currentPage != '/about' && currentPage != '/login' && currentPage != '/'" ng-class="{'active' : currentPage == '/members'}">
+                        <a role="button" data-ng-click="goToMembers()">Select other member</a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>

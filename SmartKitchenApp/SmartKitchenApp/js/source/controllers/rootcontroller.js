@@ -63,6 +63,11 @@ app.controller('rootcontroller', [
             $location.path("/");
         };
 
+        $rootScope.goToMembers = function () {
+            console.log("Navigate to user panel");
+            $location.path("/members");
+        };
+
         $rootScope.getCopyright = "\u00A9 " + new Date().getFullYear() + " Smart Kitchen Project";
 
         /* Stap6: init aanroepen

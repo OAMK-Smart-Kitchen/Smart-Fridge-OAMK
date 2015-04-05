@@ -87,7 +87,11 @@
     <Content Include="img\favicons\mstile-70x70.png" />
     <Content Include="img\icons\add.png" />
     <Content Include="img\icons\cook_book-256.png" />
+    <Content Include="img\icons\Goal_Setting-256.png" />
+    <Content Include="img\icons\Goal_Setting-512.png" />
     <Content Include="img\icons\measure-256.png" />
+    <Content Include="img\icons\pulse_heart-256.png" />
+    <Content Include="img\icons\pulse_heart-512.png" />
     <Content Include="img\icons\scale-weight-256.png" />
     <Content Include="img\icons\shoppingbag.png" />
     <Content Include="img\icons\graph.png" />
@@ -109,7 +113,12 @@
     <Content Include="js\source\services\weatherservice.js" />
     <Content Include="js\source\templates\dashboard\dashboard.html" />
     <Content Include="js\source\templates\dashboard\members.html" />
-    <Content Include="js\source\templates\dashboard\profile.html" />
+    <Content Include="js\source\templates\dashboard\mybmi.html" />
+    <Content Include="js\source\templates\dashboard\myhealth.html" />
+    <Content Include="js\source\templates\dashboard\mypoints.html" />
+    <Content Include="js\source\templates\dashboard\myprofile.html" />
+    <Content Include="js\source\templates\dashboard\products.html" />
+    <Content Include="js\source\templates\dashboard\shoppingbag.html" />
     <Content Include="js\vendor\angular-resource.min.js.map" />
     <Content Include="js\vendor\angular-route.min.js.map" />
     <Content Include="js\vendor\angular.min.js.map" />
