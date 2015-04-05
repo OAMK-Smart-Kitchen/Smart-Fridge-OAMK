@@ -1,3 +1,23 @@
 ﻿<div data-ng-controller="myhealth" class="container">
-    <h1 class="text-center">My Health</h1>
+    <h1 class="text-center">My Health</h1><br />
+    <blockquote class="text-center">
+        <p>“Take care of your body, 'cause it's yours for life.”</p>
+        <small><cite title="Source Title">Veerle M.</cite></small>
+    </blockquote><br />
+    <div class="row">
+        <div class="col-sm-6">
+            <button style="width:100%; padding:20px;" class="btn btn-info" type="button" data-ng-click="goToBMI()">
+                <img src="img/icons/pulse_heart-256.png" style="height:150px; display: block; margin:0 auto 10px auto;" />
+                <h1 class="text-center">My BMI</h1>
+                <h1 class="text-center"><span class="label label-warning">32</span></h1>
+            </button>
+        </div>
+        <div class="col-sm-6">
+            <button style="width:100%; padding:20px;" class="btn btn-info" type="button" data-ng-click="goToPoints()">
+                <img src="img/icons/Goal_Setting-256.png" style="height:150px; display: block; margin:0 auto 10px auto;" />
+                <h1 class="text-center">Earn Points</h1>
+                <h1 class="text-center"><span class="label label-warning">2800</span></h1>
+            </button>
+        </div>
+    </div>
 </div>

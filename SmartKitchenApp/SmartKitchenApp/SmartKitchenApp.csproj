@@ -104,6 +104,7 @@
     <Content Include="img\icons\weather.png" />
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
+    <Content Include="js\source\controllers\myHealth.js" />
     <Content Include="js\source\controllers\myProfile.js" />
     <Content Include="js\source\controllers\members.js" />
     <Content Include="js\source\controllers\dashboard.js" />
