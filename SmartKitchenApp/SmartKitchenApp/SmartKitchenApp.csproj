@@ -154,7 +154,7 @@
     <Content Include="js\source\filters\typeFilter.js" />
     <Content Include="js\source\filters\typeFilterReverse.js" />
     <Content Include="js\source\routes.js" />
-    <Content Include="js\source\services\loginservice.js" />
+    <Content Include="js\source\services\memberservice.js" />
     <Content Include="js\source\templates\404Template.html" />
     <Content Include="js\source\templates\get_started.html" />
     <Content Include="js\source\templates\homepage.html" />

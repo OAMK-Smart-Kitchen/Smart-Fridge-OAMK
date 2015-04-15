@@ -40,7 +40,7 @@
     <script type="text/javascript" src="js/source/controllers/myHealth.js"></script>
 
     <!-- Javascript Services-->
-    <script type="text/javascript" src="js/source/services/loginservice.js"></script>
+    <script type="text/javascript" src="js/source/services/memberservice.js"></script>
     <script type="text/javascript" src="js/source/services/weatherservice.js"></script>
 
     <!-- Css -->
@@ -104,18 +104,18 @@
             <nav class="collapse navbar-collapse spa-navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav">
                     <li ng-show="currentPage == '/get-started' || currentPage == '/about' || currentPage == '/login' || currentPage == '/'" ng-class="{'active' : currentPage == '/get-started'}">
-                        <a role="button" data-ng-click="goToGetStarted()">Get Started</a>
+                        <a href="" role="button" data-ng-click="goToGetStarted()">Get Started</a>
                     </li>
                     <li ng-show="currentPage == '/get-started' || currentPage == '/about' || currentPage == '/login' || currentPage == '/'" ng-class="{'active' : currentPage == '/about'}">
-                        <a role="button" data-ng-click="goToAbout()">About</a>
+                        <a href="" role="button" data-ng-click="goToAbout()">About</a>
                     </li>
                     <li ng-show="currentPage != '/get-started' && currentPage != '/about' && currentPage != '/login' && currentPage != '/'" ng-class="{'active' : currentPage == '/members'}">
-                        <a role="button" data-ng-click="goToMembers()">Select other member</a>
+                        <a href="" role="button" data-ng-click="goToMembers()">Select other member</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a role="button" data-ng-click="goToLogin()"><i class="fa fa-home fa-lg"></i>&nbsp;&nbsp;{{"Enter your Kitchen!"}}</a>
+                        <a href="" role="button" data-ng-click="goToLogin()"><i class="fa fa-home fa-lg"></i>&nbsp;&nbsp;{{"Enter your Kitchen!"}}</a>
                     </li>
                 </ul>
             </nav>

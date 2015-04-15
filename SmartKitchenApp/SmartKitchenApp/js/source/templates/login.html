@@ -5,7 +5,7 @@
         <li ng-class="{active : showregister}"><a role="button" href="" data-ng-click="switchTo('register')">Register</a></li>
     </ul>
 
-    <div ng-show="showregister">
+    <section ng-show="showregister">
 
         <div ng-show="reg_section_one">
             <form name="registerFormKitchen" ng-submit="kitchenDone(registerFormKitchen.$valid)" novalidate>
@@ -40,7 +40,7 @@
                 <!-- LASTNAME -->
                 <div class="form-group" ng-class="{ 'has-error' : registerFormMember.lastname.$invalid && !registerFormMember.lastname.$pristine }">
                     <label>Lastname</label>
-                    <input type="text" name="lastname" class="form-control" ng-model="Member.Lastname" ng-minlength="3" placeholder="Lastname" required>
+                    <input type="text" name="lastname" class="form-control" ng-model="Member.Lastname" placeholder="Lastname" required>
                     <p ng-show="registerFormMember.lastname.$invalid && !registerFormMember.lastname.$pristine" class="help-block">Your lastname is required.</p>
                 </div>
 
@@ -54,21 +54,21 @@
                 <!-- EMAIL -->
                 <div class="form-group" ng-class="{ 'has-error' : registerFormMember.email.$invalid && !registerFormMember.email.$pristine }">
                     <label>Email</label>
-                    <input type="email" name="email" class="form-control" ng-model="Member.Email" placeholder="Email" required>
+                    <input type="email" name="email" class="form-control" ng-model="Member.Email" ng-minlength="6" placeholder="Email" no-capitalize required>
                     <p ng-show="registerFormMember.email.$invalid && !registerFormMember.email.$pristine" class="help-block">Your Email is required.</p>
                 </div>
 
                 <!-- PASSWORD -->
                 <div class="form-group" ng-class="{ 'has-error' : registerFormMember.password.$invalid && !registerFormMember.password.$pristine }">
                     <label>Password</label>
-                    <input type="password" name="password" class="form-control" ng-model="Member.Password" placeholder="Password" required>
+                    <input type="password" name="password" class="form-control" ng-model="TempPassword" placeholder="Password" required>
                     <p ng-show="registerFormMember.password.$invalid && !registerFormMember.password.$pristine" class="help-block">Your Password is missing or invalid.</p>
                 </div>
 
                 <!-- PASSWORD VERIFY -->
                 <div class="form-group" ng-class="{ 'has-error' : registerFormMember.confirm_password.$invalid && !registerFormMember.confirm_password.$pristine }">
                     <label>Confirm Password</label>
-                    <input type="password" name="confirm_password" class="form-control" ng-model="Member.ConfirmPassword" placeholder="Confirm Password" required data-password-verify="Member.Password">
+                    <input type="password" name="confirm_password" class="form-control" ng-model="ConfirmTempPassword" placeholder="Confirm Password" required data-password-verify="TempPassword">
                     <p ng-show="registerFormMember.confirm_password.$invalid && !registerFormMember.confirm_password.$pristine" class="help-block">Your Password is missing or invalid.</p>
                 </div>
 
@@ -90,16 +90,19 @@
                 <button class="btn btn-warning">Go to your Dashboard</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div ng-show="showlogin">
+    <section ng-show="showlogin">
         <form name="loginFormMember" novalidate ng-submit="goToDashboard(loginFormMember.$valid)">
-
+            <div class="alert alert-dismissible alert-danger" ng-show="loginStatus == 2">
+                <button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+                <strong>Oh snap!</strong> Your Email or Password is incorrect.
+            </div>
             <!-- EMAIL -->
             <div class="form-group" ng-class="{ 'has-error' : loginFormMember.email.$invalid && !loginFormMember.email.$pristine }">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="email" name="email" class="form-control" ng-model="Member.Email" placeholder="Email" required autofocus>
+                    <input type="email" name="email" class="form-control" ng-model="Member.Email" placeholder="Email" no-capitalize required autofocus ng-disabled="loginStatus == 1">
                 </div>
             </div>
 
@@ -107,13 +110,12 @@
             <div class="form-group" ng-class="{ 'has-error' : loginFormMember.password.$invalid && !loginFormMember.password.$pristine }">
                 <div style="margin-bottom: 25px" class="input-group">
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="password" class=
-                           "form-control" ng-model="Member.Password" placeholder="Password" required>
+                    <input type="password" name="password" class="form-control" ng-model="TempPassword" placeholder="Password" required ng-disabled="loginStatus == 1">
                 </div>
             </div>
 
             <!-- SUBMIT BUTTON -->
-            <button type="submit" ng-disabled="loginFormMember.$invalid" ng-class="{'btn btn-success': loginStatus == 0, 'btn btn-warning loading': loginStatus == 1, 'btn btn-danger': loginStatus == 2}">Login</button>
+            <button type="submit" ng-disabled="loginFormMember.$invalid" ng-class="{'btn btn-success': loginStatus != 1, 'btn btn-warning loading': loginStatus == 1}">Login</button>
 
             <!-- //FEATURED FUNCTION
             <div class="form-group">
@@ -128,6 +130,6 @@
             -->
         </form>
 
-    </div>
+    </section>
 
 </div>

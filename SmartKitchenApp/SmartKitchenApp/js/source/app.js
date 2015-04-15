@@ -1,6 +1,7 @@
 var app = angular.module('SmartKitchenApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'jsonDate', 'typeFilter', 'geolocation']);
 
-app.serviceUrl = 'http://api.verhofstadt.eu/api/';
+app.serviceUrl = 'http://api.verhofstadt.eu/service/';
+//app.serviceUrl = 'http://localhost:63666/service/';
 //app.blobUrl = 'http://urltopictures.com';
 app.CryptoJS = function (message) {
     return CryptoJS.SHA256(message);
@@ -24,6 +25,7 @@ app.Member = function () {
     this.Admin = null;
 };
 app.CurrentMember = new app.Member();
+app.ActiveMember = new app.Member();
 //Kitchen Object
 app.Kitchen = function () {
     this.Id = null;

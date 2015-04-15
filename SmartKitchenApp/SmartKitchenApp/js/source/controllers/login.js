@@ -2,7 +2,8 @@ app.controller('login', [
     '$scope',
     '$location',
     '$rootScope',
-    function ($scope, $location, $rootScope) {
+    'memberservice',
+    function($scope, $location, $rootScope, memberservice) {
 
         /*
         Stap1: functie Init
@@ -11,7 +12,7 @@ app.controller('login', [
 
         // hier kan je zaken doen die ALTIJD moeten gebeuren bij het inladen van deze pagina, bijvoorbeeld: config ophalen, user checken en ophalen, een of andere call naar service met info... getNumberOfRegisterdUsers ofzo...
 
-        var init = function () {
+        var init = function() {
             console.log('login controller started');
         };
 
@@ -25,16 +26,88 @@ app.controller('login', [
         Stap3: Controller functions (niet in scope!)
         --------------------------------------------
         */
-        var resetRegisterForm = function () {
+        var resetRegisterForm = function() {
             $scope.reg_section_one = true;
             $scope.reg_section_two = false;
             $scope.reg_section_three = false;
-            $scope.Member.Password = null;
-            $scope.Member.Email = null;
-            $scope.Member.Firstname = null;
-            $scope.Member.Lastname = null;
+            $scope.Member.Password = "";
+            $scope.TempPassword = "";
+            $scope.ConfirmTempPassword = "";
+            $scope.Member.Email = "";
+            $scope.Member.Firstname = "";
+            $scope.Member.Lastname = "";
             $scope.Member.DateOfBirth = null;
-            $scope.Kitchen.Name = null;
+            $scope.Kitchen.Name = "";
+        };
+
+        var LoginKitchen = function() {
+            try {
+                $scope.loginStatus = 1; //LOADING
+                $scope.Member.Password = String(app.CryptoJS($scope.Member.Email + $scope.TempPassword));
+                memberservice.memberLogin({ 'Email': $scope.Member.Email, 'Password': $scope.Member.Password }) // + '' typecast to string
+                    .$promise
+                    .then(function onSuccess(data) {
+                        for (var i = 0; i < data.Members.length; i++) {
+                            var selectedMember = data.Members[i];
+                            if (selectedMember.Admin == "true") {
+                                console.log(selectedMember.Email);
+                                // The currentMember is the admin of the kitchen and used for authentication on the server.
+                                app.CurrentMember = selectedMember;
+                                // Active Member is the member for get en set data in the app
+                                app.ActiveMember = selectedMember;
+                            } else {
+                                console.log("This was not the admin - " + i);
+                            }
+                        }
+                        $scope.loginStatus = 3; //SUCCESS
+                        //EMPTY form
+                        resetRegisterForm();
+                        //Navigate to Members page
+                        $location.path("/members");
+                    }, function onFail(data) {
+                        $scope.loginStatus = 2; // Error
+                        $scope.errorMessage = data.message;
+                    });
+            } catch (e) {
+                console.log("An login Error occurred: " + e.message);
+            }
+        };
+
+        var RegisterKitchen = function() {
+            try {
+                $scope.registerStatus = 1;
+                $scope.Member.Password = String(app.CryptoJS($scope.Member.Email + $scope.TempPassword));
+                memberservice.memberRegister({
+                        'Firstname': $scope.Member.Firstname,
+                        'Lastname': $scope.Member.Lastname,
+                        'DateOfBirth': $scope.Member.DateOfBirth,
+                        'Email': $scope.Member.Email,
+                        'Password': $scope.Member.Password,
+                        'Active': "true",
+                        'Admin': "true",
+                        'KitchenName': $scope.Kitchen.Name
+                    }) // + '' typecast to string
+                    .$promise
+                    .then(function onSuccess(data) {
+                        for (var i = 0; i < data.Members.length; i++) {
+                            var selectedMember = data.Members[i];
+                            if (selectedMember.Admin == "true") {
+                                // The currentMember is the admin of the kitchen and used for authentication on the server.
+                                app.CurrentMember = selectedMember;
+                                // Active Member is the member for get en set data in the app
+                                app.ActiveMember = selectedMember;
+                            } else {
+                                console.log("This was not the admin - " + i);
+                            }
+                        }
+                        $scope.registerStatus = 3; //Success
+                    }, function onFail(data) {
+                        $scope.registerStatus = 2; //error
+                    });
+
+            } catch (e) {
+                console.log("An register Error occurred: " + e.message);
+            }
         };
 
         /*
@@ -48,37 +121,41 @@ app.controller('login', [
         // 3 : Success
 
         $scope.loginStatus = 0;
-
         $scope.registerStatus = 0;
 
         $scope.showlogin = true;
         $scope.showregister = false;
+        $scope.errorMessage = "Unknown Error";
 
         $scope.reg_section_one = true;
         $scope.reg_section_two = false;
         $scope.reg_section_three = false;
 
+        $scope.Member = app.Member;
+        $scope.Kitchen = app.Kitchen;
 
         /* Stap5: Scope functions
         -------------------------
         */
         // Toggle Login-Register tabs
-        $scope.switchTo = function (name) {
-            if (name == 'login') {
+        $scope.switchTo = function(name) {
+            if ((name == "login") && ($scope.showlogin == false) && ($scope.showregister == true)) {
                 resetRegisterForm();
-
                 $scope.showlogin = true;
                 $scope.showregister = false;
+                $scope.loginStatus = 0;
+                $scope.registerStatus = 0;
+            } else if ((name == "register") && ($scope.showlogin == true) && ($scope.showregister == false)) {
+                resetRegisterForm();
+                $scope.showlogin = false;
+                $scope.showregister = true;
+                $scope.loginStatus = 0;
+                $scope.registerStatus = 0;
             }
-            else
-                if (name == 'register') {
-                    $scope.showlogin = false;
-                    $scope.showregister = true;
-                }
         };
 
         // Register Member with kitchen
-        $scope.kitchenDone = function (isValid) {
+        $scope.kitchenDone = function(isValid) {
             if (isValid) {
                 $scope.reg_section_one = false;
                 $scope.reg_section_two = true;
@@ -87,23 +164,20 @@ app.controller('login', [
             }
         };
 
-        $scope.adminDone = function (isValid) {
+        $scope.adminDone = function(isValid) {
             if (isValid) {
+                RegisterKitchen();
                 $scope.reg_section_one = false;
                 $scope.reg_section_two = false;
                 $scope.reg_section_three = true;
-                console.log("Member data register success");
             }
         };
 
 
         //NAVIGATION
-        $scope.goToDashboard = function (isValid) {
+        $scope.goToDashboard = function(isValid) {
             if (isValid) {
-                //$location.path("/dashboard/:kitchen.id/member");
-                $location.path("/members");
-                console.log("Navigate to Member Dasboard");
-                console.log("Kitchen ID: " + kitchen.id);
+                LoginKitchen();
             }
         };
 
@@ -112,4 +186,5 @@ app.controller('login', [
         */
         init();
 
-    }]);
+    }
+]);
