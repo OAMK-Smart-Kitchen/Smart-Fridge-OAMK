@@ -13,7 +13,7 @@ app.controller('members', [
         // hier kan je zaken doen die ALTIJD moeten gebeuren bij het inladen van deze pagina, bijvoorbeeld: config ophalen, user checken en ophalen, een of andere call naar service met info... getNumberOfRegisterdUsers ofzo...
 
         var init = function () {
-            console.log('members controller started');
+            console.log("members controller started");
         };
 
         /*
@@ -46,9 +46,9 @@ app.controller('members', [
         };
 
         $scope.selectMember = function (num) {
-            $scope.activeMember = $scope.allMembers[num];
-            console.log("Selected user ID: " + $scope.allMembers[num].Id + " \nFirst name: " + $scope.allMembers[num].Firstname);
-            console.log("Selected APPuser ID: " + $scope.activeMember.Id + " \nFirst name: " + $scope.activeMember.Firstname);
+            $rootScope.activeMember = $scope.allMembers[num];
+            //console.log("Selected user ID: " + $scope.allMembers[num].Id + " \nFirst name: " + $scope.allMembers[num].Firstname);
+            console.log("Selected APPuser ID: " + $rootScope.activeMember.Id + " \nFirst name: " + $rootScope.activeMember.Firstname);
         };
 
        

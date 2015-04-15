@@ -34,7 +34,7 @@ app.controller('rootcontroller', [
 
         $scope.currentPage;
         $scope.allMembers = new Array();
-        $scope.activeMember = null;
+        $rootScope.activeMember = null;
 
         /* Stap5: Scope functions
         -------------------------

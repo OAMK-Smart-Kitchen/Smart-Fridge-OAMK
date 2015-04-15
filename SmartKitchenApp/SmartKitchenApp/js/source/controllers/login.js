@@ -48,7 +48,7 @@ app.controller('login', [
                     // The currentMember is the admin of the kitchen and used for authentication on the server.
                     app.CurrentMember = selectedMember;
                     // Active Member is the member for get en set data in the app
-                    $scope.activeMember = selectedMember;
+                    $rootScope.activeMember = selectedMember;
                 }
             }
         };
