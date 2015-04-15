@@ -1,4 +1,29 @@
 ﻿<div data-ng-controller="mybmi" class="container">
     <h1 class="text-center">My Health</h1>
-    <h2 class="text-center">BMI Calculator <span class="label label-warning">32</span></h2>
+    <h2 class="text-center">BMI Calculator <span class="label label-warning">32</span></h2><br />
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Your BMI evolution </h3>
+            </div>
+            <div class="panel-body">
+                Graphic...
+            </div>
+        </div>
+    </div>
+    <br />
+    <!-- BODY LENGTH -->
+    <div class="col-sm-6" style="vertical-align: middle;">
+        <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
+            <img src="img/icons/measure-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
+            <h1 class="text-right" style="display:inline;font-size: 400%;"><b>175 cm</b></h1>
+        </button>
+    </div>
+    <!-- BODY WEIGHT -->
+    <div class="col-sm-6" style="vertical-align: middle;">
+        <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
+            <img src="img/icons/scale-weight-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
+            <p class="text-right" style="display:inline;font-size: 400%;"><b>65 kg</b></p>
+        </button>
+    </div>
 </div>
