@@ -29,7 +29,7 @@ void setup()
 void loop()
 {
   Wire.beginTransmission(56);  //Begin transmission to PCF8574 to activate RX (address: 111010)
-  Wire.write(0);         //Send data to PCF8574 (with the LEDs)
+  Wire.write(1);         //Send data to PCF8574 (with the LEDs)
   Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)
   //Send = Serial.read();
  // Serial.print(Send);
