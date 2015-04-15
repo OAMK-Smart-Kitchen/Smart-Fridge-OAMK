@@ -6352,6 +6352,7 @@ W = angled&lt;p&gt;
 <sheets>
 <sheet>
 <plain>
+<text x="289.56" y="170.18" size="1.778" layer="91">12V - GND - X - TX - SCL - SDA</text>
 </plain>
 <instances>
 <instance part="Q1" gate="G$1" x="271.78" y="27.94"/>
