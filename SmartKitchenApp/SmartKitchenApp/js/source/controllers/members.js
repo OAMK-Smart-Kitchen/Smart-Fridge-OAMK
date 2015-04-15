@@ -2,7 +2,8 @@ app.controller('members', [
     '$scope',
     '$location',
     '$rootScope',
-    function ($scope, $location, $rootScope) {
+    'memberservice',
+    function ($scope, $location, $rootScope, memberservice) {
 
         /*
         Stap1: functie Init
@@ -44,8 +45,10 @@ app.controller('members', [
 
         };
 
-        $scope.selectMember = function (MemberID) {
-
+        $scope.selectMember = function (num) {
+            $scope.activeMember = $scope.allMembers[num];
+            console.log("Selected user ID: " + $scope.allMembers[num].Id + " \nFirst name: " + $scope.allMembers[num].Firstname);
+            console.log("Selected APPuser ID: " + $scope.activeMember.Id + " \nFirst name: " + $scope.activeMember.Firstname);
         };
 
        

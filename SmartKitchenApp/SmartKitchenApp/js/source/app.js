@@ -25,7 +25,6 @@ app.Member = function () {
     this.Admin = null;
 };
 app.CurrentMember = new app.Member();
-app.ActiveMember = new app.Member();
 //Kitchen Object
 app.Kitchen = function () {
     this.Id = null;
