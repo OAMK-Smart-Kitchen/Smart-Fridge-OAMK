@@ -61,9 +61,9 @@ app.controller('login', [
                     .$promise
                     .then(function onSuccess(data) {
                         processData(data);
-                        $scope.loginStatus = 3; //SUCCESS
                         //EMPTY form
                         resetRegisterForm();
+                        $scope.loginStatus = 3; //SUCCESS
                         //Navigate to Members page
                         $location.path("/members");
                     }, function onFail(data) {
@@ -93,6 +93,8 @@ app.controller('login', [
                     .then(function onSuccess(data) {
                         processData(data);
                         $scope.registerStatus = 3; //Success
+                        //Navigate to Members page
+                        $location.path("/members");
                     }, function onFail(data) {
                         $scope.registerStatus = 2; //error
                     });

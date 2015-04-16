@@ -31,9 +31,9 @@ app.controller('rootcontroller', [
             $location.path("/login");
         };
 
-        var goToMembers = function () {
-            console.log("Navigate to user panel");
-            $location.path("/members");
+        var goToDashboard = function () {
+            console.log("Navigate to Login");
+            $location.path("/dashboard");
         };
 
         /*
@@ -70,8 +70,13 @@ app.controller('rootcontroller', [
             if ($rootScope.activeMember == null) {
                 goToLogin();
             } else {
-                goToMembers();
+                goToDashboard();
             }
+        };
+
+        $scope.goToMembers = function () {
+            console.log("Navigate to user panel");
+            $location.path("/members");
         };
 
         $rootScope.goToRoot = function () {
