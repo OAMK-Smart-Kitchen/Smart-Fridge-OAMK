@@ -125,6 +125,7 @@
     <Content Include="js\vendor\angular-route.min.js.map" />
     <Content Include="js\vendor\angular.min.js.map" />
     <Content Include="js\vendor\angularjs-geolocation.min.js" />
+    <Content Include="js\vendor\download.js" />
     <Content Include="js\vendor\jquery.min.map" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
