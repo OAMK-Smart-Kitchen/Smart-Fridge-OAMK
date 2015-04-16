@@ -13,7 +13,7 @@ app.controller('login', [
         // hier kan je zaken doen die ALTIJD moeten gebeuren bij het inladen van deze pagina, bijvoorbeeld: config ophalen, user checken en ophalen, een of andere call naar service met info... getNumberOfRegisterdUsers ofzo...
 
         var init = function() {
-            console.log('login controller started');
+            console.log("login controller started");
         };
 
         /*
@@ -40,28 +40,30 @@ app.controller('login', [
             $scope.Kitchen.Name = "";
         };
 
-        var LoginKitchen = function() {
+        var processData = function (data) {
+            for (var i = 0; i < data.Members.length; i++) {
+                var selectedMember = data.Members[i];
+                $scope.allMembers.push(selectedMember);
+                if (selectedMember.Admin == "true") {
+                    // The currentMember is the admin of the kitchen and used for authentication on the server.
+                    app.CurrentMember = selectedMember;
+                    // Active Member is the member for get en set data in the app
+                    $rootScope.activeMember = selectedMember;
+                }
+            }
+        };
+
+        var loginKitchen = function() {
             try {
                 $scope.loginStatus = 1; //LOADING
                 $scope.Member.Password = String(app.CryptoJS($scope.Member.Email + $scope.TempPassword));
                 memberservice.memberLogin({ 'Email': $scope.Member.Email, 'Password': $scope.Member.Password }) // + '' typecast to string
                     .$promise
                     .then(function onSuccess(data) {
-                        for (var i = 0; i < data.Members.length; i++) {
-                            var selectedMember = data.Members[i];
-                            if (selectedMember.Admin == "true") {
-                                console.log(selectedMember.Email);
-                                // The currentMember is the admin of the kitchen and used for authentication on the server.
-                                app.CurrentMember = selectedMember;
-                                // Active Member is the member for get en set data in the app
-                                app.ActiveMember = selectedMember;
-                            } else {
-                                console.log("This was not the admin - " + i);
-                            }
-                        }
-                        $scope.loginStatus = 3; //SUCCESS
+                        processData(data);
                         //EMPTY form
                         resetRegisterForm();
+                        $scope.loginStatus = 3; //SUCCESS
                         //Navigate to Members page
                         $location.path("/members");
                     }, function onFail(data) {
@@ -73,7 +75,7 @@ app.controller('login', [
             }
         };
 
-        var RegisterKitchen = function() {
+        var registerKitchen = function() {
             try {
                 $scope.registerStatus = 1;
                 $scope.Member.Password = String(app.CryptoJS($scope.Member.Email + $scope.TempPassword));
@@ -89,18 +91,10 @@ app.controller('login', [
                     }) // + '' typecast to string
                     .$promise
                     .then(function onSuccess(data) {
-                        for (var i = 0; i < data.Members.length; i++) {
-                            var selectedMember = data.Members[i];
-                            if (selectedMember.Admin == "true") {
-                                // The currentMember is the admin of the kitchen and used for authentication on the server.
-                                app.CurrentMember = selectedMember;
-                                // Active Member is the member for get en set data in the app
-                                app.ActiveMember = selectedMember;
-                            } else {
-                                console.log("This was not the admin - " + i);
-                            }
-                        }
+                        processData(data);
                         $scope.registerStatus = 3; //Success
+                        //Navigate to Members page
+                        $location.path("/members");
                     }, function onFail(data) {
                         $scope.registerStatus = 2; //error
                     });
@@ -134,6 +128,8 @@ app.controller('login', [
         $scope.Member = app.Member;
         $scope.Kitchen = app.Kitchen;
 
+        $rootScope.activeMember = null;
+
         /* Stap5: Scope functions
         -------------------------
         */
@@ -166,7 +162,7 @@ app.controller('login', [
 
         $scope.adminDone = function(isValid) {
             if (isValid) {
-                RegisterKitchen();
+                registerKitchen();
                 $scope.reg_section_one = false;
                 $scope.reg_section_two = false;
                 $scope.reg_section_three = true;
@@ -177,7 +173,7 @@ app.controller('login', [
         //NAVIGATION
         $scope.goToDashboard = function(isValid) {
             if (isValid) {
-                LoginKitchen();
+                loginKitchen();
             }
         };
 

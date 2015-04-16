@@ -26,42 +26,42 @@ window.routes =
     // LOGIN REQUIRED
     "/dashboard": {
         templateUrl: basePath + 'dashboard/dashboard.html',
-        requireLogin: false
+        requireLogin: true
     },
 
     "/members": {
         templateUrl: basePath + 'dashboard/members.html',
-        requireLogin: false
+        requireLogin: true
     },
 
     "/dashboard/myprofile": {
         templateUrl: basePath + 'dashboard/myprofile.html',
-        requireLogin: false
+        requireLogin: true
     },
 
     "/dashboard/myhealth": {
         templateUrl: basePath + 'dashboard/myhealth.html',
-        requireLogin: false
+        requireLogin: true
     },
 
     "/dashboard/myhealth/bmi": {
         templateUrl: basePath + 'dashboard/mybmi.html',
-        requireLogin: false
+        requireLogin: true
     },
 
     "/dashboard/myhealth/points": {
         templateUrl: basePath + 'dashboard/mypoints.html',
-        requireLogin: false
+        requireLogin: true
     },
 
     "/dashboard/shoppingbag": {
         templateUrl: basePath + 'dashboard/shoppingbag.html',
-        requireLogin: false
+        requireLogin: true
     },
 
     "/dashboard/products": {
         templateUrl: basePath + 'dashboard/products.html',
-        requireLogin: false
+        requireLogin: true
     }
 };
 
@@ -87,7 +87,7 @@ app.config(function ($routeProvider) {
         var routeName = urlArray[1];
 
         if (window.routes[routeName].requireLogin == true) {
-            if (app.CurrentKitchen.Id == undefined) { //Check on service if logged in yet.
+            if (app.CurrentMember.Id == undefined) { //Check on service if logged in yet.
                 $location.path('/');
                 //event.preventDefault();
             }

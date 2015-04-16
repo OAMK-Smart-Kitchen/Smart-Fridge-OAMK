@@ -120,10 +120,12 @@
     <Content Include="js\source\templates\dashboard\myprofile.html" />
     <Content Include="js\source\templates\dashboard\products.html" />
     <Content Include="js\source\templates\dashboard\shoppingbag.html" />
+    <Content Include="js\vendor\angular-resource.js" />
     <Content Include="js\vendor\angular-resource.min.js.map" />
     <Content Include="js\vendor\angular-route.min.js.map" />
     <Content Include="js\vendor\angular.min.js.map" />
     <Content Include="js\vendor\angularjs-geolocation.min.js" />
+    <Content Include="js\vendor\download.js" />
     <Content Include="js\vendor\jquery.min.map" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -180,6 +182,7 @@
     <Content Include="js\vendor\ui-bootstrap-custom-0.12.0.min.js" />
     <Content Include="js\vendor\ui-bootstrap-custom-tpls-0.12.0.js" />
     <Content Include="js\vendor\ui-bootstrap-custom-tpls-0.12.0.min.js" />
+    <Content Include="sounds\welcome_dashboard.mp3" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
