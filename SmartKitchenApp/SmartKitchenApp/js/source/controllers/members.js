@@ -46,8 +46,8 @@ app.controller('members', [
 
         $scope.selectMember = function (num) {
             $rootScope.activeMember = $scope.allMembers[num];
-            //console.log("Selected user ID: " + $scope.allMembers[num].Id + " \nFirst name: " + $scope.allMembers[num].Firstname);
             console.log("Selected APPuser ID: " + $rootScope.activeMember.Id + " \nFirst name: " + $rootScope.activeMember.Firstname);
+            $location.path("/dashboard");
         };
 
        
