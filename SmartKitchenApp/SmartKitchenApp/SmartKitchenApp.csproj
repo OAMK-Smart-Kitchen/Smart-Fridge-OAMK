@@ -120,6 +120,7 @@
     <Content Include="js\source\templates\dashboard\myprofile.html" />
     <Content Include="js\source\templates\dashboard\products.html" />
     <Content Include="js\source\templates\dashboard\shoppingbag.html" />
+    <Content Include="js\vendor\angular-resource.js" />
     <Content Include="js\vendor\angular-resource.min.js.map" />
     <Content Include="js\vendor\angular-route.min.js.map" />
     <Content Include="js\vendor\angular.min.js.map" />
