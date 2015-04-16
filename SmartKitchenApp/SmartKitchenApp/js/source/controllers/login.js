@@ -13,7 +13,7 @@ app.controller('login', [
         // hier kan je zaken doen die ALTIJD moeten gebeuren bij het inladen van deze pagina, bijvoorbeeld: config ophalen, user checken en ophalen, een of andere call naar service met info... getNumberOfRegisterdUsers ofzo...
 
         var init = function() {
-            console.log('login controller started');
+            console.log("login controller started");
         };
 
         /*
@@ -125,6 +125,8 @@ app.controller('login', [
 
         $scope.Member = app.Member;
         $scope.Kitchen = app.Kitchen;
+
+        $rootScope.activeMember = null;
 
         /* Stap5: Scope functions
         -------------------------

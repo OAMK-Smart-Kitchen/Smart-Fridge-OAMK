@@ -12,7 +12,7 @@ app.controller('rootcontroller', [
         // hier kan je zaken doen die ALTIJD moeten gebeuren bij het inladen van deze pagina, bijvoorbeeld: config ophalen, user checken en ophalen, een of andere call naar service met info... getNumberOfRegisterdUsers ofzo...
 
         var init = function () {
-            console.log('root controller started');
+            console.log("root controller started");
         };
 
         /*
@@ -26,15 +26,24 @@ app.controller('rootcontroller', [
         --------------------------------------------
         */
 
+        var goToLogin = function () {
+            console.log("Navigate to Login");
+            $location.path("/login");
+        };
+
+        var goToMembers = function () {
+            console.log("Navigate to user panel");
+            $location.path("/members");
+        };
 
         /*
         Stap4: Scope vars
         ------------------
         */
 
+        $rootScope.getCopyright = "\u00A9 " + new Date().getFullYear() + " Smart Kitchen Project";
         $scope.currentPage;
         $scope.allMembers = new Array();
-        $rootScope.activeMember = null;
 
         /* Stap5: Scope functions
         -------------------------
@@ -43,6 +52,8 @@ app.controller('rootcontroller', [
         $scope.$on('$routeChangeSuccess', function() { 
             $scope.currentPage = $location.path();
             //console.log("DEBUG_LOG: " + $scope.currentPage);
+            console.log("The activeMember is:");
+            console.dir($rootScope.activeMember);
         });
 
         $rootScope.goToGetStarted = function () {
@@ -55,22 +66,18 @@ app.controller('rootcontroller', [
             $location.path("/about");
         };
 
-        $rootScope.goToLogin = function () {
-            console.log("Navigate to Login");
-            $location.path("/login");
+        $rootScope.enterKitchen = function() {
+            if ($rootScope.activeMember == null) {
+                goToLogin();
+            } else {
+                goToMembers();
+            }
         };
 
         $rootScope.goToRoot = function () {
             console.log("Navigate to Root");
             $location.path("/");
         };
-
-        $rootScope.goToMembers = function () {
-            console.log("Navigate to user panel");
-            $location.path("/members");
-        };
-
-        $rootScope.getCopyright = "\u00A9 " + new Date().getFullYear() + " Smart Kitchen Project";
 
         /* Stap6: init aanroepen
         --------------------

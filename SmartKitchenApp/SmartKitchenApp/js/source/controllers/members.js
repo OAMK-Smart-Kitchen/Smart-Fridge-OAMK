@@ -2,8 +2,7 @@ app.controller('members', [
     '$scope',
     '$location',
     '$rootScope',
-    'memberservice',
-    function ($scope, $location, $rootScope, memberservice) {
+    function ($scope, $location, $rootScope) {
 
         /*
         Stap1: functie Init
@@ -42,7 +41,7 @@ app.controller('members', [
         */
         
         $scope.addMember = function () {
-
+            console.log("Add New Member");
         };
 
         $scope.selectMember = function (num) {
