@@ -6299,6 +6299,64 @@ W = angled&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
+<library name="Onboard_LEDstrip">
+<packages>
+<package name="LED_P">
+<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="-2.54" y1="-5.08" x2="2.54" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-5.08" x2="2.54" y2="5.08" width="0.127" layer="21"/>
+<smd name="+" x="0" y="3.81" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<smd name="B" x="0" y="1.27" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<smd name="R" x="0" y="-1.27" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<smd name="G" x="0" y="-3.81" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<wire x1="2.54" y1="5.08" x2="-2.54" y2="5.08" width="0.127" layer="21"/>
+<wire x1="47.46" y1="5.08" x2="47.46" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="47.46" y1="-5.08" x2="47.625" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="47.625" y1="-5.08" x2="52.54" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="52.54" y1="-5.08" x2="52.54" y2="5.08" width="0.127" layer="21"/>
+<wire x1="52.54" y1="5.08" x2="47.46" y2="5.08" width="0.127" layer="21"/>
+<smd name="+1" x="50" y="3.81" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<smd name="B1" x="50" y="1.27" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<smd name="R1" x="50" y="-1.27" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<smd name="G1" x="50" y="-3.81" dx="3.81" dy="1.9304" layer="1" roundness="100"/>
+<wire x1="2.54" y1="5.08" x2="47.46" y2="5.08" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-5.08" x2="47.46" y2="-5.08" width="0.127" layer="21"/>
+<text x="10.795" y="-1.27" size="2.54" layer="21">RGB LED STRIP</text>
+</package>
+</packages>
+<symbols>
+<symbol name="LED_S">
+<pin name="G" x="-5.08" y="2.54" length="middle" direction="in"/>
+<pin name="R" x="-5.08" y="5.08" length="middle" direction="in"/>
+<pin name="B" x="-5.08" y="7.62" length="middle" direction="in"/>
+<pin name="+" x="-5.08" y="10.16" length="middle" direction="in"/>
+<wire x1="0" y1="12.7" x2="0" y2="0" width="0.6096" layer="94"/>
+<wire x1="0" y1="0" x2="5.08" y2="0" width="0.6096" layer="94"/>
+<wire x1="5.08" y1="0" x2="5.08" y2="12.7" width="0.6096" layer="94"/>
+<wire x1="5.08" y1="12.7" x2="0" y2="12.7" width="0.6096" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="LED_S">
+<gates>
+<gate name="G$1" symbol="LED_S" x="-2.54" y="-6.35"/>
+</gates>
+<devices>
+<device name="" package="LED_P">
+<connects>
+<connect gate="G$1" pin="+" pad="+ +1"/>
+<connect gate="G$1" pin="B" pad="B B1"/>
+<connect gate="G$1" pin="G" pad="G G1"/>
+<connect gate="G$1" pin="R" pad="R R1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -6348,10 +6406,12 @@ W = angled&lt;p&gt;
 <part name="LED1" library="led" deviceset="LED" device="B152"/>
 <part name="LED2" library="led" deviceset="LED" device="B152"/>
 <part name="SV1" library="con-lsta" deviceset="FE07-1" device=""/>
+<part name="U$1" library="Onboard_LEDstrip" deviceset="LED_S" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
+<text x="289.56" y="170.18" size="1.778" layer="91">12V - GND - X - TX - SCL - SDA</text>
 </plain>
 <instances>
 <instance part="Q1" gate="G$1" x="271.78" y="27.94"/>
@@ -6389,6 +6449,7 @@ W = angled&lt;p&gt;
 <instance part="LED1" gate="G$1" x="81.28" y="111.76"/>
 <instance part="LED2" gate="G$1" x="99.06" y="111.76"/>
 <instance part="SV1" gate="G$1" x="116.84" y="127" rot="R270"/>
+<instance part="U$1" gate="G$1" x="337.82" y="71.12" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -6518,17 +6579,27 @@ W = angled&lt;p&gt;
 <net name="N$7" class="0">
 <segment>
 <pinref part="LEDSTRIP" gate="1" pin="2"/>
-<wire x1="309.88" y1="66.04" x2="309.88" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="309.88" y1="66.04" x2="309.88" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="Q1" gate="G$1" pin="S"/>
+<wire x1="309.88" y1="58.42" x2="309.88" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="309.88" y1="45.72" x2="274.32" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="274.32" y1="45.72" x2="274.32" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="B"/>
+<wire x1="330.2" y1="66.04" x2="330.2" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="330.2" y1="58.42" x2="309.88" y2="58.42" width="0.1524" layer="91"/>
+<junction x="309.88" y="58.42"/>
 </segment>
 </net>
 <net name="N$8" class="0">
 <segment>
 <pinref part="LEDSTRIP" gate="1" pin="3"/>
-<wire x1="312.42" y1="66.04" x2="312.42" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="Q2" gate="G$1" pin="S"/>
+<wire x1="312.42" y1="66.04" x2="312.42" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="R"/>
+<wire x1="312.42" y1="55.88" x2="312.42" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="332.74" y1="66.04" x2="332.74" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="332.74" y1="55.88" x2="312.42" y2="55.88" width="0.1524" layer="91"/>
+<junction x="312.42" y="55.88"/>
 </segment>
 </net>
 <net name="N$9" class="0">
@@ -6537,7 +6608,12 @@ W = angled&lt;p&gt;
 <wire x1="350.52" y1="33.02" x2="350.52" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="LEDSTRIP" gate="1" pin="4"/>
 <wire x1="350.52" y1="45.72" x2="314.96" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="314.96" y1="45.72" x2="314.96" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="45.72" x2="314.96" y2="53.34" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="G"/>
+<wire x1="314.96" y1="53.34" x2="314.96" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="335.28" y1="66.04" x2="335.28" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="335.28" y1="53.34" x2="314.96" y2="53.34" width="0.1524" layer="91"/>
+<junction x="314.96" y="53.34"/>
 </segment>
 </net>
 <net name="N$10" class="0">
@@ -6547,8 +6623,9 @@ W = angled&lt;p&gt;
 <pinref part="LEDSTRIP" gate="1" pin="1"/>
 <wire x1="287.02" y1="111.76" x2="287.02" y2="48.26" width="0.1524" layer="91"/>
 <wire x1="287.02" y1="48.26" x2="307.34" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="307.34" y1="48.26" x2="307.34" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="307.34" y1="48.26" x2="307.34" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="J2" gate="G$1" pin="1"/>
+<wire x1="307.34" y1="60.96" x2="307.34" y2="66.04" width="0.1524" layer="91"/>
 <wire x1="312.42" y1="154.94" x2="312.42" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="312.42" y1="111.76" x2="287.02" y2="111.76" width="0.1524" layer="91"/>
 <junction x="287.02" y="111.76"/>
@@ -6556,6 +6633,10 @@ W = angled&lt;p&gt;
 <wire x1="243.84" y1="127" x2="238.76" y2="127" width="0.1524" layer="91"/>
 <wire x1="238.76" y1="127" x2="238.76" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="238.76" y1="111.76" x2="287.02" y2="111.76" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="+"/>
+<wire x1="327.66" y1="66.04" x2="327.66" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="327.66" y1="60.96" x2="307.34" y2="60.96" width="0.1524" layer="91"/>
+<junction x="307.34" y="60.96"/>
 </segment>
 </net>
 <net name="N$1" class="0">

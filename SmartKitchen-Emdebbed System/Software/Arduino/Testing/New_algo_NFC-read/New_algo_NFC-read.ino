@@ -12,9 +12,9 @@ String tempString = "";
 int minLengthID = 40;  // minimale lengte van NFC-tag ID
 
 // NFC-ID's
-const String StartRef = "191183";
-const String Banana = "1188611854245125125125141153151143159229235";
-const String Cucumber = "118150150205245125125125141153151143159229235";
+const String StartRef = "4852";
+const String Banana = "5352706548656557515256481310";
+const String Cucumber = "5167706548656557515256481310";
 const String Vegetables = "95951741188653153229235095951741188653153229235";
 const String Milk = "1185424654237125125125141153151143159229235";
 const String Ketchup = "118246147115125159125125141153151143159229235";
@@ -41,6 +41,7 @@ void setup() {
 
   //I2C
   Wire.begin();
+   Wire.write(0);         
 }
 
 void loop()
@@ -55,8 +56,10 @@ void loop()
   // ----- NFC-Tag Detection -----
   if (Serial.available() > 0) {
     incomingByte = Serial.read();
-    /*if (productID == StartRef)
+    //Serial.print(incomingByte);
+    if (productID == StartRef)
     {
+      //Serial.print(incomingByte);
       Serial.print("NFC-ID: ");
       // Software on computer will do this in futere (Database) /*
       if (productID == Banana)
@@ -66,7 +69,6 @@ void loop()
       else if (productID == Cucumber)
       {
         Serial.println("Cucumber");
-        iOutput = 2;
       }
       else if (productID == Vegetables)
       {
@@ -79,7 +81,6 @@ void loop()
       else if (productID == Ketchup)
       {
         Serial.println("Ketchup");
-        iOutput = 1;
       }
       else if (productID == NokiaID)
       {
@@ -89,7 +90,7 @@ void loop()
       {
         Serial.println(productID);
       }
-      productID = "";
+      //productID = "";
     }
     else
     {
@@ -98,19 +99,18 @@ void loop()
 
     }
   }
-*/
-Serial.print(incomingByte);
 
-/*tempString = String(incomingByte);
+//Serial.print(incomingByte);
+/*
+tempString = String(incomingByte);
 productID = productID + tempString;
 if (productID == StartRef)
     {Serial.println('YES');}
 */
-}
-
 
 }
-
+}
+}
 
 
 
