@@ -45,12 +45,12 @@ void setup() {
 
 void loop()
 {
+  
   // ----- Switch-control -----
- /* Wire.beginTransmission(58);  //Begin transmission to PCF8574 to activate RX (address: 111010)
+  Wire.beginTransmission(57);  //Begin transmission to PCF8574 to activate RX (address: 111010)
   Wire.write(1);         //Send data to PCF8574 (with the LEDs)
   Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)
   // ----- End Switch-control -----
-  Wire.requestFrom(57, 1); // Begin transmission to PCF8574 with the buttons */
 
   // ----- NFC-Tag Detection -----
   if (Serial.available() > 0) {
@@ -100,17 +100,15 @@ void loop()
   }
 */
 Serial.print(incomingByte);
-}
+
 /*tempString = String(incomingByte);
 productID = productID + tempString;
 if (productID == StartRef)
     {Serial.println('YES');}
-
+*/
 }
-/*
-  Wire.beginTransmission(56);  //Begin transmission to PCF8574 (with the LEDs)
-  Wire.write(0);         //Send data to PCF8574 (with the LEDs)
-  Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)*/
+
+
 }
 
 
