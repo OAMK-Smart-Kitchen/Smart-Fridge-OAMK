@@ -8798,6 +8798,7 @@ W = angled&lt;p&gt;
 <attribute name="OC_NEWARK" value="94C0765"/>
 </part>
 <part name="C1" library="rcl" deviceset="C-EU" device="C0603" value="100nF"/>
+<part name="C2" library="rcl" deviceset="C-EU" device="C0603" value="100nF"/>
 </parts>
 <sheets>
 <sheet>
@@ -8848,6 +8849,7 @@ W = angled&lt;p&gt;
 <instance part="U$2" gate="LEDSTRIP" x="330.2" y="68.58" rot="R90"/>
 <instance part="X1" gate="-2" x="121.92" y="73.66" rot="R180"/>
 <instance part="C1" gate="G$1" x="261.62" y="86.36" rot="R90"/>
+<instance part="C2" gate="G$1" x="261.62" y="76.2" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -8908,6 +8910,10 @@ W = angled&lt;p&gt;
 <wire x1="254" y1="109.22" x2="254" y2="86.36" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="254" y1="86.36" x2="259.08" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="1"/>
+<wire x1="259.08" y1="76.2" x2="254" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="254" y1="76.2" x2="254" y2="86.36" width="0.1524" layer="91"/>
+<junction x="254" y="86.36"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="1"/>
@@ -9194,6 +9200,10 @@ W = angled&lt;p&gt;
 <wire x1="266.7" y1="86.36" x2="271.78" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="271.78" y1="86.36" x2="271.78" y2="101.6" width="0.1524" layer="91"/>
 <junction x="271.78" y="101.6"/>
+<pinref part="C2" gate="G$1" pin="2"/>
+<wire x1="266.7" y1="76.2" x2="271.78" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="271.78" y1="76.2" x2="271.78" y2="86.36" width="0.1524" layer="91"/>
+<junction x="271.78" y="86.36"/>
 </segment>
 </net>
 <net name="N$2" class="0">
