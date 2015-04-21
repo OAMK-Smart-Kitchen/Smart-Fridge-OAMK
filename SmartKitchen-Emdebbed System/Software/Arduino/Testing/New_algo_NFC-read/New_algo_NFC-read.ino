@@ -4,6 +4,8 @@
 Test-code to detect and convert the ID of an NFC-tag too a usable int.
 This int will be sended serial to the computer and the he will compare it with the numbers in the database.
  */
+ 
+ #include <Wire.h>
 
 // NFC
 int incomingByte = 0;   // for incoming serial data
@@ -32,7 +34,6 @@ const String PhoneHenry = "21424618224615024611886235021424618224615024611886235
 */
 
 // LED - driver
-#include <Wire.h>
 byte iInput = 0;
 byte iOutput = 0;
 
@@ -58,14 +59,16 @@ void loop()
   if (Serial.available() > 0) {
     incomingByte = Serial.read();
     //Serial.print(incomingByte);
-    if (productID == StartRef || productID.length() >= StartRef.length())
+    if (incomingByte = '48')
     {
-      //Serial.print(incomingByte);
+      acquaintance = true;
+      Serial.print(incomingByte); /*
       Serial.print("NFC-ID: ");
       // Software on computer will do this in futere (Database) /*
       if (productID == Banana)
       {
         Serial.println("Banana");
+        acquaintance = false;
       }
       else if (productID == Cucumber)
       {
@@ -91,7 +94,7 @@ void loop()
       {
         Serial.println(productID);
       }
-      productID = "";
+      //productID = ""; */
     }
     else
     {
