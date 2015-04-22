@@ -15,7 +15,8 @@ String tempString = "";
 int minLengthID = 40;  // minimale lengte van NFC-tag ID
 bool acquaintance = false;
 
-String CharID = "";
+char charBuf[100];
+bool ReadNFC = true;
 
 // NFC-ID's
 const String StartRef = "4852";
@@ -49,22 +50,47 @@ void loop()
 
 
 
-
   // ----- NFC-Tag Detection -----
   if (Serial.available() > 0) {
-    productID = "S";
+    //productID = "S";
     //Serial.print(incomingByte);
     for (int i = 0; i <= 100; i++)
     {
       incomingByte = Serial.read();
       tempString = String(incomingByte);
-      productID = productID + tempString;
+      productID += tempString;
     }
-    productID = productID + "E";
+    //productID = productID + "E";
     Serial.println(productID);
-  }
+ 
+  productID.toCharArray(charBuf, 100);
   productID = "";
-  delay(5000);
+  ReadNFC = false;
+  }
+  int count = sizeof(charBuf); 
+
+  for (int i = 6; i <= count; i++)
+  {
+    String a = "";
+    String b = "";
+
+    for (int j = 0; j < i; j++)
+    {
+      a += charBuf[j];
+    }
+    
+    for (int j = 0; j < i; j++)
+    {
+      if (j+i < count)
+      {
+      b += charBuf[j + i];
+      }
+    }
+    if(a == b)
+    {
+      Serial.println(a);
+    }
+  }
 }
 
 
