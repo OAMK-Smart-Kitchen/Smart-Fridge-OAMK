@@ -9,25 +9,15 @@ This int will be sended serial to the computer and the he will compare it with t
 #include <Wire.h>
 
 // NFC
-int incomingByte = 0;   // for incoming serial data
-String productID = "";
-String tempString = "";
-int minLengthID = 40;  // minimale lengte van NFC-tag ID
-bool acquaintance = false;
 
+int incomingByte = 0;         // for incoming serial data
 char charBuf[100];
+String incomingString = "";
+String tempString = "";
+String productID = "";
+int LengthBuffer = 100;
 bool ReadNFC = true;
-
-// NFC-ID's
-const String StartRef = "4852";
-const String Banana = "5352706548656557515256481310";
-const String Cucumber = "5167706548656557515256481310";
-const String Vegetables = "95951741188653153229235095951741188653153229235";
-const String Milk = "1185424654237125125125141153151143159229235";
-const String Ketchup = "118246147115125159125125141153151143159229235";
-const String NokiaID = "1019417886611451252292350101941788661145125229235";
-const String PhoneTom = "21424618224615024611886235021424618224615024611886235";
-const String PhoneHenry = "21424618224615024611886235021424618224615024611886235";
+int count = 100;
 
 
 void setup() {
@@ -43,52 +33,52 @@ void loop()
 {
 
   // ----- Switch-control -----
-  Wire.beginTransmission(57);  //Begin transmission to PCF8574 to activate RX (address: 111010)
-  Wire.write(1);         //Send data to PCF8574 (with the LEDs)
-  Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)
+  Wire.beginTransmission(57);        //Begin transmission to PCF8574 to activate RX-switch (address: 111001)
+  Wire.write(1);                     //Send data to PCF8574 to activate the switch
+  Wire.endTransmission();            //End Transmission to PCF8574
   // ----- End Switch-control -----
-
 
 
   // ----- NFC-Tag Detection -----
   if (Serial.available() > 0) {
     //productID = "S";
-    //Serial.print(incomingByte);
-    for (int i = 0; i <= 100; i++)
+    for (int i = 0; i <= LengthBuffer; i++)            // Put incomingbytes in a string of 100 chars
     {
       incomingByte = Serial.read();
       tempString = String(incomingByte);
-      productID += tempString;
+      incomingString += tempString;
     }
     //productID = productID + "E";
-    Serial.println(productID);
- 
-  productID.toCharArray(charBuf, 100);
-  productID = "";
-  ReadNFC = false;
+    incomingString.toCharArray(charBuf, LengthBuffer);  // Put incomingString (size 100) in char array (100)
+    incomingString = "";
   }
-  int count = sizeof(charBuf); 
+  int count = sizeof(charBuf);
 
-  for (int i = 6; i <= count; i++)
+  for (int i = 6; i <= count; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
   {
-    String a = "";
-    String b = "";
+    String boxA = "";
+    String boxB = "";
 
-    for (int j = 0; j < i; j++)
+    // Box A
+    for (int j = 0; j < i; j++)       // Make the first box bigger every round by adding the first chars starting from char 0 -> 6
     {
-      a += charBuf[j];
+      boxA += charBuf[j];             // Add the char at location J (Start: 0 -> 6 and increments each round)
     }
-    
-    for (int j = 0; j < i; j++)
+
+    // Box B
+    for (int j = 0; j < i; j++)      // Make the second box bigger every round by adding the chars starting from char 6 -> 12
     {
-      if (j+i < count)
+      if (j + i < count)             // As long as the locations are smaller than the buffersize
       {
-      b += charBuf[j + i];
+        boxB += charBuf[j + i];      // Add the char at the location i + j ( starting after chars from box A) 6 -> 12
       }
     }
-    if(a == b)
+
+    // Comparing the boxes
+    if (boxA == boxB)
     {
-      Serial.println(a);
+      productID = boxA;
+      Serial.println(productID);
     }
   }
 }
