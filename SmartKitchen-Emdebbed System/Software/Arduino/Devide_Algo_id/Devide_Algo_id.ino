@@ -14,11 +14,10 @@ int incomingByte = 0;         // for incoming serial data
 char charBuf[100];
 String incomingString = "";
 String tempString = "";
-String productID = "";
 int LengthBuffer = 100;
 bool ReadNFC = true;
 int count = 100;
-
+String productID = "";
 
 void setup() {
   // Serials
@@ -40,24 +39,29 @@ void loop()
 
 
   // ----- NFC-Tag Detection -----
-  if (Serial.available() > 0) {
-    //productID = "S";
-    for (int i = 0; i <= LengthBuffer; i++)            // Put incomingbytes in a string of 100 chars
-    {
+
+  //productID = "S";
+  for (int i = 0; i <= LengthBuffer; i++)            // Put incomingbytes in a string of 100 chars
+  {
+    if (Serial.available() > 0) {
       incomingByte = Serial.read();
       tempString = String(incomingByte);
       incomingString += tempString;
     }
     //productID = productID + "E";
-    incomingString.toCharArray(charBuf, LengthBuffer);  // Put incomingString (size 100) in char array (100)
-    incomingString = "";
+
   }
+  incomingString.toCharArray(charBuf, LengthBuffer);  // Put incomingString (size 100) in char array (100)
+  incomingString = "";
   int count = sizeof(charBuf);
 
   for (int i = 6; i <= count; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
   {
+
+
     String boxA = "";
     String boxB = "";
+
 
     // Box A
     for (int j = 0; j < i; j++)       // Make the first box bigger every round by adding the first chars starting from char 0 -> 6
@@ -70,16 +74,21 @@ void loop()
     {
       if (j + i < count)             // As long as the locations are smaller than the buffersize
       {
-        boxB += charBuf[j + i];      // Add the char at the location i + j ( starting after chars from box A) 6 -> 12
+        boxB += charBuf[j + i];      // Add the char at the location i + j (starting after chars from box A) 6 -> 12
       }
     }
 
     // Comparing the boxes
-    if (boxA == boxB)
+    if (boxA == boxB && boxA != "")
     {
       productID = boxA;
       Serial.println(productID);
     }
+  }
+  Serial.println(productID);
+  for ( int i = 0; i < count;  ++i )    // Clear buffer of chars
+  {
+    charBuf[i] = (char)0;
   }
 }
 
