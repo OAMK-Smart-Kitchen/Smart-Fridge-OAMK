@@ -82,7 +82,7 @@ void loop()
     if (boxA == boxB && boxA != "")
     {
       productID = boxA;          // Final productID
-      Serial.println(productID);
+      
     }
     /*
     else
@@ -96,7 +96,7 @@ void loop()
   {
     charBuf[i] = (char)0;
   }
-    
+  Serial.println(productID);
   delay(3000);
 }
 
