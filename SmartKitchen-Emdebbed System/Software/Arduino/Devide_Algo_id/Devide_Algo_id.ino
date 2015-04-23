@@ -81,15 +81,22 @@ void loop()
     // Comparing the boxes
     if (boxA == boxB && boxA != "")
     {
-      productID = boxA;
-      Serial.println(productID);
+      productID = boxA;          // Final productID
     }
+    /*
+    else
+    {
+      productID = "No product found";
+    }
+    */
   }
-  Serial.println(productID);
+
   for ( int i = 0; i < count;  ++i )    // Clear buffer of chars
   {
     charBuf[i] = (char)0;
   }
+    Serial.println(productID);
+  delay(3000);
 }
 
 
