@@ -43,14 +43,15 @@ void loop()
   //productID = "S";
   for (int i = 0; i <= LengthBuffer; i++)            // Put incomingbytes in a string of 100 chars
   {
-    if (Serial.available() > 0) {
+    if (Serial.available() > 0 ) {
       incomingByte = Serial.read();
       tempString = String(incomingByte);
       incomingString += tempString;
     }
-    //productID = productID + "E";
-
   }
+  //productID = productID + "E";
+
+
   incomingString.toCharArray(charBuf, LengthBuffer);  // Put incomingString (size 100) in char array (100)
   incomingString = "";
   int count = sizeof(charBuf);
@@ -79,26 +80,37 @@ void loop()
     }
 
     // Comparing the boxes
-    if (boxA == boxB && boxA != "")
+    if (boxA == boxB && boxA != "" && Serial.available() > 0)
     {
       productID = boxA;          // Final productID
-      Serial.println(productID);
+
     }
-    /*
     else
     {
-      productID = "No product found";
+      //productID = "No product found";
     }
-    */
   }
 
   for ( int i = 0; i < count;  ++i )    // Clear buffer of chars
   {
     charBuf[i] = (char)0;
   }
-    
-  delay(3000);
+  /*
+  if ( Serial.available() > 0)
+  {
+    Serial.println(productID);
+
+  }
+  else
+  {
+    Serial.println("No product found");
+  }
+  delay(1000); */
+   Serial.println(productID);
+   delay(1000);
+
 }
+
 
 
 
