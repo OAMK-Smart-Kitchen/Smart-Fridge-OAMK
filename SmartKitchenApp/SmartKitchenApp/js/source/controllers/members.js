@@ -14,6 +14,7 @@ app.controller('members', [
 
         var init = function () {
             console.log("members controller started");
+            playSoundWeclome();
         };
 
         /*
@@ -68,6 +69,11 @@ app.controller('members', [
                 title: "Add new family member to this kitchen",
                 message: endHtml
             });
+        };
+
+        var playSoundWeclome = function() {
+            var audio = new Audio('././sounds/welcome_dashboard.mp3');
+            audio.play();
         };
 
         /*
