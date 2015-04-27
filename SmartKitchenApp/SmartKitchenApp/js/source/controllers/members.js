@@ -14,7 +14,6 @@ app.controller('members', [
 
         var init = function () {
             console.log("members controller started");
-            playSoundWeclome();
         };
 
         /*
@@ -130,6 +129,7 @@ app.controller('members', [
         $scope.selectMember = function (num) {
             $rootScope.activeMember = $scope.allMembers[num];
             console.log("Selected APPuser ID: " + $rootScope.activeMember.Id + " \nFirst name: " + $rootScope.activeMember.Firstname);
+            playSoundWeclome();
             $location.path("/dashboard");
         };
 
