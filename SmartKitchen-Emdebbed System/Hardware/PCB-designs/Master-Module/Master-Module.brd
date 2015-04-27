@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.005" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.001" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -124,6 +124,9 @@
 <text x="35.2044" y="32.8168" size="2.54" layer="1">DUE SHILED</text>
 <text x="37.084" y="27.3812" size="1.9304" layer="1">Tom Mampaey</text>
 <text x="33.2232" y="24.384" size="1.6764" layer="1">Made in Finland - OAMK</text>
+<text x="1.651" y="21.971" size="1.778" layer="1" rot="SR270">12V DC</text>
+<text x="68.7578" y="10.6934" size="1.778" layer="1" rot="SR0">I2C BUS</text>
+<text x="9.2456" y="55.2958" size="1.27" layer="1" rot="SR180">SENSOR</text>
 </plain>
 <libraries>
 <library name="con-tycoelectronics">
@@ -3643,9 +3646,6 @@ design rules under a new name.</description>
 <wire x1="61.0212" y1="48.26" x2="61.0212" y2="50.8" width="0.6096" layer="1"/>
 <wire x1="38.481" y1="18.415" x2="38.4048" y2="18.4912" width="0.6096" layer="1"/>
 <via x="38.4048" y="18.4912" extent="1-16" drill="0.6" shape="square"/>
-<wire x1="38.4048" y1="18.4912" x2="33.6296" y2="18.4912" width="0.6096" layer="16"/>
-<wire x1="33.6296" y1="18.4912" x2="27.0764" y2="18.4912" width="0.6096" layer="16"/>
-<wire x1="27.0764" y1="18.4912" x2="17.8816" y2="27.686" width="0.6096" layer="16"/>
 <via x="17.8816" y="27.686" extent="1-16" drill="0.6" shape="square"/>
 <wire x1="17.8816" y1="27.686" x2="13.061" y2="27.686" width="0.6096" layer="1"/>
 <wire x1="13.061" y1="27.686" x2="13.055" y2="27.68" width="0.6096" layer="1"/>
@@ -3656,10 +3656,13 @@ design rules under a new name.</description>
 <wire x1="60.96" y1="49.4792" x2="61.0108" y2="49.5808" width="0.6096" layer="1"/>
 <wire x1="61.0108" y1="49.5808" x2="61.0108" y2="49.4284" width="0.6096" layer="1"/>
 <via x="61.0108" y="49.4284" extent="1-16" drill="0.6" shape="square"/>
-<wire x1="61.0108" y1="49.4284" x2="38.9128" y2="49.4792" width="0.6096" layer="16"/>
-<wire x1="38.9128" y1="49.4792" x2="33.5788" y2="44.1452" width="0.6096" layer="16"/>
-<wire x1="33.5788" y1="44.1452" x2="33.5788" y2="18.542" width="0.6096" layer="16"/>
-<wire x1="33.5788" y1="18.542" x2="33.6296" y2="18.4912" width="0.6096" layer="16"/>
+<wire x1="61.0108" y1="49.4284" x2="51.7144" y2="49.4284" width="0.6096" layer="16"/>
+<wire x1="51.7144" y1="49.4284" x2="38.354" y2="36.068" width="0.6096" layer="16"/>
+<wire x1="38.354" y1="36.068" x2="38.354" y2="27.3812" width="0.6096" layer="16"/>
+<wire x1="38.354" y1="27.3812" x2="38.354" y2="18.542" width="0.6096" layer="16"/>
+<wire x1="38.354" y1="18.542" x2="38.4048" y2="18.4912" width="0.6096" layer="16"/>
+<wire x1="17.8816" y1="27.686" x2="38.0492" y2="27.686" width="0.6096" layer="16"/>
+<wire x1="38.0492" y1="27.686" x2="38.354" y2="27.3812" width="0.6096" layer="16"/>
 </signal>
 <signal name="N$9">
 <contactref element="Q1" pad="2"/>
@@ -3705,9 +3708,6 @@ design rules under a new name.</description>
 <wire x1="51.0898" y1="45.1612" x2="34.3916" y2="45.1612" width="0.6096" layer="1"/>
 <wire x1="34.3916" y1="45.1612" x2="33.6654" y2="44.435" width="0.6096" layer="1"/>
 </signal>
-<signal name="N$11">
-<via x="8.89" y="50.5968" extent="1-16" drill="0.6" diameter="1.6764" shape="octagon"/>
-</signal>
 <signal name="N$12">
 <via x="13.97" y="46.355" extent="1-16" drill="0.9" diameter="2.1844" shape="octagon"/>
 </signal>
@@ -3748,7 +3748,6 @@ design rules under a new name.</description>
 <via x="66.802" y="22.225" extent="1-16" drill="0.9" diameter="2.1844" shape="octagon"/>
 </signal>
 <signal name="N$26">
-<via x="69.342" y="20.955" extent="1-16" drill="0.9" diameter="2.1844" shape="octagon"/>
 <via x="66.802" y="19.685" extent="1-16" drill="0.9" diameter="2.1844" shape="octagon"/>
 </signal>
 <signal name="N$27">
@@ -3756,6 +3755,9 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$28">
 <via x="66.802" y="24.765" extent="1-16" drill="0.9" diameter="2.1844" shape="octagon"/>
+</signal>
+<signal name="N$29">
+<via x="69.2912" y="20.955" extent="1-16" drill="1" diameter="2.1844" shape="octagon"/>
 </signal>
 </signals>
 </board>
