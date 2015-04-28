@@ -1,18 +1,18 @@
-float tempK=0, tempC=0, tempF=0;
- 
-void setup(){
- 
-Serial.begin(9600);    //Setup serial to 9600 bps
+int pin = 0;
+float readt;
+void setup() {
+pinMode(pin, INPUT);
+Serial.begin(9600);
+
 }
- 
-void loop(){
- 
-tempK = analogRead(0) * 0.004882812 * 100;    //Read temperature in Kelvins first
- 
-tempC = tempK - 273.15;    //Convert from Kelvin to Celsius
- 
-Serial.print("Celsius: "); Serial.println(tempC);
-Serial.println();    
- 
-delay(1000);   
+void loop() {
+float readt = analogRead(pin);
+float Kelvin = (analogRead(pin) - 903.00);
+float Celsius = Kelvin-273;
+float Fahrenheit=(Celsius)*(9/5)+32;
+
+Serial.println(Kelvin);
+
+delay(1000);
 }
+

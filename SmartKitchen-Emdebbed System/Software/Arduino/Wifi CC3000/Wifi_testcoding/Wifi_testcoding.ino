@@ -1,3 +1,4 @@
+
 /****************************************************************
 M2X_CC3000_Post.ino
 Post temperature data to AT&T's M2X
@@ -35,7 +36,7 @@ Distributed as-is; no warranty is given.
 #include <jsonlite.h>
 #include <M2XStreamClient.h>
 #include <Wire.h>
-#include <HTU21D.h>
+//#include <HTU21D.h>
 
 // Parameters
 #define POST_DELAY_MS   10000 // Post to stream every 10 seconds
@@ -50,21 +51,21 @@ Distributed as-is; no warranty is given.
 #define IP_ADDR_LEN     4   // Length of IP address in bytes
 
 // WiFi Constants
-#define AP_SSID         "<SSID>"      // SSID of network
-#define AP_PASSWORD     "<PASSWORD>"  // Password of network
+#define AP_SSID         "SmartKitchen"      // SSID of network
+#define AP_PASSWORD     "It's all about food!"  // Password of network
 #define AP_SECURITY     WLAN_SEC_WPA2 // Security of network
 #define TIMEOUT         30000         // Milliseconds
 
 // M2X Constants
-#define FEED_ID         "<FFED ID>"
-#define STREAM_NAME     "<STREAM NAME>"
-#define M2X_KEY         "<M2X MASTER KEY>"
+#define FEED_ID         "<2a107bdaa38112912c8d2f5597a8969c>"
+#define STREAM_NAME     "<Brains of the Smart Fridge!>"
+#define M2X_KEY         "<7e0a40b8062639fb00c4edea34da9321>"
 
 // Global Variables
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
 SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 M2XStreamClient m2x_client(&client, M2X_KEY);
-HTU21D sensor;
+//HTU21D sensor;
 float temp;
 int g_response;
 
@@ -79,7 +80,7 @@ void setup() {
   Serial.println(F("SparkFun CC3000 - M2X Post"));
 
   // Initialize HTU21D
-  sensor.begin();
+  //sensor.begin();
 
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
@@ -102,7 +103,7 @@ void setup() {
 void loop() {
 
   // Read sensor
-  temp = sensor.readTemperature();
+  temp = analogRead(0);
 
   // Print reading to console with degree symbol and 'C'
   Serial.print(F("Temperature: "));
