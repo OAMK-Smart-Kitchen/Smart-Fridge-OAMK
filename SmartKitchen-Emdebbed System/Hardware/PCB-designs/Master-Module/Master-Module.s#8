@@ -13934,6 +13934,62 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 </deviceset>
 </devicesets>
 </library>
+<library name="LM335">
+<packages>
+<package name="LM335">
+<pad name="P$1" x="0" y="1.5" drill="0.8" shape="long"/>
+<pad name="P$2" x="0" y="0" drill="0.8" shape="long"/>
+<pad name="P$3" x="0" y="-1.5" drill="0.8" shape="long"/>
+<wire x1="1.5" y1="-2.5" x2="-1.5" y2="-2.5" width="0.127" layer="21"/>
+<wire x1="-1.5" y1="-2.5" x2="-1.5" y2="2.5" width="0.127" layer="21"/>
+<wire x1="-1.5" y1="2.5" x2="1.5" y2="2.5" width="0.127" layer="21"/>
+<wire x1="1.5" y1="2.5" x2="1.5" y2="-2.5" width="0.127" layer="21" curve="-180"/>
+<wire x1="1.5" y1="-2.5" x2="1.5" y2="2.5" width="0.127" layer="21"/>
+<wire x1="1.5" y1="2.5" x2="2" y2="2.5" width="0.127" layer="21"/>
+<wire x1="2" y1="2.5" x2="2" y2="-2.5" width="0.127" layer="21"/>
+</package>
+</packages>
+<symbols>
+<symbol name="LM335">
+<pin name="ADJ" x="-10.16" y="-2.54" length="middle"/>
+<pin name="OUT" x="-10.16" y="0" length="middle"/>
+<pin name="GND" x="-10.16" y="2.54" length="middle"/>
+<wire x1="-5.08" y1="3.81" x2="-5.08" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-3.81" x2="2.54" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-6.35" x2="7.62" y2="-6.35" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-6.35" x2="7.62" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="5.08" y1="6.35" x2="2.54" y2="3.81" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="3.81" x2="2.54" y2="3.81" width="0.254" layer="94"/>
+<wire x1="2.54" y1="3.81" x2="2.54" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="2.54" y1="-3.81" x2="5.08" y2="-6.35" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-6.35" x2="5.08" y2="6.35" width="0.254" layer="94"/>
+<wire x1="5.08" y1="6.35" x2="7.62" y2="6.35" width="0.254" layer="94"/>
+<wire x1="7.62" y1="6.35" x2="7.62" y2="3.81" width="0.254" layer="94"/>
+<wire x1="2.54" y1="-3.81" x2="7.62" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-3.81" x2="7.62" y2="3.81" width="0.254" layer="94"/>
+<wire x1="7.62" y1="3.81" x2="2.54" y2="3.81" width="0.254" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="LM335">
+<gates>
+<gate name="G$1" symbol="LM335" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="LM335">
+<connects>
+<connect gate="G$1" pin="ADJ" pad="P$1"/>
+<connect gate="G$1" pin="GND" pad="P$3"/>
+<connect gate="G$1" pin="OUT" pad="P$2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -13957,6 +14013,7 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <part name="U$1" library="DUE-shield custom" deviceset="DUE(NORMAL)" device=""/>
 <part name="X1" library="con-power c" deviceset="K375M" device=""/>
 <part name="R3" library="rcl" deviceset="R-US_" device="R0402" value="2k2"/>
+<part name="U$2" library="LM335" deviceset="LM335" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -13967,7 +14024,7 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <text x="82.55" y="201.93" size="2.54" layer="95">5V REGULATION</text>
 <text x="180.34" y="146.05" size="2.54" layer="95">POWER IN 12V</text>
 <text x="185.42" y="87.63" size="2.54" layer="95">ULTRASONIC SENSOR</text>
-<text x="181.61" y="123.19" size="2.54" layer="95">TEMPERATURE - OUT</text>
+<text x="181.61" y="118.11" size="2.54" layer="95">TEMPERATURE - OUT</text>
 </plain>
 <instances>
 <instance part="J3" gate="G$1" x="166.37" y="90.17"/>
@@ -13983,6 +14040,7 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <instance part="U$1" gate="G$1" x="81.28" y="107.95"/>
 <instance part="X1" gate="G$1" x="172.72" y="139.7"/>
 <instance part="R3" gate="G$1" x="143.51" y="128.27" rot="R90"/>
+<instance part="U$2" gate="G$1" x="168.91" y="118.11"/>
 </instances>
 <busses>
 </busses>
@@ -14133,14 +14191,15 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <wire x1="46.99" y1="120.65" x2="43.18" y2="120.65" width="0.1524" layer="91"/>
 <wire x1="43.18" y1="120.65" x2="43.18" y2="123.19" width="0.1524" layer="91"/>
 <junction x="43.18" y="123.19"/>
-<wire x1="162.56" y1="120.65" x2="156.21" y2="120.65" width="0.1524" layer="91"/>
+<wire x1="158.75" y1="120.65" x2="156.21" y2="120.65" width="0.1524" layer="91"/>
 <wire x1="156.21" y1="120.65" x2="156.21" y2="137.16" width="0.1524" layer="91"/>
 <junction x="156.21" y="137.16"/>
+<pinref part="U$2" gate="G$1" pin="GND"/>
 </segment>
 </net>
 <net name="N$5" class="0">
 <segment>
-<wire x1="162.56" y1="118.11" x2="143.51" y2="118.11" width="0.1524" layer="91"/>
+<wire x1="158.75" y1="118.11" x2="143.51" y2="118.11" width="0.1524" layer="91"/>
 <wire x1="143.51" y1="118.11" x2="143.51" y2="52.07" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="A0"/>
 <wire x1="143.51" y1="52.07" x2="64.77" y2="52.07" width="0.1524" layer="91"/>
@@ -14148,6 +14207,7 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="143.51" y1="118.11" x2="143.51" y2="123.19" width="0.1524" layer="91"/>
 <junction x="143.51" y="118.11"/>
+<pinref part="U$2" gate="G$1" pin="OUT"/>
 </segment>
 </net>
 </nets>

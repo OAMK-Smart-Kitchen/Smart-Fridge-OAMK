@@ -14236,6 +14236,9 @@ www.irf.com&lt;p&gt;
 <text x="181.61" y="118.11" size="2.54" layer="95">TEMPERATURE - OUT</text>
 <text x="3.81" y="46.99" size="2.54" layer="95">Level convertion
 5 - 3.3</text>
+<text x="208.28" y="52.07" size="2.54" layer="94">Tom Mampaey</text>
+<text x="157.48" y="39.37" size="5.08" layer="94">Project 
+Smart Fridge</text>
 </plain>
 <instances>
 <instance part="J3" gate="G$1" x="166.37" y="90.17"/>

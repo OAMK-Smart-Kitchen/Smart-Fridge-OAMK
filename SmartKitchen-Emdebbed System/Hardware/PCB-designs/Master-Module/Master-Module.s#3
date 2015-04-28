@@ -14255,8 +14255,8 @@ Smart Fridge</text>
 <instance part="X1" gate="G$1" x="172.72" y="139.7"/>
 <instance part="R3" gate="G$1" x="143.51" y="128.27" rot="R90"/>
 <instance part="U$2" gate="G$1" x="168.91" y="118.11"/>
-<instance part="LED1" gate="G$1" x="185.42" y="172.72" rot="R270"/>
-<instance part="R4" gate="G$1" x="196.85" y="172.72" rot="R180"/>
+<instance part="LED1" gate="G$1" x="185.42" y="175.26" rot="R270"/>
+<instance part="R4" gate="G$1" x="196.85" y="175.26" rot="R180"/>
 <instance part="C3" gate="G$1" x="77.47" y="153.67" rot="R90"/>
 <instance part="C4" gate="G$1" x="93.98" y="153.67" rot="R90"/>
 <instance part="Q1" gate="G$1" x="17.78" y="74.93" rot="R90"/>
@@ -14306,6 +14306,9 @@ Smart Fridge</text>
 <wire x1="74.93" y1="153.67" x2="69.85" y2="153.67" width="0.1524" layer="91"/>
 <wire x1="69.85" y1="153.67" x2="69.85" y2="165.1" width="0.1524" layer="91"/>
 <junction x="69.85" y="165.1"/>
+<pinref part="LED1" gate="G$1" pin="C"/>
+<wire x1="180.34" y1="175.26" x2="153.67" y2="175.26" width="0.1524" layer="91"/>
+<junction x="153.67" y="175.26"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -14411,8 +14414,6 @@ Smart Fridge</text>
 <wire x1="163.83" y1="85.09" x2="156.21" y2="85.09" width="0.1524" layer="91"/>
 <wire x1="156.21" y1="85.09" x2="156.21" y2="87.63" width="0.1524" layer="91"/>
 <junction x="156.21" y="87.63"/>
-<pinref part="LED1" gate="G$1" pin="C"/>
-<wire x1="180.34" y1="172.72" x2="156.21" y2="172.72" width="0.1524" layer="91"/>
 <pinref part="C4" gate="G$1" pin="1"/>
 <wire x1="91.44" y1="153.67" x2="87.63" y2="153.67" width="0.1524" layer="91"/>
 <wire x1="87.63" y1="153.67" x2="87.63" y2="172.72" width="0.1524" layer="91"/>
@@ -14448,14 +14449,14 @@ Smart Fridge</text>
 <segment>
 <pinref part="R4" gate="G$1" pin="2"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
-<wire x1="191.77" y1="172.72" x2="187.96" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="191.77" y1="175.26" x2="187.96" y2="175.26" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$8" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
-<wire x1="201.93" y1="172.72" x2="207.01" y2="172.72" width="0.1524" layer="91"/>
-<wire x1="207.01" y1="172.72" x2="207.01" y2="165.1" width="0.1524" layer="91"/>
+<wire x1="201.93" y1="175.26" x2="207.01" y2="175.26" width="0.1524" layer="91"/>
+<wire x1="207.01" y1="175.26" x2="207.01" y2="165.1" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="A1" pin="VO"/>
 <wire x1="97.79" y1="193.04" x2="105.41" y2="193.04" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="2"/>

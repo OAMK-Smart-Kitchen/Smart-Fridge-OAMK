@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -14223,6 +14223,7 @@ www.irf.com&lt;p&gt;
 <part name="Q1" library="transistor-small-signal" deviceset="BSS123" device=""/>
 <part name="R5" library="rcl" deviceset="R-US_" device="R0402" value="10k"/>
 <part name="R6" library="rcl" deviceset="R-US_" device="R0402" value="10k"/>
+<part name="J4" library="con-tycoelectronics" deviceset="RJ11" device="" technology="-2L-B"/>
 </parts>
 <sheets>
 <sheet>
@@ -14262,6 +14263,7 @@ CONVERTION</text>
 <instance part="Q1" gate="G$1" x="29.21" y="43.18" rot="R90"/>
 <instance part="R5" gate="G$1" x="36.83" y="33.02" rot="R270"/>
 <instance part="R6" gate="G$1" x="20.32" y="52.07" rot="R90"/>
+<instance part="J4" gate="G$1" x="176.53" y="38.1"/>
 </instances>
 <busses>
 </busses>

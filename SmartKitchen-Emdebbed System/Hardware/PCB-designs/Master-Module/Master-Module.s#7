@@ -14037,7 +14037,7 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <instance part="R1" gate="G$1" x="110.49" y="182.88" rot="R90"/>
 <instance part="R2" gate="G$1" x="118.11" y="182.88" rot="R90"/>
 <instance part="FRAME1" gate="G$1" x="-8.89" y="31.75"/>
-<instance part="U$1" gate="G$1" x="81.28" y="107.95"/>
+<instance part="U$1" gate="G$1" x="81.28" y="102.87"/>
 <instance part="X1" gate="G$1" x="172.72" y="139.7"/>
 <instance part="R3" gate="G$1" x="143.51" y="128.27" rot="R90"/>
 <instance part="U$2" gate="G$1" x="168.91" y="118.11"/>
@@ -14090,8 +14090,8 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="118.11" y1="177.8" x2="118.11" y2="160.02" width="0.1524" layer="91"/>
 <junction x="118.11" y="160.02"/>
-<wire x1="30.48" y1="160.02" x2="30.48" y2="102.87" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="102.87" x2="46.99" y2="102.87" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="160.02" x2="30.48" y2="97.79" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="97.79" x2="46.99" y2="97.79" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="SDA"/>
 </segment>
 </net>
@@ -14108,8 +14108,8 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <pinref part="R1" gate="G$1" pin="1"/>
 <wire x1="110.49" y1="177.8" x2="110.49" y2="162.56" width="0.1524" layer="91"/>
 <junction x="110.49" y="162.56"/>
-<wire x1="27.94" y1="162.56" x2="27.94" y2="100.33" width="0.1524" layer="91"/>
-<wire x1="27.94" y1="100.33" x2="46.99" y2="100.33" width="0.1524" layer="91"/>
+<wire x1="27.94" y1="162.56" x2="27.94" y2="95.25" width="0.1524" layer="91"/>
+<wire x1="27.94" y1="95.25" x2="46.99" y2="95.25" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="SCL"/>
 </segment>
 </net>
@@ -14131,13 +14131,18 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <wire x1="118.11" y1="187.96" x2="118.11" y2="193.04" width="0.1524" layer="91"/>
 <wire x1="118.11" y1="193.04" x2="110.49" y2="193.04" width="0.1524" layer="91"/>
 <junction x="110.49" y="193.04"/>
-<wire x1="25.4" y1="165.1" x2="25.4" y2="125.73" width="0.1524" layer="91"/>
-<wire x1="25.4" y1="125.73" x2="46.99" y2="125.73" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="165.1" x2="25.4" y2="120.65" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="120.65" x2="46.99" y2="120.65" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="5V"/>
 <junction x="105.41" y="165.1"/>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="143.51" y1="165.1" x2="105.41" y2="165.1" width="0.1524" layer="91"/>
 <wire x1="143.51" y1="133.35" x2="143.51" y2="165.1" width="0.1524" layer="91"/>
+<pinref part="J3" gate="G$1" pin="1"/>
+<wire x1="163.83" y1="95.25" x2="153.67" y2="95.25" width="0.1524" layer="91"/>
+<wire x1="153.67" y1="95.25" x2="153.67" y2="165.1" width="0.1524" layer="91"/>
+<wire x1="153.67" y1="165.1" x2="143.51" y2="165.1" width="0.1524" layer="91"/>
+<junction x="143.51" y="165.1"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -14149,8 +14154,8 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <pinref part="J1" gate="G$1" pin="4"/>
 <wire x1="135.89" y1="185.42" x2="135.89" y2="167.64" width="0.1524" layer="91"/>
 <junction x="135.89" y="167.64"/>
-<wire x1="22.86" y1="167.64" x2="22.86" y2="80.01" width="0.1524" layer="91"/>
-<wire x1="46.99" y1="80.01" x2="22.86" y2="80.01" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="167.64" x2="22.86" y2="74.93" width="0.1524" layer="91"/>
+<wire x1="46.99" y1="74.93" x2="22.86" y2="74.93" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="RX0"/>
 </segment>
 </net>
@@ -14175,10 +14180,10 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <wire x1="92.71" y1="180.34" x2="87.63" y2="180.34" width="0.1524" layer="91"/>
 <pinref part="AGND4" gate="VR1" pin="AGND"/>
 <wire x1="130.81" y1="157.48" x2="130.81" y2="172.72" width="0.1524" layer="91"/>
-<wire x1="20.32" y1="172.72" x2="20.32" y2="123.19" width="0.1524" layer="91"/>
-<wire x1="20.32" y1="123.19" x2="43.18" y2="123.19" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="172.72" x2="20.32" y2="118.11" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="118.11" x2="43.18" y2="118.11" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="GND_1"/>
-<wire x1="43.18" y1="123.19" x2="46.99" y2="123.19" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="118.11" x2="46.99" y2="118.11" width="0.1524" layer="91"/>
 <wire x1="156.21" y1="137.16" x2="156.21" y2="139.7" width="0.1524" layer="91"/>
 <junction x="156.21" y="172.72"/>
 <pinref part="X1" gate="G$1" pin="3"/>
@@ -14188,26 +14193,44 @@ Source: &lt;a href="http://www.shallin.com/productview.aspx?itemnumber=K375M"&gt
 <pinref part="X1" gate="G$1" pin="2"/>
 <wire x1="167.64" y1="137.16" x2="156.21" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="GND_2"/>
-<wire x1="46.99" y1="120.65" x2="43.18" y2="120.65" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="120.65" x2="43.18" y2="123.19" width="0.1524" layer="91"/>
-<junction x="43.18" y="123.19"/>
+<wire x1="46.99" y1="115.57" x2="43.18" y2="115.57" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="115.57" x2="43.18" y2="118.11" width="0.1524" layer="91"/>
+<junction x="43.18" y="118.11"/>
 <wire x1="158.75" y1="120.65" x2="156.21" y2="120.65" width="0.1524" layer="91"/>
 <wire x1="156.21" y1="120.65" x2="156.21" y2="137.16" width="0.1524" layer="91"/>
 <junction x="156.21" y="137.16"/>
 <pinref part="U$2" gate="G$1" pin="GND"/>
+<pinref part="J3" gate="G$1" pin="4"/>
+<wire x1="163.83" y1="87.63" x2="156.21" y2="87.63" width="0.1524" layer="91"/>
+<wire x1="156.21" y1="87.63" x2="156.21" y2="120.65" width="0.1524" layer="91"/>
+<junction x="156.21" y="120.65"/>
+<pinref part="J3" gate="G$1" pin="5"/>
+<wire x1="163.83" y1="85.09" x2="156.21" y2="85.09" width="0.1524" layer="91"/>
+<wire x1="156.21" y1="85.09" x2="156.21" y2="87.63" width="0.1524" layer="91"/>
+<junction x="156.21" y="87.63"/>
 </segment>
 </net>
 <net name="N$5" class="0">
 <segment>
 <wire x1="158.75" y1="118.11" x2="143.51" y2="118.11" width="0.1524" layer="91"/>
-<wire x1="143.51" y1="118.11" x2="143.51" y2="52.07" width="0.1524" layer="91"/>
+<wire x1="143.51" y1="118.11" x2="143.51" y2="46.99" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="A0"/>
-<wire x1="143.51" y1="52.07" x2="64.77" y2="52.07" width="0.1524" layer="91"/>
-<wire x1="64.77" y1="52.07" x2="64.77" y2="62.23" width="0.1524" layer="91"/>
+<wire x1="143.51" y1="46.99" x2="64.77" y2="46.99" width="0.1524" layer="91"/>
+<wire x1="64.77" y1="46.99" x2="64.77" y2="57.15" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="143.51" y1="118.11" x2="143.51" y2="123.19" width="0.1524" layer="91"/>
 <junction x="143.51" y="118.11"/>
 <pinref part="U$2" gate="G$1" pin="OUT"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="J3" gate="G$1" pin="3"/>
+<wire x1="163.83" y1="90.17" x2="151.13" y2="90.17" width="0.1524" layer="91"/>
+<wire x1="151.13" y1="90.17" x2="151.13" y2="148.59" width="0.1524" layer="91"/>
+<wire x1="151.13" y1="148.59" x2="92.71" y2="148.59" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="7"/>
+<wire x1="92.71" y1="148.59" x2="92.71" y2="146.05" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
