@@ -39,7 +39,7 @@ Distributed as-is; no warranty is given.
 //#include <HTU21D.h>
 
 // Parameters
-#define POST_DELAY_MS   5000 // Post to stream every 10 seconds
+#define POST_DELAY_MS   10000 // Post to stream every 10 seconds
 #define DEGREE_SYMBOL   176   // Degree symbol for Serial.write
 
 // Pins
@@ -54,12 +54,15 @@ Distributed as-is; no warranty is given.
 #define AP_SSID         "SmartKitchen"      // SSID of network
 #define AP_PASSWORD     "It's all about food!"  // Password of network
 #define AP_SECURITY     WLAN_SEC_WPA2 // Security of network
-#define TIMEOUT         5000         // Milliseconds
+#define TIMEOUT         30000         // Milliseconds
 
 // M2X Constants
-#define FEED_ID         "2a107bdaa38112912c8d2f5597a8969c"
+#define FEED_ID         "2056ed385c70650c1b2633f9a854b7f4"
+//2a107bdaa38112912c8d2f5597a8969c
 #define STREAM_NAME     "Brains of the Smart Fridge!"
+//Brains of the Smart Fridge!
 #define M2X_KEY         "7e0a40b8062639fb00c4edea34da9321"
+//7e0a40b8062639fb00c4edea34da9321
 
 // Global Variables
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
@@ -77,7 +80,7 @@ void setup() {
   // Initialize UART for debugging
   Serial.begin(9600);
   Serial.println();
-  Serial.println(F("SparkFun CC3000 - M2X Post"));
+  Serial.println(F("Seesam at your service!"));
 
   // Initialize HTU21D
   //sensor.begin();
@@ -106,7 +109,7 @@ void loop() {
   temp = analogRead(0);
 
   // Print reading to console with degree symbol and 'C'
-  Serial.print(F("Temperature: "));
+  Serial.print(F("Temperature: ")); // print Flash memory based string
   Serial.print(temp, 2);
   Serial.write(176);
   Serial.println("C");
