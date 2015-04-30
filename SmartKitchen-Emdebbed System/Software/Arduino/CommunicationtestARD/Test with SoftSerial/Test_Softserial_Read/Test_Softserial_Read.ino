@@ -7,11 +7,10 @@ void setup() {
 void loop()
 {
   // read the incoming byte:
+  if(Serial.available()) {
   incomingByte = Serial.read();
-
-  // say what you got:
-  Serial.print("I received: ");
-  Serial.println((char)incomingByte);
+  Serial.print((char)incomingByte);
+  }
 
 }
 

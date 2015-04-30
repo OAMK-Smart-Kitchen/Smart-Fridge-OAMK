@@ -9,8 +9,7 @@ void setup() {
 
 void loop() {  
   // print labels 
-
-  Serial.print("ab"); // a = 97 b = 98
+  Serial.print("123456"); // a = 97 b = 98
 
   
     delay(200);            // delay 200 milliseconds
