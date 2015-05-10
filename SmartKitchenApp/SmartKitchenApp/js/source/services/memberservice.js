@@ -47,13 +47,19 @@
                 }
             },
             UpdateProfile: {
-                url: app.serviceUrl + 'Kitchen/Update',
+                url: app.serviceUrl + 'Member/Profile/:id',
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 params: {
-                    data: '@member'
+                    Firstname: '@firstname',
+                    Lastname: '@lastname',
+                    DateOfBirth: '@dateofbirth',
+                    Email: '@email',
+                    DefaultColor: '@defaultcolor',
+                    Active: '@active',
+                    GameActivated: '@gameactivated'
                 }
             },
             ForgotPassword: {

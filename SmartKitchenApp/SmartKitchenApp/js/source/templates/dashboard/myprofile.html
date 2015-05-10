@@ -37,7 +37,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : profileForm.email.$invalid && !profileForm.email.$pristine }">
                     <div class="input-group">
                         <span class="input-group-addon" id="addon-email"><b>Email</b></span>
-                        <input type="email" ng-value="editedMember.Email" name="email" aria-describedby="addon-email" class="form-control" ng-model="editedMember.Email" placeholder="Email" required>
+                        <input type="email" ng-value="editedMember.Email" ng-disabled="editMember.Admin" name="email" aria-describedby="addon-email" class="form-control" ng-model="editedMember.Email" placeholder="Email" required>
                     </div>
                     <p ng-show="profileForm.email.$invalid && !profileForm.email.$pristine" class="help-block">Your Email is required.</p>
                 </div>
@@ -45,7 +45,7 @@
                 <!-- GAME MODE -->
                 <div class="form-group" data-toggle="buttons">
                     <style>
-                        .btn.active {
+                       /* .btn.active {
                             display: none;
                         }
 
@@ -63,16 +63,34 @@
 
                         .btn.active span:last-child {
                             display: none;
-                        }
-                    </style>
-                    <label class="btn btn-success active" style="width:100%;">
-                        <input type="radio" ng-value="activeMember.GameActivated" name="options" id="option1" autocomplete="off" checked>
+                        }*/
+                        </style>
+                    <input type="radio" name="game" value="true" ng-model="editedMember.GameActivated">
+                    <input type="radio" name="game" value="false" ng-model="editedMember.GameActivated">
+                    <div class="form-group">
+                        <div class="radio">
+                            <label>
+                                <!--ng-click="toggleGameActivated('true')"-->
+                                <input type="radio" name="game" value="true" ng-model="editedMember.GameActivated">
+                                <i class="fa fa-check"></i> Game Mode Activated
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <!--ng-click="toggleGameActivated('false')"-->
+                                <input type="radio" name="game" value="false" ng-model="editedMember.GameActivated">
+                                <i class="fa fa-warning"></i> Game Mode Deactivated
+                            </label>
+                        </div>
+                    </div>
+                    <!--<label class="btn btn-success" style="width:100%;">
+                        <input type="radio" ng-model="editedMember.GameActivated" value="true" checked>
                         <i class="fa fa-check"></i> Game Mode Activated
                     </label>
-                    <label class="btn btn-danger" style="width:100%;">
-                        <input type="radio" ng-value="activeMember.GameActivated" name="options" id="option2" autocomplete="off">
+                    <label class="btn btn-danger active" style="width:100%;">
+                        <input type="radio" ng-model="editedMember.GameActivated" value="false">
                         <i class="fa fa-warning"></i> Game Mode Deactivated
-                    </label>
+                    </label>-->
                 </div>
                 <!-- SUBMIT BUTTON -->
                 <button type="submit" class="btn btn-primary" ng-disabled="profileForm.$invalid">Save Changes</button>
