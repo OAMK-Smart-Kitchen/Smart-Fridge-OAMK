@@ -1,0 +1,39 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ti.cc3x.android"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="10" />
+    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission  android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission  android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission  android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+	
+	
+    <application
+        android:icon="@drawable/appicon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <!-- Splashscreen activity -->
+        <activity
+            android:name=".CC3XSplashScreen"
+            android:configChanges="keyboardHidden|orientation|screenSize"  android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+         <!-- CC3XConfigActivity activity -->
+        <activity
+            android:name=".CC3XConfigActivity"   android:windowSoftInputMode="adjustPan|stateHidden"  android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+          <!-- About us screen activity -->
+        
+        <activity
+            android:name=".CC3XAboutUs"  android:windowSoftInputMode="stateAlwaysHidden" android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+    </application>
+
+</manifest>
