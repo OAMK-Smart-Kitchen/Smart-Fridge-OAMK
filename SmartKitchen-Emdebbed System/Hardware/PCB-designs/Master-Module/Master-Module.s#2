@@ -14496,15 +14496,15 @@ LEVEL CONVERT</text>
 <junction x="137.16" y="140.97"/>
 <junction x="93.98" y="140.97"/>
 <pinref part="C1" gate="G$1" pin="-"/>
-<wire x1="29.21" y1="140.97" x2="93.98" y2="140.97" width="0.1524" layer="91"/>
+<wire x1="31.75" y1="140.97" x2="93.98" y2="140.97" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="148.59" x2="93.98" y2="148.59" width="0.1524" layer="91"/>
 <junction x="93.98" y="148.59"/>
 <pinref part="C2" gate="G$1" pin="1"/>
 <wire x1="99.06" y1="148.59" x2="93.98" y2="148.59" width="0.1524" layer="91"/>
 <pinref part="AGND4" gate="VR1" pin="AGND"/>
 <wire x1="137.16" y1="125.73" x2="137.16" y2="140.97" width="0.1524" layer="91"/>
-<wire x1="29.21" y1="140.97" x2="29.21" y2="86.36" width="0.1524" layer="91"/>
-<wire x1="29.21" y1="86.36" x2="69.85" y2="86.36" width="0.1524" layer="91"/>
+<wire x1="31.75" y1="140.97" x2="31.75" y2="86.36" width="0.1524" layer="91"/>
+<wire x1="31.75" y1="86.36" x2="69.85" y2="86.36" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="GND_1"/>
 <wire x1="69.85" y1="86.36" x2="73.66" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="162.56" y1="105.41" x2="162.56" y2="107.95" width="0.1524" layer="91"/>
