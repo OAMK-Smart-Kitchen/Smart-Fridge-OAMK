@@ -23,10 +23,12 @@ void setup()
  
 void loop()
 {
-  deviceWrite(B00000001, MOD1);         // Set color Green
-  //delay(1000);                 
+  deviceWrite(B00000001, MOD1);         // Set color Green                 
   deviceWrite(B00000010, MOD2);         // Set color Red
-  //delay(1000);                   
+  delay(1000);          
+  deviceWrite(B00000001, MOD2);         // Set color Green                 
+  deviceWrite(B00000010, MOD1);         // Set color Red
+  delay(1000);  
 }
  
 void deviceWrite(byte txData, int Module_Address)
