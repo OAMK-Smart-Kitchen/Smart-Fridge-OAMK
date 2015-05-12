@@ -10,7 +10,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : profileForm.firstname.$invalid && !profileForm.firstname.$pristine }">
                     <div class="input-group">
                         <span class="input-group-addon" id="addon-firstname"><b>Firstname</b></span>
-                        <input type="text" name="firstname" aria-describedby="addon-firstname" class="form-control" ng-model="Member.Firstname" ng-minlength="2" placeholder="Firstname" required autofocus>
+                        <input type="text" name="firstname" ng-value="editedMember.Firstname" aria-describedby="addon-firstname" class="form-control" ng-model="editedMember.Firstname" ng-minlength="2" placeholder="Firstname" required autofocus>
                     </div>
                     <p ng-show="profileForm.firstname.$invalid && !profileForm.firstname.$pristine" class="help-block">Your firstname is required.</p>
                 </div>
@@ -19,7 +19,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : profileForm.lastname.$invalid && !profileForm.lastname.$pristine }">
                     <div class="input-group">
                         <span class="input-group-addon" id="addon-lastname"><b>Lastname</b></span>
-                        <input type="text" name="lastname" aria-describedby="addon-lastname" class="form-control" ng-model="Member.Lastname" ng-minlength="2" placeholder="Lastname" required>
+                        <input type="text" ng-value="editedMember.Lastname" name="lastname" aria-describedby="addon-lastname" class="form-control" ng-model="editedMember.Lastname" ng-minlength="2" placeholder="Lastname" required>
                     </div>
                     <p ng-show="profileForm.lastname.$invalid && !profileForm.lastname.$pristine" class="help-block">Your lastname is required.</p>
                 </div>
@@ -28,24 +28,30 @@
                 <div class="form-group" ng-class="{ 'has-error' : profileForm.dateofbirth.$invalid && !profileForm.dateofbirth.$pristine }">
                     <div class="input-group">
                         <span class="input-group-addon" id="addon-dateofbirth"><b>Date of Birth</b></span>
-                        <input type="date" name="dateofbirth" aria-describedby="addon-dateofbirth" class="form-control" ng-model="Member.DateOfBrith" placeholder="Date of birth" required>
+                        <input type="text" ng-value="editedMember.DateOfBirth" name="dateofbirth" aria-describedby="addon-dateofbirth" class="form-control" ng-model="editedMember.DateOfBirth" placeholder="dd-mm-yyyy" required ng-minlength="10" ng-maxlength="10">
                     </div>
-                    <p ng-show="profileForm.dateofbirth.$invalid && !profileForm.dateofbirth.$pristine" class="help-block">Your Date of Birth is required.</p>
+                    <p ng-show="profileForm.dateofbirth.$invalid && !profileForm.dateofbirth.$pristine" class="help-block">Your Date of Birth is required or incorrect.</p>
                 </div>
 
                 <!-- EMAIL -->
-                <div class="form-group" ng-class="{ 'has-error' : profileForm.email.$invalid && !profileForm.email.$pristine }">
+                <div class="form-group" ng-class="{ 'has-error' : profileForm.email.$invalid && !profileForm.email.$pristine }" ng-hide="editedMember.Admin == 'true'">
                     <div class="input-group">
                         <span class="input-group-addon" id="addon-email"><b>Email</b></span>
-                        <input type="email" name="email" aria-describedby="addon-email" class="form-control" ng-model="Member.Email" placeholder="Email" required>
+                        <input type="email" ng-value="editedMember.Email" name="email" aria-describedby="addon-email" class="form-control" ng-model="editedMember.Email" placeholder="Email" required>
                     </div>
                     <p ng-show="profileForm.email.$invalid && !profileForm.email.$pristine" class="help-block">Your Email is required.</p>
                 </div>
+                <div class="form-group" ng-hide="editedMember.Admin == 'false'">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="addon-email"><b>Email</b></span>
+                        <input type="email" ng-value="editedMember.Email" name="email" aria-describedby="addon-email" class="form-control" placeholder="Email" disabled="true">
+                    </div>
+                </div>
 
                 <!-- GAME MODE -->
-                <div class="form-group" data-toggle="buttons">
+                <!--<div class="form-group" data-toggle="buttons">
                     <style>
-                        .btn.active {
+                       /* .btn.active {
                             display: none;
                         }
 
@@ -63,17 +69,35 @@
 
                         .btn.active span:last-child {
                             display: none;
-                        }
-                    </style>
-                    <label class="btn btn-success active" style="width:100%;">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked>
+                        }*/
+                        </style>
+                    <input type="radio" name="game" value="true" ng-model="editedMember.GameActivated">
+                    <input type="radio" name="game" value="false" ng-model="editedMember.GameActivated">-->
+                    <!--<div class="form-group">
+                        <div class="radio">
+                            <label>-->
+                                <!--ng-click="toggleGameActivated('true')"-->
+                                <!--<input type="radio" name="game" value="true" ng-model="editedMember.GameActivated">
+                                <i class="fa fa-check"></i> Game Mode Activated
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>-->
+                                <!--ng-click="toggleGameActivated('false')"-->
+                                <!--<input type="radio" name="game" value="false" ng-model="editedMember.GameActivated">
+                                <i class="fa fa-warning"></i> Game Mode Deactivated
+                            </label>
+                        </div>
+                    </div>-->
+                    <!--<label class="btn btn-success" style="width:100%;">
+                        <input type="radio" ng-model="editedMember.GameActivated" value="true" checked>
                         <i class="fa fa-check"></i> Game Mode Activated
                     </label>
-                    <label class="btn btn-danger" style="width:100%;">
-                        <input type="radio" name="options" id="option2" autocomplete="off">
+                    <label class="btn btn-danger active" style="width:100%;">
+                        <input type="radio" ng-model="editedMember.GameActivated" value="false">
                         <i class="fa fa-warning"></i> Game Mode Deactivated
                     </label>
-                </div>
+                </div>-->
                 <!-- SUBMIT BUTTON -->
                 <button type="submit" class="btn btn-primary" ng-disabled="profileForm.$invalid">Save Changes</button>
 
@@ -89,14 +113,14 @@
         <div class="col-sm-6" style="vertical-align: middle;">
             <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
                 <img src="img/icons/measure-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
-                <h1 class="text-right" style="display:inline;font-size: 400%;"><b>175 cm</b></h1>
+                <h1 class="text-right" style="display:inline;font-size: 400%;"><b>{{activeMember.MemberLength[MemberLength.length-1].Value}} cm</b></h1>
             </button>
         </div>
         <!-- BODY WEIGHT -->
         <div class="col-sm-6" style="vertical-align: middle;">
             <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
                 <img src="img/icons/scale-weight-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
-                <p class="text-right" style="display:inline;font-size: 400%;"><b>65 kg</b></p>
+                <p class="text-right" style="display:inline;font-size: 400%;"><b>{{activeMember.MemberWeight[MemberWeight.length-1].Value}} kg</b></p>
             </button>
         </div>
     </div>

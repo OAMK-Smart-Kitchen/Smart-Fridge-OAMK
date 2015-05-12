@@ -1,3 +1,23 @@
 ﻿<div data-ng-controller="products" class="container">
     <h1 class="text-center">All Products</h1>
+    <table datatable="ng" class="row-border hover" style="margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Calories/100gr.</th>
+                <th>Expiration Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="product in AllFridgeProducts">
+                <td>{{ product.Name }}</td>
+                <td>{{ product.Category }}</td>
+                <td>{{ product.Quantity }}</td>
+                <td>{{ product.Calories }}</td>
+                <td>{{ product.ExpirationDate }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

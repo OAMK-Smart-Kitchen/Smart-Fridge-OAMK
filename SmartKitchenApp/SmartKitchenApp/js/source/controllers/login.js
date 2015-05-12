@@ -41,6 +41,9 @@ app.controller('login', [
         };
 
         var processData = function (data) {
+            app.CurrentKitchen.Id = data.Id;
+            app.CurrentKitchen.Name = data.Name;
+            app.CurrentKitchen.TemperatureFridge = data.TemperatureFridge;
             for (var i = 0; i < data.Members.length; i++) {
                 var selectedMember = data.Members[i];
                 $scope.allMembers.push(selectedMember);

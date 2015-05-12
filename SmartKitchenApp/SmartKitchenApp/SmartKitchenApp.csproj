@@ -57,6 +57,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\jquery.dataTables.css" />
+    <Content Include="css\jquery.dataTables.min.css">
+      <DependentUpon>jquery.dataTables.css</DependentUpon>
+    </Content>
+    <Content Include="css\jquery.dataTables_themeroller.css" />
     <Content Include="img\favicons\android-chrome-144x144.png" />
     <Content Include="img\favicons\android-chrome-192x192.png" />
     <Content Include="img\favicons\android-chrome-36x36.png" />
@@ -96,6 +101,11 @@
     <Content Include="img\icons\shoppingbag.png" />
     <Content Include="img\icons\graph.png" />
     <Content Include="img\icons\joypad.png" />
+    <Content Include="img\icons\sort_asc.png" />
+    <Content Include="img\icons\sort_asc_disabled.png" />
+    <Content Include="img\icons\sort_both.png" />
+    <Content Include="img\icons\sort_desc.png" />
+    <Content Include="img\icons\sort_desc_disabled.png" />
     <Content Include="img\icons\temperature-256.png" />
     <Content Include="img\icons\wine.png" />
     <Content Include="img\icons\settings.png" />
@@ -104,6 +114,7 @@
     <Content Include="img\icons\weather.png" />
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
+    <Content Include="js\source\controllers\products.js" />
     <Content Include="js\source\controllers\myHealth.js" />
     <Content Include="js\source\controllers\myProfile.js" />
     <Content Include="js\source\controllers\members.js" />
@@ -111,6 +122,7 @@
     <Content Include="js\source\controllers\about.js" />
     <Content Include="js\source\controllers\getstarted.js" />
     <Content Include="js\source\controllers\rootcontroller.js" />
+    <Content Include="js\source\services\fridgeproductsservice.js" />
     <Content Include="js\source\services\weatherservice.js" />
     <Content Include="js\source\templates\dashboard\dashboard.html" />
     <Content Include="js\source\templates\dashboard\members.html" />
@@ -120,12 +132,16 @@
     <Content Include="js\source\templates\dashboard\myprofile.html" />
     <Content Include="js\source\templates\dashboard\products.html" />
     <Content Include="js\source\templates\dashboard\shoppingbag.html" />
+    <Content Include="js\vendor\angular-datatables.js" />
+    <Content Include="js\vendor\angular-datatables.min.js" />
     <Content Include="js\vendor\angular-resource.js" />
     <Content Include="js\vendor\angular-resource.min.js.map" />
     <Content Include="js\vendor\angular-route.min.js.map" />
     <Content Include="js\vendor\angular.min.js.map" />
     <Content Include="js\vendor\angularjs-geolocation.min.js" />
     <Content Include="js\vendor\download.js" />
+    <Content Include="js\vendor\jquery.dataTables.js" />
+    <Content Include="js\vendor\jquery.dataTables.min.js" />
     <Content Include="js\vendor\jquery.min.map" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />

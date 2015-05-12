@@ -17,8 +17,6 @@ app.controller('dashboard', [
         var init = function () {
             console.log('dashboard controller started');
             getWeatherForecast();
-            var audio = new Audio('././sounds/welcome_dashboard.mp3');
-            audio.play();
         };
 
         /*

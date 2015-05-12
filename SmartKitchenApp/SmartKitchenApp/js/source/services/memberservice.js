@@ -1,7 +1,7 @@
 ﻿app.service('memberservice', [
     '$resource',
     function ($resource) {
-        var MemberService = $resource(app.serviceUrl, null, {
+        var MemberService = $resource(app.serviceUrl, { id: '@id' }, {
             Login: {
                 url: app.serviceUrl + 'Kitchen/Login',
                 method: "POST",
@@ -31,23 +31,35 @@
                 }
             },
             AddMember: {
-                url: app.serviceUrl + 'Members/Register',
+                url: app.serviceUrl + 'Kitchen/Member/:id',
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 params: {
-                    data: '@member'
+                    Firstname: '@firstname',
+                    Lastname: '@lastname',
+                    DateOfBirth: '@dateofbirth',
+                    Email: '@email',
+                    Password: '@password',
+                    Active: '@active',
+                    Admin: '@admin'
                 }
             },
             UpdateProfile: {
-                url: app.serviceUrl + 'Kitchen/Update',
+                url: app.serviceUrl + 'Member/Profile/:id',
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 params: {
-                    data: '@member'
+                    Firstname: '@firstname',
+                    Lastname: '@lastname',
+                    DateOfBirth: '@dateofbirth',
+                    Email: '@email',
+                    DefaultColor: '@defaultcolor',
+                    Active: '@active',
+                    GameActivated: '@gameactivated'
                 }
             },
             ForgotPassword: {
@@ -67,7 +79,7 @@
         var API = {
             memberLogin: MemberService.Login,
             memberRegister: MemberService.Register,
-            memberAdd: MemberService.AddMember,
+            addMember: MemberService.AddMember,
             updateProfile: MemberService.UpdateProfile,
             memberForgotPassword: MemberService.ForgotPassword
         };

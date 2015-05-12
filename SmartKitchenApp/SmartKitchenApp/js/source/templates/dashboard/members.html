@@ -5,14 +5,15 @@
             <div class="col-sm-4" style="margin-bottom: 20px;">
                 <button style="width: 100%;" class="btn btn-info" type="submit" ng-click="selectMember($index)">
                     <img src="img/icons/male3-256.png" height="150px" class="img-circle" style="display: block; margin: auto;" />
-                    <h3 class="text-center">{{member.Firstname}}</h3>
+                    <h3 class="text-center" style="display: inline;">{{member.Firstname}}</h3><span style="margin-left: 10px;" ng-show="member.Admin == 'true'" class="label label-primary">The Boss</span>
+                    
                 </button>
             </div>
         </div>
         <div class="col-sm-4" style="margin-bottom: 20px;">
             <button style="width: 100%;" class="btn btn-info" type="submit" ng-click="addMember()">
                 <img src="img/icons/add.png" height="150px" class="img-circle" style="display: block; margin: auto;"/>
-                <h3 class="text-center">Add Person</h3>
+                <h3 class="text-center" style="display: inline;">Add Person</h3>
             </button>
         </div>
     </div>
