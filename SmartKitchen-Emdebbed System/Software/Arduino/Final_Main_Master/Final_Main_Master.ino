@@ -80,7 +80,7 @@ void readID()
 {
     // ----- NFC-Tag Detection -----
 
-  //productID = "S";
+  productID = "S";
   for (int i = 0; i <= LengthBuffer; i++)            // Put incomingbytes in a string of 100 chars
   {
     if (Serial.available() > 0) {

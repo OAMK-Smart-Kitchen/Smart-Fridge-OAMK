@@ -33,22 +33,26 @@
 
 
 #include <Wire.h>
-
+int numberOfModules = 5
 void setup()
 {
   Wire.begin();
-  deviceWrite(B00000000, MOD1);          // Set all LEDs on
-  deviceWrite(B00000000, MOD2);          // Set all LEDs on
+   for (i=1; i< numberOfModules ;i++) // Declare all modules
+   {
+     deviceWrite(White, "MOD" + i);          // Set all LEDs on
+  }
 }
 
 void loop()
 {
-  deviceWrite(B00000000, MOD1_R);         // Set color Green
-  //deviceWrite(B00000010, MOD2);         // Set color Red
-  delay(5000);
-  //deviceWrite(B00000001, MOD2);         // Set color Green
-  deviceWrite(B00000001, MOD1_R);         // Set color Red
-  delay(5000);
+  deviceWrite(B00000000, MOD1);         
+  deviceWrite(B00000010, MOD2);         
+  deviceWrite(B00000010, MOD3); 
+  delay(1000);
+   deviceWrite(B00000000, MOD1);         
+  deviceWrite(B00000010, MOD2);         
+  deviceWrite(B00000010, MOD3); 
+  delay(1000);
 }
 
 void deviceWrite(byte txData, int Module_Address)
