@@ -1,4 +1,4 @@
-var app = angular.module('SmartKitchenApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'jsonDate', 'typeFilter', 'geolocation']);
+var app = angular.module('SmartKitchenApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'jsonDate', 'typeFilter', 'geolocation', 'datatables']);
 
 app.serviceUrl = 'http://api.verhofstadt.eu/service/';
 //app.serviceUrl = 'http://localhost:63666/service/';
