@@ -34,18 +34,19 @@ app.controller('myprofile', [
 
         $scope.editedMember = new app.Member(); //$rootScope.activeMember
         $scope.editedMember = $rootScope.activeMember;
+        $scope.editedMember.GameActivated = "true";
 
         /* Stap5: Scope functions
         -------------------------
         */
 
-        $scope.toggleGameActivated = function (isState) {
-            if (isState == "true") {
-                $scope.editedMember.GameActivated = "false";
-            } else if (isState == "false") {
-                $scope.editedMember.GameActivated = "true";
-            }
-        };
+        //$scope.toggleGameActivated = function (isState) {
+        //    if (isState == "true") {
+        //        $scope.editedMember.GameActivated = "false";
+        //    } else if (isState == "false") {
+        //        $scope.editedMember.GameActivated = "true";
+        //    }
+        //};
 
         $scope.editProfile = function (isValid) {
             if (isValid) {
