@@ -49,24 +49,27 @@ void setup()
 {
   Wire.begin();
   Serial.begin(9600);
-  deviceWrite(Off, MOD1);         
-  deviceWrite(Off, MOD2);     
-  deviceWrite(Off, MOD3);  
-  deviceWrite(Off, MOD4);  
-  deviceWrite(Off, MOD5);  
-  
-  deviceWrite(Off, MOD1_R);  
-  deviceWrite(Off, MOD2_R);  
-  deviceWrite(Off, MOD3_R);  
-  deviceWrite(Off, MOD4_R);  
-  deviceWrite(Off, MOD5_R);  
+  deviceWrite(Off, MOD1);
+  deviceWrite(Off, MOD2);
+  deviceWrite(Off, MOD3);
+  deviceWrite(Off, MOD4);
+  deviceWrite(Off, MOD5);
+
+  deviceWrite(Off, MOD1_R);
+  deviceWrite(Off, MOD2_R);
+  deviceWrite(Off, MOD3_R);
+  deviceWrite(Off, MOD4_R);
+  deviceWrite(Off, MOD5_R);
+
+
 }
 
 void loop()
 {
-  deviceWrite(Purple, MOD1);         // Set color Green
   deviceWrite(Read, MOD1_R);         // Set color Red
   readID();
+  deviceWrite(Purple, MOD1);         // Set color Green
+
 }
 
 void deviceWrite(byte txData, int Module_Address)
@@ -78,9 +81,9 @@ void deviceWrite(byte txData, int Module_Address)
 
 void readID()
 {
-    // ----- NFC-Tag Detection -----
+  // ----- NFC-Tag Detection -----
 
-  productID = "S";
+  //productID = "S";
   for (int i = 0; i <= LengthBuffer; i++)            // Put incomingbytes in a string of 100 chars
   {
     if (Serial.available() > 0) {
@@ -122,7 +125,7 @@ void readID()
     if (boxA == boxB && boxA != "")
     {
       productID = boxA;          // Final productID
-      
+
     }
     /*
     else

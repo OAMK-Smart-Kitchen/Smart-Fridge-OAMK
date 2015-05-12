@@ -32,7 +32,7 @@ void loop()
 {
 
   // ----- Switch-control -----
-  Wire.beginTransmission(57);        //Begin transmission to PCF8574 to activate RX-switch (address: 111001)
+  Wire.beginTransmission(61);        //Begin transmission to PCF8574 to activate RX-switch (address: 111001)
   Wire.write(1);                     //Send data to PCF8574 to activate the switch
   Wire.endTransmission();            //End Transmission to PCF8574
   // ----- End Switch-control -----
