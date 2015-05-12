@@ -1,8 +1,9 @@
 app.controller('products', [
     '$scope',
     '$location',
-    '$rootScope',
-    function ($scope, $location, $rootScope) {
+    '$http',
+    'fridgeproductsservice',
+    function ($scope, $location, $http, fridgeproductsservice) {
 
         /*
         Stap1: functie Init
@@ -11,6 +12,7 @@ app.controller('products', [
 
         var init = function () {
             console.log("products controller started");
+            processData();
         };
 
         /*
@@ -25,8 +27,34 @@ app.controller('products', [
         --------------------------------------------
         */
 
+        var processData = function() {
+            try {
+                var newUrl = app.serviceUrl + "Fridge/Products/" + app.CurrentKitchen.Id;
+                console.log(newUrl);
+                $http.get(newUrl).
+                    success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        $scope.AllFridgeProducts = data;
+                    }).
+                    error(function(data, status, headers, config) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                        console.dir("FAILED: Data returned from AllFridgeProducts\n" + data);
+                    });
+                //fridgeproductsservice.fridgeProducts({ 'id': app.CurrentKitchen.Id }).$promise
+                //    .then(function onSuccess(data) {
+                //        // Data stored successfull
+                //        $scope.AllFridgeProducts = data;
+                //    }, function onFail(data) {
+                //        // Something went wrong
+                //        console.dir("FAILED: Data returned from AllFridgeProducts\n" + data);
+                //    });
 
-     
+            } catch (e) {
+                console.log("FAILED Catched: " + e);
+            }
+        };
+
         /*
         Stap4: Scope vars
         ------------------
@@ -37,7 +65,6 @@ app.controller('products', [
         /* Stap5: Scope functions
         -------------------------
         */
-        
 
        
         /* Stap6: init aanroepen
