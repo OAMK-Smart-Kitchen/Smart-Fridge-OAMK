@@ -72,7 +72,14 @@ void setup()
 
 void loop()
 {
-  DetectUser();
+  if (DetectUser())
+  {
+  deviceWrite(Green, MOD1);
+  }
+  else
+  {
+  deviceWrite(Red, MOD1);
+  }
   //productID = "";
  /* deviceWrite(Red, MOD2);
   deviceWrite(BrightBlue, MOD1);
