@@ -1,0 +1,12 @@
+ http://api.verhofstadt.eu/service/Hardware/Product HTTP/1.1
+Host: api.verhofstadt.eu
+Connection: keep-alive
+Content-Length: 53
+Cache-Control: no-cache
+Content-Type: application/json
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36
+Accept: */*
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: nl-NL,nl;q=0.8,en-US;q=0.6,en;q=0.4
+
+{"IdNFC":"48525352706548656557515256481310","Address":"0071","Available":"true"}
