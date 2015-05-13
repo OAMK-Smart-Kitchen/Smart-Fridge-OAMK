@@ -63,31 +63,31 @@ SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
 SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 
 void setup() {
-
+  
   ConnectionInfo connection_info;
   int i;
-
+  
   // Initialize Serial port
   Serial.begin(115200);
   Serial.println();
-  Serial.println("---------------------------");
-  Serial.println("SparkFun CC3000 - WebClient");
-  Serial.println("---------------------------");
-
+  Serial.println("-------------------------------------");
+  Serial.println("Wifi Module CC3000 - PUT to Server SF");
+  Serial.println("-------------------------------------");
+  
   // Initialize CC3000 (configure SPI communications)
   if ( wifi.init() ) {
     Serial.println("CC3000 initialization complete");
   } else {
     Serial.println("Something went wrong during CC3000 init!");
   }
-
+  
   // Connect using DHCP
   Serial.print("Connecting to SSID: ");
   Serial.println(ap_ssid);
-  if (!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
+  if(!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
     Serial.println("Error: Could not connect to AP");
   }
-
+  
   // Gather connection details and print IP address
   if ( !wifi.getConnectionInfo(connection_info) ) {
     Serial.println("Error: Could not obtain connection details");
@@ -101,55 +101,51 @@ void setup() {
     }
     Serial.println();
   }
-
+  
   // Make a TCP connection to remote host
-  Serial.print("Performing HTTP PUT to: ");
+  Serial.print("Performing HTTP PUT of: ");
   Serial.println(server);
   if ( !client.connect(server, 80) ) {
     Serial.println("Error: Could not make a TCP connection");
   }
-
-  // Make a HTTP PUT request
-  client.print("PUT http://api.verhofstadt.eu/service/Hardware/Product HTTP/1.1");
-  client.print("Host: api.verhofstadt.eu");
-  //client.println(server);
-  client.print("Connection: keep-alive");
-  client.print("Cache-Control: no-cache");
-  client.print{"Content-Type: application/json");
-  client.print("User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36");
-  client.print("Accept: */*");
-  client.print("Accept-Encoding: gzip, deflate, sdch");
-  client.print("Accept-Language: nl-NL,nl;q=0.8,en-US;q=0.6,en;q=0.4");
-  client.print();
-  client.print("{'IdNFC':'48525352706548656557515256481310','Address':'0056','Available':'true'}");
+  /*
+  // Make a HTTP GET request
+  client.println("GET /index.html HTTP/1.1");
+  client.print("Host: ");
+  client.println(server);
+  client.println("Connection: close");
+  client.println();
   Serial.println();
+ 
+  */
 }
 
 void loop() {
-
+  
   // If there are incoming bytes, print them
   if ( client.available() ) {
-    char c = client.read();
-    Serial.print(c);
+    //char c = client.read();
+   // Serial.print(c);
+   Serial.println("beschikbaar");
   }
-
+  
   // If the server has disconnected, stop the client and wifi
   if ( !client.connected() ) {
     Serial.println();
-
+    
     // Close socket
     if ( !client.close() ) {
       Serial.println("Error: Could not close socket");
     }
-
+    
     // Disconnect WiFi
     if ( !wifi.disconnect() ) {
       Serial.println("Error: Could not disconnect from network");
     }
-
+    
     // Do nothing
     Serial.println("Finished WebClient test");
-    while (true) {
+    while(true){
       delay(1000);
     }
   }
