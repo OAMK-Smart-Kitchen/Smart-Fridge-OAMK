@@ -35,7 +35,6 @@
 #include <Wire.h>
 
 // NFC
-
 int incomingByte = 0;         // for incoming serial data
 char charBuf[100];
 String incomingString = "";
@@ -44,6 +43,13 @@ int LengthBuffer = 100;
 bool ReadNFC = true;
 int count = 100;
 String productID = "";
+int ReadDelay = 500;
+
+// UserDetection
+int duration;                //Stores duration of pulse in
+int distance;                // Stores distance
+int sensorpin = 7;
+int UserDistance = 30;       // in cm 
 
 void setup()
 {
@@ -66,10 +72,18 @@ void setup()
 
 void loop()
 {
-  deviceWrite(Read, MOD1_R);         // Set color Red
-  readID();
-  deviceWrite(Purple, MOD1);         // Set color Green
-
+  DetectUser();
+  //productID = "";
+ /* deviceWrite(Red, MOD2);
+  deviceWrite(BrightBlue, MOD1);
+  deviceWrite(Read, MOD1_R);
+  //readID();
+  delay(5000);
+  deviceWrite(Red, MOD1);
+  deviceWrite(BrightBlue, MOD2);
+  deviceWrite(Read, MOD2_R);
+  //readID();
+  delay(5000); */
 }
 
 void deviceWrite(byte txData, int Module_Address)
@@ -101,7 +115,6 @@ void readID()
   for (int i = 6; i <= count; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
   {
 
-
     String boxA = "";
     String boxB = "";
 
@@ -127,12 +140,6 @@ void readID()
       productID = boxA;          // Final productID
 
     }
-    /*
-    else
-    {
-      productID = "No product found";
-    }
-    */
   }
 
   for ( int i = 0; i < count;  ++i )    // Clear buffer of chars
@@ -140,6 +147,33 @@ void readID()
     charBuf[i] = (char)0;
   }
   Serial.println(productID);
-  delay(3000);
+  //delay(ReadDelay);
+}
+
+boolean DetectUser()
+{
+ pinMode(sensorpin, OUTPUT);
+  digitalWrite(sensorpin, LOW);                          // Make sure pin is low before sending a short high to trigger ranging
+  delayMicroseconds(2);
+  digitalWrite(sensorpin, HIGH);                         // Send a short 10 microsecond high burst on pin to start ranging
+  delayMicroseconds(10);
+  digitalWrite(sensorpin, LOW);                                  // Send pin low again before waiting for pulse back in
+  pinMode(sensorpin, INPUT);
+  duration = pulseIn(sensorpin, HIGH);                        // Reads echo pulse in from SRF05 in micro seconds
+  distance = duration/58;                                      // Dividing this by 58 gives us a distance in cm
+  Serial.print("Seesam says: ");
+  if( distance < UserDistance)
+  {
+    Serial.println("USER DETECTED IN FRONT OF FRIDGE!");
+    return true;
+  }
+  else
+  {
+  Serial.print("Motion detected on ");                                              // Wait before looping to do it again
+  Serial.println(distance);
+  return false;
+  }
+  delay(500);   
 
 }
+
