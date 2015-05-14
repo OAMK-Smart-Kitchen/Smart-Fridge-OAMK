@@ -123,6 +123,7 @@ void loop()
     
     String stringOne = "";
     stringOne.concat(test);
+    
     char charBuf[50];
     stringOne.toCharArray(charBuf, 50) ;
   }

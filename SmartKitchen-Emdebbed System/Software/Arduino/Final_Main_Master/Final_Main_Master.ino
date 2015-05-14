@@ -143,6 +143,7 @@ void readID()
   
   charBuf = tempcharBuf;
   
+  
 
   for (int i = 6; i <= LengthCharArr; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
   {
