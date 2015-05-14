@@ -126,19 +126,7 @@ void loop()
     // client.println(data);
     client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0005\",\"Available\":\"true\"}");
     // END WORKING !!
-
-/*
-    client.println("POST /service/service/Fridge/Product/1 HTTP/1.1");
-    client.println("Host: api.verhofstadt.eu");
-    client.println("User-Agent: Arduino/1.0");
-    client.println("Connection: close");
-    client.print("Content-Length: ");
-    client.println(PostData.length());
-    client.println();
-    client.println(PostData);
-*/
-
-    delay(100);
+    delay(3000);
 
     //  }
     // client.stop();
