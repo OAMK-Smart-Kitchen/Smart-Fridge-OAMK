@@ -48,10 +48,18 @@ void CheckInit()
 
 String GetId()
 {
-  return GetContent('B');
+  return GetContentByFilterOn('D');
+}
+String GetAddress()
+{
+  return GetContentByFilterOn('A');
+}
+String GetAvailability()
+{
+  return GetContentByFilterOn('B');
 }
 
-String GetContent(char filter)
+String GetContentByFilterOn(char filter)
 {
   bool readd = false;
   bool stopread = false;
