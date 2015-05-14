@@ -26,7 +26,7 @@ char ap_password[] = "12345678";          // Password of network
 unsigned int ap_security = WLAN_SEC_WPA2; // Security of network
 unsigned int timeout = 30000;             // Milliseconds
 char server[] = "api.verhofstadt.eu";     // Remote host site
-String data = "{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0005\",\"Available\":\"true\"}";
+String data = " ";
 
 // Global Variables
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
@@ -95,7 +95,11 @@ void setup() {
 
 void loop()
 {
-  Serial.println(data.length());
+  String NFC_ID = "48525352706548656557515256481310";
+  String Address_Prod = "63";
+  boolean Available = true;
+  data = "{\"IdNFC\":\"" + NFC_ID + "\",\"Address\":\"" + Address_Prod + "\",\"Available\":\"" + (String)Available + "\"}";
+
   if (client.connect(server, 80))
   {
     if (client.connected())
@@ -104,7 +108,7 @@ void loop()
       client.print("Host: ");
       client.println(server);
       client.print("Content-Length: ");
-      client.println(data.length()); // deleting quotes 
+      client.println(data.length()); // deleting quotes
       client.println("Cache-Control: no-cache");
       //client.println("Connection: keep-alive");
       //client.println("Content-Type: text/plain; charset=utf-8");
@@ -112,8 +116,8 @@ void loop()
       //client.println("Accept-Encoding: gzip, deflate, sdch");
       client.println("Content-Type: application/json");
       client.println();
-      // client.println(data);
-      client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0156\",\"Available\":\"true\"}");
+      client.println(data);
+      //client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0156\",\"Available\":\"true\"}");
       delay(3000);
     }
     //client.stop();
@@ -135,7 +139,7 @@ void loop()
   }
 
   delay(10);
-  
+
   /*
   // If there are incoming bytes, print them
   if ( client.available() )
