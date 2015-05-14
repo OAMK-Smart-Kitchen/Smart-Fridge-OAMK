@@ -12,12 +12,14 @@
 #define IP_ADDR_LEN     4   // Length of IP address in bytes
 
 // Constants
-char ap_ssid[] = "SmartKitchen";                  // SSID of network
+char ap_ssid[] = "SmartKitchen";          // SSID of network
 char ap_password[] = "12345678";          // Password of network
 unsigned int ap_security = WLAN_SEC_WPA2; // Security of network
 unsigned int timeout = 30000;             // Milliseconds
-char server[] = "api.verhofstadt.eu";        // Remote host site
-String data = "'IdNFC':'48525352706548656557515256481310','Address':'0056','Available':'true'"; // testdata
+char server[] = "api.verhofstadt.eu";     // Remote host site
+//String data = "'IdNFC':'48525352706548656557515256481310','Address':'0056','Available':'true'"; // testdata
+String data = "{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0002\",\"Available\":\"true\"}";
+
 
 // Global Variables
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
@@ -91,21 +93,51 @@ void loop()
   {
     // if (client.connected())
     // {     Serial.println("ja!");
-
-    client.println("PUT /service/Hardware/Product HTTP/1.1");
-    client.println("Host: www.api.verhofstadt.eu");
+    /*
+     client.println("POST /service/service/Fridge/Product/1");
+    client.println("Host: api.verhofstadt.eu");
     //client.println(server);
     client.println("Content-Length: ");
     client.println(data.length());
-    client.println("Connection: keep-alive");
+    //client.println("Connection: keep-alive");
     client.println("Cache-Control: no-cache");
-    //client.println("text/html; charset=\"UTF-8\"");
-    //client.println("Content-Transfer-Encoding: base64");
+    //client.println("Content-Type: text/plain; charset=utf-8");
+    // client.println("Content-Transfer-Encoding: base64");
     client.println("Content-Type: application/json");
     //client.println("Accept-Encoding: gzip, deflate, sdch");
     client.println();
-    client.println(data);
-    //client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0056\",\"Available\":\"true\"}");
+    // client.println(data);
+    client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Name\":\"Pablo\",\"Category\":\"lekker\",\"Calories\":\"56\",\"Quantity\":\"3\",\"ExpirationDate\":\"25-03-1994\",\"Available\":\"false\"}");
+    delay(100); */
+    
+    // WORKING !!
+    client.println("PUT /service/Hardware/Product HTTP/1.1");
+    client.println("Host: api.verhofstadt.eu");
+    //client.println(server);
+    client.println("Content-Length: 80");
+    //client.println(data.length());
+    //client.println("Connection: keep-alive");
+    client.println("Cache-Control: no-cache");
+    //client.println("Content-Type: text/plain; charset=utf-8");
+    // client.println("Content-Transfer-Encoding: base64");
+    client.println("Content-Type: application/json");
+    //client.println("Accept-Encoding: gzip, deflate, sdch");
+    client.println();
+    // client.println(data);
+    client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0005\",\"Available\":\"true\"}");
+    // END WORKING !!
+
+/*
+    client.println("POST /service/service/Fridge/Product/1 HTTP/1.1");
+    client.println("Host: api.verhofstadt.eu");
+    client.println("User-Agent: Arduino/1.0");
+    client.println("Connection: close");
+    client.print("Content-Length: ");
+    client.println(PostData.length());
+    client.println();
+    client.println(PostData);
+*/
+
     delay(100);
 
     //  }
