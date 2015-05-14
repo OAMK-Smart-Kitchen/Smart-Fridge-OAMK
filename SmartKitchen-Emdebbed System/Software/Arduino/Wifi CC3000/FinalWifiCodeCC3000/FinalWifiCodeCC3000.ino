@@ -28,6 +28,12 @@ unsigned int timeout = 30000;             // Milliseconds
 char server[] = "api.verhofstadt.eu";     // Remote host site
 String data = " ";
 
+// Reading from Master Module
+boolean ReadContent = false;
+boolean ReadID = false;
+boolean ReadAddress = false;
+boolean ReadAvb = false;
+char FilterChar = 'X';
 // Global Variables
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
 SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
@@ -35,12 +41,12 @@ SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 void setup() {
   Serial.begin(9600);
   Serial1.begin(9600);
-
+  /*
   ConnectionInfo connection_info;
   int i;
   // Initialize Serial port
   //Serial.begin(115200);
-  
+
   Serial.println("----------------------------------");
   Serial.println("SmartFridge CC3000 - PUT to Server");
   Serial.println("----------------------------------");
@@ -97,102 +103,121 @@ void setup() {
 }
 
 void loop()
-{/*
-    String incomingByte = "";   // for incoming serial data
+{
+  String NFC_ID = "";
+  String Address_Prod = "";
+  boolean Available = true;
+
+  String ReadContent = ReadMasterModule('X');
+  Address_Prod = ReadMasterModule('A', ReadContent);
+  Serial.print(Address_Prod);
+  /*
+    if (incomingByte != "") {
+      Serial.print(incomingByte);
+    }
+  */
+
+  data = "{\"IdNFC\":\"" + NFC_ID + "\",\"Address\":\"" + Address_Prod + "\",\"Available\":\"" + (String)Available + "\"}";
+  /*
+    if (client.connect(server, 80))
+    {
+      if (client.connected())
+      {
+        client.println("PUT /service/Hardware/Product HTTP/1.1");
+        client.print("Host: ");
+        client.println(server);
+        client.print("Content-Length: ");
+        client.println(data.length()); // deleting quotes
+        client.println("Cache-Control: no-cache");
+        //client.println("Connection: keep-alive");
+        //client.println("Content-Type: text/plain; charset=utf-8");
+        //client.println("Content-Transfer-Encoding: base64");
+        //client.println("Accept-Encoding: gzip, deflate, sdch");
+        client.println("Content-Type: application/json");
+        client.println();
+        client.println(data);
+        //client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0156\",\"Available\":\"true\"}");
+        delay(3000);
+      }
+      //client.stop();
+      //Serial.println("stopping");
+    }
+    else
+    {
+      Serial.println("Error: Could not make a TCP connection");
+    }
+
+    for (int i = 0; i < 20; i++)
+    {
+      char c = client.read();
+      Serial.print(c);
+    }
+
+    if (client.connected()) {
+      client.stop();	// DISCONNECT FROM THE SERVER
+    }
+
+    delay(10);
+
+    /*
+    // If there are incoming bytes, print them
+    if ( client.available() )
+    {
+      char z = client.read();
+      Serial.print(z);
+      Serial.println("Beschikbaar");
+    }
+
+
+    // Close socket
+    if ( !client.close() ) {
+      Serial.println("Error: Could not close socket");
+    }
+
+    // Disconnect WiFi
+    if ( !wifi.disconnect() ) {
+      Serial.println("Error: Could not disconnect from network");
+    }
+
+    // Do nothing
+    //while (true) {
+    //  delay(1000);
+    // }
+    */
+}
+
+String ReadMasterModule(char FilterChar)
+{
+  String incomingByte = "";   // for incoming serial data
   char character;
   // read the incoming byte:
   if (Serial1.available()) {
     character = Serial1.read();
-    incomingByte.concat(character); // Combines, or concatenates strings
-  }
-Serial.print(incomingByte);
-  if (incomingByte != "") {
-   // Serial.print(incomingByte);
-  }
-  */
-  String NFC_ID = "48525352706548656557515256481310";
-  String Address_Prod = "26";
-  boolean Available = true;
-  data = "{\"IdNFC\":\"" + NFC_ID + "\",\"Address\":\"" + Address_Prod + "\",\"Available\":\"" + (String)Available + "\"}";
-
-  if (client.connect(server, 80))
-  {
-    if (client.connected())
-    {
-      client.println("PUT /service/Hardware/Product HTTP/1.1");
-      client.print("Host: ");
-      client.println(server);
-      client.print("Content-Length: ");
-      client.println(data.length()); // deleting quotes
-      client.println("Cache-Control: no-cache");
-      //client.println("Connection: keep-alive");
-      //client.println("Content-Type: text/plain; charset=utf-8");
-      //client.println("Content-Transfer-Encoding: base64");
-      //client.println("Accept-Encoding: gzip, deflate, sdch");
-      client.println("Content-Type: application/json");
-      client.println();
-      client.println(data);
-      //client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0156\",\"Available\":\"true\"}");
-      delay(3000);
+    
+    if (character == FilterChar) {
+      if (ReadContent)
+      {
+        ReadContent = false;
+        //FilterChar = 'A';
+        return incomingByte;
+      }
     }
-    //client.stop();
-    //Serial.println("stopping");
+    else
+    {
+      ReadContent = true;
+      incomingByte = "";
+    }
+
+    if (ReadContent)
+    {
+      incomingByte.concat(character); // Combines, or concatenates strings
+      //Serial.print(incomingByte);
+    }
   }
-  else
-  {
-    Serial.println("Error: Could not make a TCP connection");
-  }
-
-  for (int i = 0; i < 20; i++)
-  {
-    char c = client.read();
-    Serial.print(c);
-  }
-
-  if (client.connected()) {
-    client.stop();	// DISCONNECT FROM THE SERVER
-  }
-
-  delay(10);
-
-  /*
-  // If there are incoming bytes, print them
-  if ( client.available() )
-  {
-    char z = client.read();
-    Serial.print(z);
-    Serial.println("Beschikbaar");
-  }
-
-
-  // Close socket
-  if ( !client.close() ) {
-    Serial.println("Error: Could not close socket");
-  }
-
-  // Disconnect WiFi
-  if ( !wifi.disconnect() ) {
-    Serial.println("Error: Could not disconnect from network");
-  }
-
-  // Do nothing
-  //while (true) {
-  //  delay(1000);
-  // }
-  */
 }
 
-void ReadMasterModule()
-{ 
-  String incomingByte = "";   // for incoming serial data
-  char character;
-  // read the incoming byte:
-  if (Serial.available()) {
-    character = Serial.read();
-    incomingByte.concat(character); // Combines, or concatenates strings
-  }
+String readAddress()
+{
+ 
 
-  if (incomingByte != "") {
-    Serial.println(incomingByte);
-  }
 }
