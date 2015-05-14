@@ -37,9 +37,9 @@
 // NFC
 int incomingByte = 0;         // for incoming serial data
 char charBuf[100];
+char tempcharBuf[100];
 String incomingString = "";
 String tempString = "";
-int LengthBuffer = 100;
 bool ReadNFC = true;
 int count = 100;
 String productID = "";
@@ -49,7 +49,7 @@ int ReadDelay = 500;
 int duration;                //Stores duration of pulse in
 int distance;                // Stores distance
 int sensorpin = 7;
-int UserDistance = 30;       // in cm 
+int UserDistance = 30;       // in cm
 
 void setup()
 {
@@ -72,6 +72,13 @@ void setup()
 
 void loop()
 {
+  deviceWrite(Red, MOD1);
+  deviceWrite(Read, MOD1_R);
+  readID();
+  //deviceWrite(Yellow, MOD1);
+  //deviceWrite(Off, MOD1_R);
+
+  /*
   if (DetectUser())
   {
   deviceWrite(Green, MOD1);
@@ -79,18 +86,18 @@ void loop()
   else
   {
   deviceWrite(Red, MOD1);
-  }
+  }*/
   //productID = "";
- /* deviceWrite(Red, MOD2);
-  deviceWrite(BrightBlue, MOD1);
-  deviceWrite(Read, MOD1_R);
-  //readID();
-  delay(5000);
-  deviceWrite(Red, MOD1);
-  deviceWrite(BrightBlue, MOD2);
-  deviceWrite(Read, MOD2_R);
-  //readID();
-  delay(5000); */
+  /* deviceWrite(Red, MOD2);
+   deviceWrite(BrightBlue, MOD1);
+   deviceWrite(Read, MOD1_R);
+   //readID();
+   delay(5000);
+   deviceWrite(Red, MOD1);
+   deviceWrite(BrightBlue, MOD2);
+   deviceWrite(Read, MOD2_R);
+   //readID();
+   delay(5000); */
 }
 
 void deviceWrite(byte txData, int Module_Address)
@@ -103,9 +110,9 @@ void deviceWrite(byte txData, int Module_Address)
 void readID()
 {
   // ----- NFC-Tag Detection -----
-
+  int LengthCharArr = sizeof(charBuf);
   //productID = "S";
-  for (int i = 0; i <= LengthBuffer; i++)            // Put incomingbytes in a string of 100 chars
+  for (int i = 0; i <= LengthCharArr; i++)            // Put incomingbytes in a string of 100 chars
   {
     if (Serial.available() > 0) {
       incomingByte = Serial.read();
@@ -115,11 +122,29 @@ void readID()
     //productID = productID + "E";
 
   }
-  incomingString.toCharArray(charBuf, LengthBuffer);  // Put incomingString (size 100) in char array (100)
+  incomingString.toCharArray(charBuf, LengthCharArr);  // Put incomingString (size 100) in char array (100)
   incomingString = "";
-  int count = sizeof(charBuf);
+  
+  boolean StartShifting = false;
+  int index = 0;
+  for (int i = 0; i <= LengthCharArr; i++) 
+  {
+    if(charBuf[i] == '4' && charBuf[i+1] == '8' && charBuf[i+2] == '5' && charBuf[i+3] == '2' && (i+3) < LengthCharArr) // Shifting array
+    {
+       StartShifting = true;
+    }
+    if(StartShifting)
+    {
+      tempcharBuf[index] = charBuf[i];
+      index++;
+    }
+  
+  }
+  
+  charBuf = tempcharBuf;
+  
 
-  for (int i = 6; i <= count; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
+  for (int i = 6; i <= LengthCharArr; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
   {
 
     String boxA = "";
@@ -135,7 +160,7 @@ void readID()
     // Box B
     for (int j = 0; j < i; j++)      // Make the second box bigger every round by adding the chars starting from char 6 -> 12
     {
-      if (j + i < count)             // As long as the locations are smaller than the buffersize
+      if (j + i < LengthCharArr)             // As long as the locations are smaller than the buffersize
       {
         boxB += charBuf[j + i];      // Add the char at the location i + j (starting after chars from box A) 6 -> 12
       }
@@ -149,7 +174,7 @@ void readID()
     }
   }
 
-  for ( int i = 0; i < count;  ++i )    // Clear buffer of chars
+  for ( int i = 0; i < LengthCharArr;  ++i )    // Clear buffer of chars
   {
     charBuf[i] = (char)0;
   }
@@ -159,7 +184,7 @@ void readID()
 
 boolean DetectUser()
 {
- pinMode(sensorpin, OUTPUT);
+  pinMode(sensorpin, OUTPUT);
   digitalWrite(sensorpin, LOW);                          // Make sure pin is low before sending a short high to trigger ranging
   delayMicroseconds(2);
   digitalWrite(sensorpin, HIGH);                         // Send a short 10 microsecond high burst on pin to start ranging
@@ -167,20 +192,20 @@ boolean DetectUser()
   digitalWrite(sensorpin, LOW);                                  // Send pin low again before waiting for pulse back in
   pinMode(sensorpin, INPUT);
   duration = pulseIn(sensorpin, HIGH);                        // Reads echo pulse in from SRF05 in micro seconds
-  distance = duration/58;                                      // Dividing this by 58 gives us a distance in cm
+  distance = duration / 58;                                    // Dividing this by 58 gives us a distance in cm
   Serial.print("Seesam says: ");
-  if( distance < UserDistance)
+  if ( distance < UserDistance)
   {
     Serial.println("USER DETECTED IN FRONT OF FRIDGE!");
     return true;
   }
   else
   {
-  Serial.print("Motion detected on ");                                              // Wait before looping to do it again
-  Serial.println(distance);
-  return false;
+    Serial.print("Motion detected on ");                                              // Wait before looping to do it again
+    Serial.println(distance);
+    return false;
   }
-  delay(500);   
+  delay(500);
 
 }
 

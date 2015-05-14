@@ -33,6 +33,9 @@ boolean ReadContent = false;
 boolean ReadID = false;
 boolean ReadAddress = false;
 boolean ReadAvb = false;
+ String som = "";
+ char test[56];
+ 
 char FilterChar = 'X';
 // Global Variables
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
@@ -102,22 +105,36 @@ void setup() {
     Serial.println(); */
 }
 
+
 void loop()
 {
   String NFC_ID = "";
   String Address_Prod = "";
   boolean Available = true;
+ 
 
-  String ReadContent = ReadMasterModule('X');
-  Address_Prod = ReadMasterModule('A', ReadContent);
-  Serial.print(Address_Prod);
+  //String ReadContent = ReadMasterModule('X');
+  if (Serial1.available()) {
+    char test = Serial1.read();
+    
+    som.concat(test);
+    //som.toCharArray(test,56);
+    //Serial.println(test);
+    
+    String stringOne = "";
+    stringOne.concat(test);
+    char charBuf[50];
+    stringOne.toCharArray(charBuf, 50) ;
+  }
+  //Address_Prod = ReadMasterModule('A');
+  //Serial.print(ReadContent);
   /*
     if (incomingByte != "") {
       Serial.print(incomingByte);
     }
   */
 
-  data = "{\"IdNFC\":\"" + NFC_ID + "\",\"Address\":\"" + Address_Prod + "\",\"Available\":\"" + (String)Available + "\"}";
+  //data = "{\"IdNFC\":\"" + NFC_ID + "\",\"Address\":\"" + Address_Prod + "\",\"Available\":\"" + (String)Available + "\"}";
   /*
     if (client.connect(server, 80))
     {
@@ -188,12 +205,13 @@ void loop()
 
 String ReadMasterModule(char FilterChar)
 {
+  /*
   String incomingByte = "";   // for incoming serial data
   char character;
   // read the incoming byte:
   if (Serial1.available()) {
     character = Serial1.read();
-    
+
     if (character == FilterChar) {
       if (ReadContent)
       {
@@ -213,11 +231,6 @@ String ReadMasterModule(char FilterChar)
       incomingByte.concat(character); // Combines, or concatenates strings
       //Serial.print(incomingByte);
     }
-  }
+  } */
 }
 
-String readAddress()
-{
- 
-
-}
