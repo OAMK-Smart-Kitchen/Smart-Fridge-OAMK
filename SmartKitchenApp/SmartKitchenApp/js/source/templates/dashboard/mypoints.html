@@ -1,5 +1,24 @@
 ﻿<div data-ng-controller="mypoints" class="container">
     <h1 class="text-center">My Health</h1>
-    <h2 class="text-center">My Points <span class="label label-warning">2800</span></h2>
-
+    <h2 class="text-center">My Points <span class="label label-warning">{{ MyPoints }}</span></h2>
+    <table datatable="ng" class="row-border hover" style="margin-top: 20px;">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Calories</th>
+            <th>Points</th>
+            <th>Duration (min)</th>
+            <th>Exercise</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="exercise in AllExercises">
+            <td>{{ exercise.Name }}</td>
+            <td>{{ exercise.Calories }}</td>
+            <td>{{ exercise.Points }}</td>
+            <td>{{ exercise.Duration }}</td>
+            <td><button type="button" ng-click="DoExercise($index)" class="btn btn-success">Start Exercise</button></td>
+        </tr>
+        </tbody>
+    </table>
 </div>

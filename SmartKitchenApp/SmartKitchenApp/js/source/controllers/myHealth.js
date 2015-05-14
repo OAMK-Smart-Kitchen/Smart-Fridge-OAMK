@@ -10,7 +10,7 @@ app.controller('myhealth', [
         */
 
         var init = function () {
-            console.log('My Health controller started');
+            console.log("My Health controller started");
         };
 
         /*
@@ -32,7 +32,7 @@ app.controller('myhealth', [
         ------------------
         */
 
-
+        $scope.MyPoints = $rootScope.activeMember.GamePoints;
 
         /* Stap5: Scope functions
         -------------------------
