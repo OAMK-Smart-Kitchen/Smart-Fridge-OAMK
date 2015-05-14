@@ -33,11 +33,14 @@ SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
 SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 
 void setup() {
+  Serial.begin(9600);
+  Serial1.begin(9600);
 
   ConnectionInfo connection_info;
   int i;
   // Initialize Serial port
-  Serial.begin(115200);
+  //Serial.begin(115200);
+  
   Serial.println("----------------------------------");
   Serial.println("SmartFridge CC3000 - PUT to Server");
   Serial.println("----------------------------------");
@@ -94,9 +97,21 @@ void setup() {
 }
 
 void loop()
-{
+{/*
+    String incomingByte = "";   // for incoming serial data
+  char character;
+  // read the incoming byte:
+  if (Serial1.available()) {
+    character = Serial1.read();
+    incomingByte.concat(character); // Combines, or concatenates strings
+  }
+Serial.print(incomingByte);
+  if (incomingByte != "") {
+   // Serial.print(incomingByte);
+  }
+  */
   String NFC_ID = "48525352706548656557515256481310";
-  String Address_Prod = "63";
+  String Address_Prod = "26";
   boolean Available = true;
   data = "{\"IdNFC\":\"" + NFC_ID + "\",\"Address\":\"" + Address_Prod + "\",\"Available\":\"" + (String)Available + "\"}";
 
@@ -165,4 +180,19 @@ void loop()
   //  delay(1000);
   // }
   */
+}
+
+void ReadMasterModule()
+{ 
+  String incomingByte = "";   // for incoming serial data
+  char character;
+  // read the incoming byte:
+  if (Serial.available()) {
+    character = Serial.read();
+    incomingByte.concat(character); // Combines, or concatenates strings
+  }
+
+  if (incomingByte != "") {
+    Serial.println(incomingByte);
+  }
 }
