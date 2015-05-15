@@ -13,13 +13,15 @@ app.controller('mypoints', [
         var init = function () {
             console.log("My Points controller started");
             processDataPoints();
+            //loadYouTube();
         };
 
         /*
         Stap2: Controller vars (niet in scope!)
         ------------------------------------------
         */
-        
+
+        var youtubeTimer;
 
         /*
         Stap3: Controller functions (niet in scope!)
@@ -29,7 +31,7 @@ app.controller('mypoints', [
         var processDataPoints = function () {
             try {
                 var newUrl = app.serviceUrl + "Exercises";
-                console.log(newUrl);
+                //console.log(newUrl);
                 $http.get(newUrl).
                     success(function (data, status, headers, config) {
                         // this callback will be called asynchronously
@@ -45,7 +47,24 @@ app.controller('mypoints', [
                 console.log("FAILED Catched: " + e);
             }
         };
-     
+
+        var videoEnded = function() {
+            console.log("Show Popup");
+            $rootScope.activeMember.GamePoints = parseInt($scope.currentVideo.Points) + parseInt($rootScope.activeMember.GamePoints);
+            bootbox.hideAll();
+            var congrats = "<h3 class='text-center'>You've earned<br /><span class='label label-success'>+ " + $scope.currentVideo.Points + "</span> Points!</h3>";
+            bootbox.dialog({
+                title: "<h1 class='text-center'>Congratulations!</h1>",
+                message: congrats,
+                buttons: {
+                    success: {
+                        label: "Oh yeah!",
+                        className: "btn-success"
+                    }
+                }
+            });
+        };
+
         /*
         Stap4: Scope vars
         ------------------
@@ -58,78 +77,29 @@ app.controller('mypoints', [
         -------------------------
         */
 
-        $scope.DoExercise = function(id) {
-            try {
-                $scope.currentVideo = $scope.AllExercises[id];
-                // This code loads the IFrame Player API code asynchronously.
-                var tag = document.createElement('script');
-
-                tag.src = "https://www.youtube.com/iframe_api";
-                var firstScriptTag = document.getElementsByTagName('script')[0];
-                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                console.log("Before YT method");
-                //    This function creates an <iframe> (and YouTube player)
-                //    after the API code downloads.
-                var player;
-                window.onYouTubeIframeAPIReady = function () {
-                    console.log("inYoutubeMethod");
-
-                    player = new YT.Player('youtubePlayer', {
-                        videoId: $scope.currentVideo.Url,
-                        width: 868,
-                        height: 488,
-                        playerVars: {
-                            'autoplay': 1,
-                            'controls': 0,
-                            'start': $scope.currentVideo.StartSeconds,
-                            'end': $scope.currentVideo.StopSeconds,
-                            'disablekb': 1,
-                            'color': 'white'
-                        },
-                        events: {
-                            'onReady': onPlayerReady,
-                            'onStateChange': onPlayerStateChange,
-                        }
-                    });
-
-                }
-
-                bootbox.dialog({
-                    closeButton: false,
-                    title: "Your exercise!",
-                    message: '<div id="youtubePlayer"></div>',
-                    size: "large",
-                    buttons: {
-                        danger: {
-                            label: "Stop Exercise",
-                            className: "btn-default"
+        $scope.DoExercise = function (id) {
+            $scope.currentVideo = $scope.AllExercises[id];
+            var intervalTime = ($scope.currentVideo.StopSeconds - $scope.currentVideo.StartSeconds + 5) * 1000; //Added 5sec for loading in the beginning.
+            youtubeTimer = setTimeout(function() { videoEnded() }, intervalTime);
+            var iframeCreate = "<iframe width=\"868\" height=\"488\" src=\"//www.youtube.com/embed/" + $scope.currentVideo.Url + "?rel=0&autoplay=1&start=" + $scope.currentVideo.StartSeconds + "&end=" + $scope.currentVideo.StopSeconds + "&controls=0&iv_load_policy=3&disablekb=1&theme=light&color=white\" frameborder=\"0\" style=\"pointer-events: none;\" allowfullscreen></iframe>";
+            bootbox.dialog({
+                closeButton: false,
+                title: $scope.currentVideo.Name,
+                message: iframeCreate,
+                size: "large",
+                buttons: {
+                    danger: {
+                        label: "Stop Exercise",
+                        className: "btn-default",
+                        callback: function() {
+                            console.log("Video Stopped by User");
+                            window.clearTimeout(youtubeTimer);
                         }
                     }
-                });
-
-                // 4. The API will call this function when the video player is ready.
-                function onPlayerReady(event) {
-                    event.target.setVolume(100);
-                    event.target.playVideo();
                 }
-
-                // 5. The API calls this function when the player's state changes.
-                //    The function indicates that when playing a video (state=1),
-                function onPlayerStateChange(event) {
-                    if (event.data == YT.PlayerState.ENDED) {
-                        bootbox.hideAll();
-                        bootbox.alert("Video Done!");
-                    }
-                }
-                function stopVideo() {
-                    player.stopVideo();
-                }
-                
-            } catch (e) {
-                console.log("Error: " + e);
-            }
+            });
         };
-       
+
         /* Stap6: init aanroepen
         --------------------
         */
