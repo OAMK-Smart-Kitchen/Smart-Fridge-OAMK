@@ -22,13 +22,13 @@ const String PhoneHenry = "21424618224615024611886235021424618224615024611886235
 
 void setup()
 {
-  //Wire.begin();
+  Wire.begin();
   Serial.begin(9600);
 }
  
 void loop()
 {
-  Wire.beginTransmission(56);  //Begin transmission to PCF8574 to activate RX (address: 111010)
+  Wire.beginTransmission(57);  //Begin transmission to PCF8574 to activate RX (address: 111010)
   Wire.write(1);         //Send data to PCF8574 (with the LEDs)
   Wire.endTransmission();      //End Transmission to PCF8574 (with the LEDs)
   //Send = Serial.read();
@@ -37,7 +37,7 @@ void loop()
   // ----- NFC-Tag Detection -----
   if (Serial.available() > 0) {
     incomingByte = Serial.read();
-    if (incomingByte == 0 && productID.length() >= minLengthID)
+    if (incomingByte == 0 )
     {
       Serial.print("NFC-ID: ");
       // Software on computer will do this in futere (Database)
