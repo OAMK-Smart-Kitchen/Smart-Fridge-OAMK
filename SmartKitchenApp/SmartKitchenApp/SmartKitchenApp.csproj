@@ -62,6 +62,9 @@
       <DependentUpon>jquery.dataTables.css</DependentUpon>
     </Content>
     <Content Include="css\jquery.dataTables_themeroller.css" />
+    <Content Include="css\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
     <Content Include="img\favicons\android-chrome-144x144.png" />
     <Content Include="img\favicons\android-chrome-192x192.png" />
     <Content Include="img\favicons\android-chrome-36x36.png" />
@@ -114,6 +117,7 @@
     <Content Include="img\icons\weather.png" />
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
+    <Content Include="js\source\controllers\myPoints.js" />
     <Content Include="js\source\controllers\products.js" />
     <Content Include="js\source\controllers\myHealth.js" />
     <Content Include="js\source\controllers\myProfile.js" />

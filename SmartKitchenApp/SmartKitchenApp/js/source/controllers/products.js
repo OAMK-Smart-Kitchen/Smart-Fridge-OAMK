@@ -41,14 +41,6 @@ app.controller('products', [
                         // or server returns response with an error status.
                         console.dir("FAILED: Data returned from AllFridgeProducts\n" + data);
                     });
-                //fridgeproductsservice.fridgeProducts({ 'id': app.CurrentKitchen.Id }).$promise
-                //    .then(function onSuccess(data) {
-                //        // Data stored successfull
-                //        $scope.AllFridgeProducts = data;
-                //    }, function onFail(data) {
-                //        // Something went wrong
-                //        console.dir("FAILED: Data returned from AllFridgeProducts\n" + data);
-                //    });
 
             } catch (e) {
                 console.log("FAILED Catched: " + e);
