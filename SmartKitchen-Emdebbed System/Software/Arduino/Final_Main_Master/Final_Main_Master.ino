@@ -76,14 +76,6 @@ void loop()
   ModuleWrite(Off, MOD1_R);
   ModuleWrite(Off, MOD2_R);
   readID();
- 
-  //ModuleWrite(Red, MOD2);
-  //ModuleWrite(Read, MOD2_R);
-  //ModuleWrite(Red, MOD3);
-  //ModuleWrite(Read, MOD3_R);
-  //readID();
-  //deviceWrite(Yellow, MOD1);
-  //deviceWrite(Off, MOD1_R);
 
   /*
   if (DetectUser())
@@ -94,17 +86,6 @@ void loop()
   {
   ModuleWrite(Red, MOD1);
   }*/
-  //productID = "";
-  /* deviceWrite(Red, MOD2);
-   deviceWrite(BrightBlue, MOD1);
-   deviceWrite(Read, MOD1_R);
-   //readID();
-   delay(5000);
-   deviceWrite(Red, MOD1);
-   deviceWrite(BrightBlue, MOD2);
-   deviceWrite(Read, MOD2_R);
-   //readID();
-   delay(5000); */
 }
 
 void ModuleWrite(byte txData, int Module_Address)
