@@ -13,14 +13,15 @@ app.controller('products', [
         var init = function () {
             console.log("products controller started");
             processData();
+            reloadDate = setInterval(function () { processData() }, 3000);
         };
 
         /*
         Stap2: Controller vars (niet in scope!)
         ------------------------------------------
         */
-        
 
+        var reloadDate;
 
         /*
         Stap3: Controller functions (niet in scope!)

@@ -13,7 +13,6 @@ app.controller('mypoints', [
         var init = function () {
             console.log("My Points controller started");
             processDataPoints();
-            //loadYouTube();
         };
 
         /*
