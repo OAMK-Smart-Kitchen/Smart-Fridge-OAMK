@@ -29,14 +29,11 @@ char server[] = "api.verhofstadt.eu";     // Remote host site
 String data = " ";
 
 // Reading from Master Module
-boolean ReadContent = false;
-boolean ReadID = false;
-boolean ReadAddress = false;
-boolean ReadAvb = false;
- String som = "";
- char test[56];
- 
-char FilterChar = 'X';
+char incommingByte;
+String incommingString;
+char charArray[150];
+bool initComplete = false;
+
 // Global Variables
 SFE_CC3000 wifi = SFE_CC3000(CC3000_INT, CC3000_EN, CC3000_CS);
 SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
@@ -112,28 +109,22 @@ void loop()
   String Address_Prod = "";
   boolean Available = true;
  
-
-  //String ReadContent = ReadMasterModule('X');
-  if (Serial1.available()) {
-    char test = Serial1.read();
+ if (Serial1.available())
+  {
+    incommingByte = Serial1.read();
     
-    som.concat(test);
-    //som.toCharArray(test,56);
-    //Serial.println(test);
-    
-    String stringOne = "";
-    stringOne.concat(test);
-    
-    char charBuf[50];
-    stringOne.toCharArray(charBuf, 50) ;
+    incommingString.concat(incommingByte);
+    incommingString.toCharArray(charArray,150);
   }
-  //Address_Prod = ReadMasterModule('A');
-  //Serial.print(ReadContent);
-  /*
-    if (incomingByte != "") {
-      Serial.print(incomingByte);
-    }
-  */
+  
+  if (!initComplete)
+  {
+    CheckInit();
+  }
+  else
+  {
+     Serial.println(GetAddress()); 
+  }
 
   //data = "{\"IdNFC\":\"" + NFC_ID + "\",\"Address\":\"" + Address_Prod + "\",\"Available\":\"" + (String)Available + "\"}";
   /*
@@ -235,3 +226,62 @@ String ReadMasterModule(char FilterChar)
   } */
 }
 
+void CheckInit()
+{
+  int count = 0;
+  for(int i = 0; i < sizeof(charArray); i++)
+  {
+    if(charArray[i] == 'X')
+    {
+      count++;
+    }     
+  } 
+  if(count >= 2)
+  {
+    initComplete = true;
+  }
+}
+
+String GetContentByFilterOn(char filter)
+{
+  bool readd = false;
+  bool stopread = false;
+  String content = "";
+  for(int i = 0; i < sizeof(charArray); i++)
+  {      
+    if (stopread)
+    {
+      return content;
+    }
+    
+    if(readd)
+    {
+      if(charArray[i] != filter)
+      {
+          content.concat(charArray[i]);
+      }
+    }
+    
+    if(charArray[i] == filter)
+    {
+      readd = !readd;
+      if(readd == false)
+      {
+        stopread = true;
+      }
+    }
+  }
+}
+
+String GetId()
+{
+  return GetContentByFilterOn('D');
+}
+String GetAddress()
+{
+  return GetContentByFilterOn('A');
+}
+String GetAvailability()
+{
+  return GetContentByFilterOn('B');
+}

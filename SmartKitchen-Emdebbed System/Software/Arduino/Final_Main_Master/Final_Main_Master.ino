@@ -55,37 +55,44 @@ void setup()
 {
   Wire.begin();
   Serial.begin(9600);
-  deviceWrite(Off, MOD1);
-  deviceWrite(Off, MOD2);
-  deviceWrite(Off, MOD3);
-  deviceWrite(Off, MOD4);
-  deviceWrite(Off, MOD5);
+  ModuleWrite(Off, MOD1);
+  ModuleWrite(Off, MOD2);
+  ModuleWrite(Off, MOD3);
+  ModuleWrite(Off, MOD4);
+  ModuleWrite(Off, MOD5);
 
-  deviceWrite(Off, MOD1_R);
-  deviceWrite(Off, MOD2_R);
-  deviceWrite(Off, MOD3_R);
-  deviceWrite(Off, MOD4_R);
-  deviceWrite(Off, MOD5_R);
-
-
+  ModuleWrite(Off, MOD1_R);
+  ModuleWrite(Off, MOD2_R);
+  ModuleWrite(Off, MOD3_R);
+  ModuleWrite(Off, MOD4_R);
+  ModuleWrite(Off, MOD5_R);
 }
 
 void loop()
 {
-  deviceWrite(Red, MOD1);
-  deviceWrite(Read, MOD1_R);
+  //VisualRGBCheck();
+   ModuleWrite(Red, MOD3);
+  ModuleWrite(Read, MOD3_R);
+  ModuleWrite(Off, MOD1_R);
+  ModuleWrite(Off, MOD2_R);
   readID();
+ 
+  //ModuleWrite(Red, MOD2);
+  //ModuleWrite(Read, MOD2_R);
+  //ModuleWrite(Red, MOD3);
+  //ModuleWrite(Read, MOD3_R);
+  //readID();
   //deviceWrite(Yellow, MOD1);
   //deviceWrite(Off, MOD1_R);
 
   /*
   if (DetectUser())
   {
-  deviceWrite(Green, MOD1);
+  ModuleWrite(Green, MOD1);
   }
   else
   {
-  deviceWrite(Red, MOD1);
+  ModuleWrite(Red, MOD1);
   }*/
   //productID = "";
   /* deviceWrite(Red, MOD2);
@@ -100,7 +107,7 @@ void loop()
    delay(5000); */
 }
 
-void deviceWrite(byte txData, int Module_Address)
+void ModuleWrite(byte txData, int Module_Address)
 {
   Wire.beginTransmission(Module_Address);
   Wire.write(txData);
@@ -122,35 +129,30 @@ void readID()
     //productID = productID + "E";
 
   }
-  incomingString.toCharArray(charBuf, LengthCharArr);  // Put incomingString (size 100) in char array (100)
+  incomingString.toCharArray(tempcharBuf, LengthCharArr);  // Put incomingString (size 100) in char array (100)
   incomingString = "";
-  
+
   boolean StartShifting = false;
   int index = 0;
-  for (int i = 0; i <= LengthCharArr; i++) 
+  for (int i = 0; i <= LengthCharArr; i++)
   {
-    if(charBuf[i] == '4' && charBuf[i+1] == '8' && charBuf[i+2] == '5' && charBuf[i+3] == '2' && (i+3) < LengthCharArr) // Shifting array
+    if (tempcharBuf[i] == '4' && tempcharBuf[i + 1] == '8' && tempcharBuf[i + 2] == '5' && tempcharBuf[i + 3] == '2' && (i + 3) < LengthCharArr) // Shifting array
     {
-       StartShifting = true;
+      StartShifting = true;
+      Serial.println("Start");
     }
-    if(StartShifting)
+    if (StartShifting)
     {
-      tempcharBuf[index] = charBuf[i];
+      charBuf[index] = tempcharBuf[i]; //
       index++;
     }
-  
-  }
-  
-  charBuf = tempcharBuf;
-  
-  
 
+  }
+  //charBuf = tempcharBuf;
   for (int i = 6; i <= LengthCharArr; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
   {
-
     String boxA = "";
     String boxB = "";
-
 
     // Box A
     for (int j = 0; j < i; j++)       // Make the first box bigger every round by adding the first chars starting from char 0 -> 6
@@ -171,7 +173,6 @@ void readID()
     if (boxA == boxB && boxA != "")
     {
       productID = boxA;          // Final productID
-
     }
   }
 
@@ -181,6 +182,47 @@ void readID()
   }
   Serial.println(productID);
   //delay(ReadDelay);
+}
+
+void VisualRGBCheck()
+{
+  int timer = 200;
+  for (int count = 0; count < 3; count++) {
+    ModuleWrite(Green, MOD1 + count);
+    delay(timer);
+    ModuleWrite(Red, MOD1 + count);
+    delay(timer);
+    ModuleWrite(Yellow, MOD1 + count);
+    delay(timer);
+    ModuleWrite(Blue, MOD1 + count);
+    delay(timer);
+    ModuleWrite(BrightBlue, MOD1 + count);
+    delay(timer);
+    ModuleWrite(Purple, MOD1 + count);
+    delay(timer);
+        ModuleWrite(Green, MOD1 + count);
+    delay(timer);
+  }
+  for (int i = 0; i < 3; i++) {
+    for (int count = 0; count < 3; count++) {
+      ModuleWrite(Off, 56 + count);
+    }
+    delay(timer);
+    for (int count = 0; count < 3; count++) {
+      ModuleWrite(White, 56 + count);
+    }
+    delay(timer);
+  }
+
+
+
+/*
+for (int count = 3; count >= 0; count--) {
+  digitalWrite(pinArray[count], HIGH);
+  delay(timer);
+  digitalWrite(pinArray[count], LOW);
+  delay(timer);
+} .*/
 }
 
 boolean DetectUser()
@@ -207,6 +249,5 @@ boolean DetectUser()
     return false;
   }
   delay(500);
-
 }
 
