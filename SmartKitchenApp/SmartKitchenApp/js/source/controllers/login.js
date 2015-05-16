@@ -36,7 +36,7 @@ app.controller('login', [
             $scope.Member.Email = "";
             $scope.Member.Firstname = "";
             $scope.Member.Lastname = "";
-            $scope.Member.DateOfBirth = null;
+            $scope.Member.DateOfBirth = "";
             $scope.Kitchen.Name = "";
         };
 

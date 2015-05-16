@@ -17,7 +17,7 @@ app.controller('myprofile', [
         Stap2: Controller vars (niet in scope!)
         ------------------------------------------
         */
-        
+
 
 
         /*
@@ -26,7 +26,7 @@ app.controller('myprofile', [
         */
 
 
-     
+
         /*
         Stap4: Scope vars
         ------------------
@@ -62,13 +62,19 @@ app.controller('myprofile', [
                     'Email': $scope.editedMember.Email,
                     'Active': $scope.editedMember.Active,
                     'DefaultColor': $scope.editedMember.DefaultColor,
-                    'GameActivated': $scope.editedMember.GameActivated
-            })
+                    'GameActivated': $scope.editedMember.GameActivated,
+                    'GamePoints': $scope.editedMember.GamePoints
+                })
                  .$promise
                         .then(function onSuccess(data) {
-                            // Data stored successfull
                             // Update list of all members
-                            //$scope.allMembers.push($scope.newMember);
+                            for (var i in $scope.allMembers) {
+                                if ($scope.allMembers[i].Id == $scope.editedMember.Id) {
+                                    $scope.allMembers[i] = $scope.editedMember;
+                                    break; //Stop this loop, we found it!
+                                }
+                            }
+                            // Data stored successfull
                             bootbox.hideAll();
                             bootbox.dialog({
                                 title: "<h1 class='text-center'>Hooray!!</h1>",
@@ -84,10 +90,10 @@ app.controller('myprofile', [
                             // Something went wrong
                             console.log("FAILED: Data Return from Edit Members Profile");
                             console.dir(data);
-                    });
+                        });
             }
         };
-       
+
 
         /* Stap6: init aanroepen
         --------------------

@@ -59,7 +59,28 @@
                     Email: '@email',
                     DefaultColor: '@defaultcolor',
                     Active: '@active',
-                    GameActivated: '@gameactivated'
+                    GameActivated: '@gameactivated',
+                    GamePoints: '@gamepoints'
+                }
+            },
+            AddMemberLength: {
+                url: app.serviceUrl + 'Kitchen/Member/Length/:id',
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    Value: '@value'
+                }
+            },
+            AddMemberWeight: {
+                url: app.serviceUrl + 'Kitchen/Member/Weight/:id',
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    Value: '@value'
                 }
             },
             ForgotPassword: {
@@ -81,6 +102,8 @@
             memberRegister: MemberService.Register,
             addMember: MemberService.AddMember,
             updateProfile: MemberService.UpdateProfile,
+            addMemberLength: MemberService.AddMemberLength,
+            addMemberWeight: MemberService.AddMemberWeight,
             memberForgotPassword: MemberService.ForgotPassword
         };
 
