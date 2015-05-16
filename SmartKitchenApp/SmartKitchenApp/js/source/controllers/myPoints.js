@@ -59,7 +59,7 @@ app.controller('mypoints', [
                 bootbox.dialog({
                     title: "Work in progress!",
                     closeButton: false,
-                    message: '<div class="text-center" style="margin:auto;><h4><b>Adding points to your account... </b></h4><br /><i class="fa fa-cog fa-spin fa-3x"></i></div>"'
+                    message: '<div class="text-center" style="margin:auto;"><h4><b>Adding points to your account... </b></h4><br /><i class="fa fa-cog fa-spin fa-3x"></i></div>"'
                 });
                 memberservice.updateProfile({
                     'id': $rootScope.activeMember.Id,
