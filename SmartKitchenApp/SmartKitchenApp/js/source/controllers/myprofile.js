@@ -35,21 +35,15 @@ app.controller('myprofile', [
         $scope.editedMember = new app.Member(); //$rootScope.activeMember
         $scope.editedMember = $rootScope.activeMember;
         $scope.editedMember.GameActivated = "true";
+        $scope.editStatus = "0";
 
         /* Stap5: Scope functions
         -------------------------
         */
 
-        //$scope.toggleGameActivated = function (isState) {
-        //    if (isState == "true") {
-        //        $scope.editedMember.GameActivated = "false";
-        //    } else if (isState == "false") {
-        //        $scope.editedMember.GameActivated = "true";
-        //    }
-        //};
-
         $scope.editProfile = function (isValid) {
             if (isValid) {
+                $scope.editStatus = "1";
                 console.log("New credentials:");
                 console.dir($scope.editedMember);
                 // Save the new member information and push to server
@@ -75,6 +69,7 @@ app.controller('myprofile', [
                                 }
                             }
                             // Data stored successfull
+                            $scope.editStatus = "0";
                             bootbox.hideAll();
                             bootbox.dialog({
                                 title: "<h1 class='text-center'>Hooray!!</h1>",
