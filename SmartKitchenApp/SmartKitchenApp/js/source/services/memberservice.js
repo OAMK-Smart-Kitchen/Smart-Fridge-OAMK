@@ -27,11 +27,13 @@
                     Email: '@email',
                     Password: '@password',
                     Active: '@active',
-                    Admin: '@admin'
+                    Admin: '@admin',
+                    Gender: '@gender',
+                    AgeCategory: '@agecategory'
                 }
             },
             AddMember: {
-                url: app.serviceUrl + 'Kitchen/Member/:id',
+                url: app.serviceUrl + 'Kitchen/Member/:id', //id from the kitchen where it should be stored.
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -43,11 +45,13 @@
                     Email: '@email',
                     Password: '@password',
                     Active: '@active',
-                    Admin: '@admin'
+                    Admin: '@admin',
+                    Gender: '@gender',
+                    AgeCategory: '@agecategory'
                 }
             },
             UpdateProfile: {
-                url: app.serviceUrl + 'Member/Profile/:id',
+                url: app.serviceUrl + 'Member/Profile/:id', //id from the member where it should be stored.
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -59,7 +63,32 @@
                     Email: '@email',
                     DefaultColor: '@defaultcolor',
                     Active: '@active',
-                    GameActivated: '@gameactivated'
+                    GameActivated: '@gameactivated',
+                    GamePoints: '@gamepoints',
+                    Gender: '@gender',
+                    AgeCategory: '@agecategory'
+                }
+            },
+            AddMemberLength: {
+                url: app.serviceUrl + 'Member/Length/:id', //id from the member where it should be stored.
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    Value: '@value',
+                    Date: '@date'
+                }
+            },
+            AddMemberWeight: {
+                url: app.serviceUrl + 'Member/Weight/:id', //id from the member where it should be stored.
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    Value: '@value',
+                    Date: '@date'
                 }
             },
             ForgotPassword: {
@@ -81,6 +110,8 @@
             memberRegister: MemberService.Register,
             addMember: MemberService.AddMember,
             updateProfile: MemberService.UpdateProfile,
+            addMemberLength: MemberService.AddMemberLength,
+            addMemberWeight: MemberService.AddMemberWeight,
             memberForgotPassword: MemberService.ForgotPassword
         };
 

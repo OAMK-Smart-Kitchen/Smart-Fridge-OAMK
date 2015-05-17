@@ -23,6 +23,10 @@ app.Member = function () {
     this.GameHealthLevel = null;
     this.GamePoints = null;
     this.Admin = null;
+    this.Gender = null;
+    this.AgeCategory = null;
+    this.MemberLength = new Array();
+    this.MemberWeight = new Array();
 };
 app.CurrentMember = new app.Member();
 //Kitchen Object

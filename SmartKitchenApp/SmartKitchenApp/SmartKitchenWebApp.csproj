@@ -9,7 +9,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C1FAF3A3-293A-416F-BC4C-D25FBCB0D335}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SmartKitchenApp</RootNamespace>
     <AssemblyName>SmartKitchenApp</AssemblyName>
@@ -94,7 +94,13 @@
     <Content Include="img\favicons\mstile-310x310.png" />
     <Content Include="img\favicons\mstile-70x70.png" />
     <Content Include="img\icons\add.png" />
+    <Content Include="img\icons\boy-128.png" />
+    <Content Include="img\icons\boy-256.png" />
     <Content Include="img\icons\cook_book-256.png" />
+    <Content Include="img\icons\female-128.png" />
+    <Content Include="img\icons\female-256.png" />
+    <Content Include="img\icons\girl-128.png" />
+    <Content Include="img\icons\girl-256.png" />
     <Content Include="img\icons\Goal_Setting-256.png" />
     <Content Include="img\icons\Goal_Setting-512.png" />
     <Content Include="img\icons\measure-256.png" />
@@ -112,12 +118,13 @@
     <Content Include="img\icons\temperature-256.png" />
     <Content Include="img\icons\wine.png" />
     <Content Include="img\icons\settings.png" />
-    <Content Include="img\icons\male3-128.png" />
-    <Content Include="img\icons\male3-256.png" />
+    <Content Include="img\icons\male-128.png" />
+    <Content Include="img\icons\male-256.png" />
     <Content Include="img\icons\weather.png" />
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
     <Content Include="js\source\controllers\myPoints.js" />
+    <Content Include="js\source\controllers\myBmi.js" />
     <Content Include="js\source\controllers\products.js" />
     <Content Include="js\source\controllers\myHealth.js" />
     <Content Include="js\source\controllers\myProfile.js" />
@@ -225,13 +232,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>14844</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:14844/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
