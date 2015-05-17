@@ -94,7 +94,13 @@
     <Content Include="img\favicons\mstile-310x310.png" />
     <Content Include="img\favicons\mstile-70x70.png" />
     <Content Include="img\icons\add.png" />
+    <Content Include="img\icons\boy-128.png" />
+    <Content Include="img\icons\boy-256.png" />
     <Content Include="img\icons\cook_book-256.png" />
+    <Content Include="img\icons\female-128.png" />
+    <Content Include="img\icons\female-256.png" />
+    <Content Include="img\icons\girl-128.png" />
+    <Content Include="img\icons\girl-256.png" />
     <Content Include="img\icons\Goal_Setting-256.png" />
     <Content Include="img\icons\Goal_Setting-512.png" />
     <Content Include="img\icons\measure-256.png" />
@@ -112,8 +118,8 @@
     <Content Include="img\icons\temperature-256.png" />
     <Content Include="img\icons\wine.png" />
     <Content Include="img\icons\settings.png" />
-    <Content Include="img\icons\male3-128.png" />
-    <Content Include="img\icons\male3-256.png" />
+    <Content Include="img\icons\male-128.png" />
+    <Content Include="img\icons\male-256.png" />
     <Content Include="img\icons\weather.png" />
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
