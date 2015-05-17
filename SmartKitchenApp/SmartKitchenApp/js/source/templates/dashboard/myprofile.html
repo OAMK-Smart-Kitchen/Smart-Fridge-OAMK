@@ -28,7 +28,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : profileForm.dateofbirth.$invalid && !profileForm.dateofbirth.$pristine }">
                     <div class="input-group">
                         <span class="input-group-addon" id="addon-dateofbirth"><b>Date of Birth</b></span>
-                        <input type="text" ng-value="editedMember.DateOfBirth" name="dateofbirth" aria-describedby="addon-dateofbirth" class="form-control" ng-model="editedMember.DateOfBirth" placeholder="dd-mm-yyyy" required ng-minlength="10" ng-maxlength="10">
+                        <input type="text" ng-value="editedMember.DateOfBirth" name="dateofbirth" aria-describedby="addon-dateofbirth" class="form-control" ng-model="editedMember.DateOfBirth" required ng-minlength="10" ng-maxlength="10" angular-mask="00-00-0000" placeholder="dd-mm-yyyy">
                     </div>
                     <p ng-show="profileForm.dateofbirth.$invalid && !profileForm.dateofbirth.$pristine" class="help-block">Your Date of Birth is required or incorrect. Format: dd-mm-YYYY</p>
                 </div>

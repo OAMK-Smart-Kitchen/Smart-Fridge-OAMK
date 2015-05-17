@@ -40,7 +40,7 @@ app.controller('members', [
             '<!-- DATE OF BIRTH -->' +
             '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.dateofbirth.$invalid && !addMemberToFam.dateofbirth.$pristine }">' +
             '<label>Date of Birth</label>' +
-            '<input type="text" name="dateofbirth" class="form-control" ng-model="newMember.DateOfBirth" placeholder="dd-mm-yyyy" required>' +
+            '<input type="text" name="dateofbirth" class="form-control" ng-model="newMember.DateOfBirth" required angular-mask="00-00-0000" placeholder="dd-mm-yyyy">' +
             '<p ng-show="addMemberToFam.dateofbirth.$invalid && !addMemberToFam.dateofbirth.$pristine" class="help-block">Your Date of Birth is required.</p>' +
             '</div>' +
             '<!-- GENDER -->' +
