@@ -67,8 +67,7 @@ app.controller('login', [
                         //EMPTY form
                         resetRegisterForm();
                         $scope.loginStatus = 3; //SUCCESS
-                        //Navigate to Members page
-                        $location.path("/members");
+                        $scope.NavToDashboard();
                     }, function onFail(data) {
                         $scope.loginStatus = 2; // Error
                         $scope.errorMessage = data.message;
@@ -92,14 +91,14 @@ app.controller('login', [
                         'Password': $scope.Member.Password,
                         'Active': "true",
                         'Admin': "true",
+                        'Gender': $scope.Member.Gender,
+                        'AgeCategory': $scope.Member.AgeCategory,
                         'KitchenName': $scope.Kitchen.Name
                     }) // + '' typecast to string
                     .$promise
                     .then(function onSuccess(data) {
                         processData(data);
                         $scope.registerStatus = 3; //Success
-                        //Navigate to Members page
-                        $location.path("/members");
                     }, function onFail(data) {
                         $scope.registerStatus = 2; //error
                     });
@@ -182,6 +181,11 @@ app.controller('login', [
             if (isValid) {
                 loginKitchen();
             }
+        };
+
+        $scope.NavToDashboard = function() {
+            //Navigate to Members page
+            $location.path("/members");
         };
 
         /* Stap6: init aanroepen
