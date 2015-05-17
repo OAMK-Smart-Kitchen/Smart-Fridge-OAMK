@@ -26,7 +26,7 @@ app.Member = function () {
     this.Gender = null;
     this.AgeCategory = null;
     this.MemberLength = new Array();
-    this.MemberWeight = new Array();
+    this.MemberWeight = [];
 };
 app.CurrentMember = new app.Member();
 //Kitchen Object

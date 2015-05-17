@@ -17,7 +17,6 @@ app.controller('myhealth', [
         Stap2: Controller vars (niet in scope!)
         ------------------------------------------
         */
-        
 
 
         /*
@@ -26,7 +25,6 @@ app.controller('myhealth', [
         */
 
 
-     
         /*
         Stap4: Scope vars
         ------------------
@@ -37,7 +35,7 @@ app.controller('myhealth', [
         /* Stap5: Scope functions
         -------------------------
         */
-        
+
         $scope.goToBMI = function () {
             console.log("Navigate to My BMI");
             $location.path("/dashboard/myhealth/bmi");
@@ -47,7 +45,7 @@ app.controller('myhealth', [
             console.log("Navigate to My Points");
             $location.path("/dashboard/myhealth/points");
         };
-       
+
         /* Stap6: init aanroepen
         --------------------
         */

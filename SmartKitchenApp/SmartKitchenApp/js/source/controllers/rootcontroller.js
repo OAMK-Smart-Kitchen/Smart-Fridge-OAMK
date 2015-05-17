@@ -43,9 +43,9 @@ app.controller('rootcontroller', [
 
         $rootScope.getCopyright = "\u00A9 " + new Date().getFullYear() + " Smart Kitchen Project";
         $scope.currentPage;
-        $scope.allMembers = new Array();
-        $scope.fridgeProducts = new Array();
-        $scope.shoppingBagProducts = new Array();
+        $scope.allMembers = [];
+        $scope.fridgeProducts = [];
+        $scope.shoppingBagProducts = [];
 
         /* Stap5: Scope functions
         -------------------------
