@@ -70,7 +70,9 @@ app.controller('mypoints', [
                     'Active': $rootScope.activeMember.Active,
                     'DefaultColor': $rootScope.activeMember.DefaultColor,
                     'GameActivated': $rootScope.activeMember.GameActivated,
-                    'GamePoints': $rootScope.activeMember.GamePoints
+                    'GamePoints': $rootScope.activeMember.GamePoints,
+                    'Gender': $rootScope.activeMember.Gender,
+                    'AgeCategory': $rootScope.activeMember.AgeCategory
                 })
                                  .$promise
                                         .then(function onSuccess(data) {

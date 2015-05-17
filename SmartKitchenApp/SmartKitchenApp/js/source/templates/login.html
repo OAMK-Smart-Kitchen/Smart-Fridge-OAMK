@@ -51,6 +51,42 @@
                     <p ng-show="registerFormMember.dateofbirth.$invalid && !registerFormMember.dateofbirth.$pristine" class="help-block">Your Date of Birth is required or incorrect. Format: dd-mm-YYYY</p>
                 </div>
 
+                <!-- GENDER -->
+                <div class="form-group" ng-class="{ 'has-error' : registerFormMember.genderRadios.$invalid && !registerFormMember.genderRadios.$pristine }">
+                    <label>Select Gender</label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="Member.Gender" name="genderRadios" value="male" required>
+                            Male - Boy
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="Member.Gender" name="genderRadios" value="female">
+                            Female - Girl
+                        </label>
+                    </div>
+                    <p ng-show="registerFormMember.genderRadios.$invalid && !registerFormMember.genderRadios.$pristine" class="help-block">Your gender is required.</p>
+                </div>
+
+                <!-- AGE CATEGORY -->
+                <div class="form-group" ng-class="{ 'has-error' : registerFormMember.agecategoryRadios.$invalid && !registerFormMember.agecategoryRadios.$pristine }">
+                    <label>Select Age Category</label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="Member.AgeCategory" name="agecategoryRadios" value="adult" required>
+                            Adult (18+)
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="Member.AgeCategory" name="agecategoryRadios" value="child">
+                            Child (1-17)
+                        </label>
+                    </div>
+                    <p ng-show="registerFormMember.agecategoryRadios.$invalid && !registerFormMember.agecategoryRadios.$pristine" class="help-block">Your age category is required.</p>
+                </div>
+
                 <!-- EMAIL -->
                 <div class="form-group" ng-class="{ 'has-error' : registerFormMember.email.$invalid && !registerFormMember.email.$pristine }">
                     <label>Email</label>
@@ -87,7 +123,7 @@
             </div>
             <div ng-show="registerStatus == 3" class="well well-lg" style="background:#18bc9c; color:#ffffff;">
                 <h4><b>Welcome to your Smart Kitchen!</b></h4><br />
-                <button class="btn btn-warning">Go to your Dashboard</button>
+                <button class="btn btn-warning" ng-click="NavToDashboard()">Go to your Dashboard</button>
             </div>
         </div>
     </section>

@@ -1,18 +1,21 @@
 ﻿<div data-ng-controller="members" class="container">
-    <h1 class="text-center">Who's in the kitchen?</h1><br/>
+    <h1 class="text-center">Who's in the kitchen?</h1><br />
     <div class="row" ng-init="allMembers">
         <div ng-repeat="member in allMembers">
             <div class="col-sm-4" style="margin-bottom: 20px;">
                 <button style="width: 100%;" class="btn btn-info" type="submit" ng-click="selectMember($index)">
-                    <img src="img/icons/male3-256.png" height="150px" class="img-circle" style="display: block; margin: auto;" />
+                    <div ng-switch on="member.Gender">
+                        <img ng-switch-when="male" ng-src="img/icons/{{member.AgeCategory == 'adult' ? 'male' : 'boy'}}-256.png" height="150px" class="img-circle" style="display:block;margin: auto;" />
+                        <img ng-switch-when="female" ng-src="img/icons/{{member.AgeCategory == 'adult' ? 'female' : 'girl'}}-256.png" height="150px" class="img-circle" style="display:block;margin: auto;" />
+                    </div>
                     <h3 class="text-center" style="display: inline;">{{member.Firstname}}</h3><span style="margin-left: 10px;" ng-show="member.Admin == 'true'" class="label label-primary">The Boss</span>
-                    
+
                 </button>
             </div>
         </div>
         <div class="col-sm-4" style="margin-bottom: 20px;">
             <button style="width: 100%;" class="btn btn-info" type="submit" ng-click="addMember()">
-                <img src="img/icons/add.png" height="150px" class="img-circle" style="display: block; margin: auto;"/>
+                <img src="img/icons/add.png" height="150px" class="img-circle" style="display: block; margin: auto;" />
                 <h3 class="text-center" style="display: inline;">Add Person</h3>
             </button>
         </div>

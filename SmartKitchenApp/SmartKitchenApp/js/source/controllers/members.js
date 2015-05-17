@@ -22,36 +22,71 @@ app.controller('members', [
         */
 
         var tmpHtml =
-                    '<div class="row">  ' +
-                        '<div class="col-md-12"> ' +
-                        '<form name="addMemberToFam" ng-submit="SendMember(addMemberToFam.$valid)" novalidate>' +
-                        '<!-- FIRSTNAME -->' +
-                        '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.firstname.$invalid && !addMemberToFam.firstname.$pristine }">' +
-                        '<label>Firstname</label>' +
-                        '<input type="text" name="firstname" class="form-control" ng-model="newMember.Firstname" placeholder="Firstname" required autofocus>' +
-                        '<p ng-show="addMemberToFam.firstname.$invalid && !addMemberToFam.firstname.$pristine" class="help-block">Your firstname is required.</p>' +
-                        '</div>' +
-                        '<!-- LASTNAME -->' +
-                        '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.lastname.$invalid && !addMemberToFam.lastname.$pristine }">' +
-                        '<label>Lastname</label>' +
-                        '<input type="text" name="lastname" class="form-control" ng-model="newMember.Lastname" placeholder="Lastname" required>' +
-                        '<p ng-show="addMemberToFam.lastname.$invalid && !addMemberToFam.lastname.$pristine" class="help-block">Your lastname is required.</p>' +
-                        '</div>' +
-                        '<!-- DATE OF BIRTH -->' +
-                        '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.dateofbirth.$invalid && !addMemberToFam.dateofbirth.$pristine }">' +
-                        '<label>Date of Birth</label>' +
-                        '<input type="date" name="dateofbirth" class="form-control" ng-model="newMember.DateOfBrith" placeholder="Date of birth" required>' +
-                        '<p ng-show="addMemberToFam.dateofbirth.$invalid && !addMemberToFam.dateofbirth.$pristine" class="help-block">Your Date of Birth is required.</p>' +
-                        '</div>' +
-                        '<!-- EMAIL -->' +
-                        '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.email.$invalid && !addMemberToFam.email.$pristine }">' +
-                        '<label>Email</label>' +
-                        '<input type="email" name="email" class="form-control" ng-model="newMember.Email" ng-minlength="6" placeholder="Email" no-capitalize required>' +
-                        '<p ng-show="addMemberToFam.email.$invalid && !addMemberToFam.email.$pristine" class="help-block">Your Email is required.</p>' +
-                        '</div>' +
-                        '<!-- SUBMIT BUTTON -->' +
-                        '<button type="submit" class="btn btn-primary" ng-disabled="addMemberToFam.$invalid">Register</button>' +
-                        '</form></div>  </div>';
+            '<div class="row">  ' +
+            '<div class="col-md-12"> ' +
+            '<form name="addMemberToFam" ng-submit="SendMember(addMemberToFam.$valid)" novalidate>' +
+            '<!-- FIRSTNAME -->' +
+            '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.firstname.$invalid && !addMemberToFam.firstname.$pristine }">' +
+            '<label>Firstname</label>' +
+            '<input type="text" name="firstname" class="form-control" ng-model="newMember.Firstname" placeholder="Firstname" required autofocus>' +
+            '<p ng-show="addMemberToFam.firstname.$invalid && !addMemberToFam.firstname.$pristine" class="help-block">Your firstname is required.</p>' +
+            '</div>' +
+            '<!-- LASTNAME -->' +
+            '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.lastname.$invalid && !addMemberToFam.lastname.$pristine }">' +
+            '<label>Lastname</label>' +
+            '<input type="text" name="lastname" class="form-control" ng-model="newMember.Lastname" placeholder="Lastname" required>' +
+            '<p ng-show="addMemberToFam.lastname.$invalid && !addMemberToFam.lastname.$pristine" class="help-block">Your lastname is required.</p>' +
+            '</div>' +
+            '<!-- DATE OF BIRTH -->' +
+            '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.dateofbirth.$invalid && !addMemberToFam.dateofbirth.$pristine }">' +
+            '<label>Date of Birth</label>' +
+            '<input type="text" name="dateofbirth" class="form-control" ng-model="newMember.DateOfBirth" placeholder="dd-mm-yyyy" required>' +
+            '<p ng-show="addMemberToFam.dateofbirth.$invalid && !addMemberToFam.dateofbirth.$pristine" class="help-block">Your Date of Birth is required.</p>' +
+            '</div>' +
+            '<!-- GENDER -->' +
+            '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.genderRadios.$invalid && !addMemberToFam.genderRadios.$pristine }">' +
+            '<label>Select Gender</label>' +
+            '<div class="radio">' +
+            '<label>' +
+            '<input type="radio" ng-model="newMember.Gender" name="genderRadios" value="male" required>' +
+            'Male - Boy' +
+            '</label>' +
+            '</div>' +
+            '<div class="radio">' +
+            '<label>' +
+            '<input type="radio" ng-model="newMember.Gender" name="genderRadios" value="female">' +
+            'Female - Girl' +
+            '</label>' +
+            '</div>' +
+            '<p ng-show="addMemberToFam.genderRadios.$invalid && !addMemberToFam.genderRadios.$pristine" class="help-block">Your gender is required.</p>' +
+            '</div>' +
+            '<!-- AGE CATEGORY -->' +
+            '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.agecategoryRadios.$invalid && !addMemberToFam.agecategoryRadios.$pristine }">' +
+            '<label>Select Age Category</label>' +
+            '<div class="radio">' +
+            '<label>' +
+            '<input type="radio" ng-model="newMember.AgeCategory" name="agecategoryRadios" value="adult" required>' +
+            'Adult (18+)' +
+            '</label>' +
+            '</div>' +
+            '<div class="radio">' +
+            '<label>' +
+            '<input type="radio" ng-model="newMember.AgeCategory" name="agecategoryRadios" value="child">' +
+            'Child (1-17)' +
+            '</label>' +
+            '</div>' +
+            '<p ng-show="addMemberToFam.agecategoryRadios.$invalid && !addMemberToFam.agecategoryRadios.$pristine" class="help-block">Your age category is required.</p>' +
+            '</div>' +
+            '<!-- EMAIL -->' +
+            '<div class="form-group" ng-class="{ \'has-error\' : addMemberToFam.email.$invalid && !addMemberToFam.email.$pristine }">' +
+            '<label>Email</label>' +
+            '<input type="email" name="email" class="form-control" ng-model="newMember.Email" ng-minlength="6" placeholder="Email" no-capitalize required>' +
+            '<p ng-show="addMemberToFam.email.$invalid && !addMemberToFam.email.$pristine" class="help-block">Your Email is required.</p>' +
+            '</div>' +
+            '<!-- SUBMIT BUTTON -->' +
+            '<button type="submit" class="btn btn-primary" ng-disabled="addMemberToFam.$invalid">Register</button>' +
+            '</form></div>  </div>';
+
         var $injector = angular.injector(['ng']);
         var $compile = $injector.get('$compile');
         var template = angular.element(tmpHtml);
@@ -76,7 +111,7 @@ app.controller('members', [
                 audio.play();
             } catch (e) {
                 bootbox.alert("NO SUPPORT FOR AUDIO ON THIS BROWSER");
-            } 
+            }
         };
 
         /*
@@ -109,6 +144,8 @@ app.controller('members', [
                         'Password': $scope.newMember.Password,
                         'Active': "false",
                         'Admin': "false",
+                        'Gender': $scope.newMember.Gender,
+                        'AgeCategory': $scope.newMember.AgeCategory,
                         'id': app.CurrentKitchen.Id
                     })
                     .$promise

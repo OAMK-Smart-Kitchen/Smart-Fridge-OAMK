@@ -27,7 +27,9 @@
                     Email: '@email',
                     Password: '@password',
                     Active: '@active',
-                    Admin: '@admin'
+                    Admin: '@admin',
+                    Gender: '@gender',
+                    AgeCategory: '@agecategory'
                 }
             },
             AddMember: {
@@ -43,7 +45,9 @@
                     Email: '@email',
                     Password: '@password',
                     Active: '@active',
-                    Admin: '@admin'
+                    Admin: '@admin',
+                    Gender: '@gender',
+                    AgeCategory: '@agecategory'
                 }
             },
             UpdateProfile: {
@@ -60,7 +64,9 @@
                     DefaultColor: '@defaultcolor',
                     Active: '@active',
                     GameActivated: '@gameactivated',
-                    GamePoints: '@gamepoints'
+                    GamePoints: '@gamepoints',
+                    Gender: '@gender',
+                    AgeCategory: '@agecategory'
                 }
             },
             AddMemberLength: {

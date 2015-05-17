@@ -44,7 +44,51 @@
                 <div class="form-group" ng-hide="editedMember.Admin == 'false'">
                     <div class="input-group">
                         <span class="input-group-addon" id="addon-email-admin"><b>Email</b></span>
-                        <input type="email" ng-value="editedMember.Email" name="email" aria-describedby="addon-email-admin" class="form-control" placeholder="Email" disabled="true">
+                        <input type="email" ng-value="editedMember.Email" name="email" aria-describedby="addon-email-admin" class="form-control" placeholder="Email" disabled="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <!-- GENDER -->
+                        <div class="form-group" ng-class="{ 'has-error' : profileForm.genderRadios.$invalid && !profileForm.genderRadios.$pristine }">
+                            <label>Select Gender</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="editedMember.Gender" name="genderRadios" value="male" required>
+                                    Male - Boy
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="editedMember.Gender" name="genderRadios" value="female">
+                                    Female - Girl
+                                </label>
+                            </div>
+                            <p ng-show="profileForm.genderRadios.$invalid && !profileForm.genderRadios.$pristine" class="help-block">Your gender is required.</p>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+
+                        <!-- AGE CATEGORY -->
+                        <div class="form-group" ng-class="{ 'has-error' : profileForm.agecategoryRadios.$invalid && !profileForm.agecategoryRadios.$pristine }">
+                            <label>Select Age Category</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="editedMember.AgeCategory" name="agecategoryRadios" value="adult" required>
+                                    Adult (18+)
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" ng-model="editedMember.AgeCategory" name="agecategoryRadios" value="child">
+                                    Child (1-17)
+                                </label>
+                            </div>
+                            <p ng-show="profileForm.agecategoryRadios.$invalid && !profileForm.agecategoryRadios.$pristine" class="help-block">Your age category is required.</p>
+                        </div>
+
                     </div>
                 </div>
 
@@ -55,9 +99,10 @@
 
         </div>
         <!-- PROFILE PICTURE -->
-        <div class="col-sm-5" style="padding:20px;text-align:center;">
-            <img src="img/icons/male3-256.png" height="250px" class="img-circle" style="display:block;margin: 0 auto;" /><br />
-            <button class="btn btn-warning" style="margin: 0 auto;">Change</button>
+        <div class="col-sm-5" style="padding:20px;text-align:center;" ng-switch on="editedMember.Gender">
+            <img ng-switch-when="male" ng-src="img/icons/{{editedMember.AgeCategory == 'adult' ? 'male' : 'boy'}}-256.png" height="250px" class="img-circle" style="display:block;margin: 0 auto;" />
+            <img ng-switch-when="female" ng-src="img/icons/{{editedMember.AgeCategory == 'adult' ? 'female' : 'girl'}}-256.png" height="250px" class="img-circle" style="display:block;margin: 0 auto;" />
+            <!--<button class="btn btn-warning" style="margin: 0 auto;">Change</button>-->
         </div>
         <!-- BODY LENGTH -->
         <div class="col-sm-6" style="vertical-align: middle;">

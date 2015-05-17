@@ -168,8 +168,10 @@ app.controller('myprofile', [
                     'Active': $scope.editedMember.Active,
                     'DefaultColor': $scope.editedMember.DefaultColor,
                     'GameActivated': $scope.editedMember.GameActivated,
-                    'GamePoints': $scope.editedMember.GamePoints
-                })
+                    'GamePoints': $scope.editedMember.GamePoints,
+                    'Gender': $scope.editedMember.Gender,
+                    'AgeCategory': $scope.editedMember.AgeCategory
+            })
                  .$promise
                         .then(function onSuccess(data) {
                             // Update list of all members
