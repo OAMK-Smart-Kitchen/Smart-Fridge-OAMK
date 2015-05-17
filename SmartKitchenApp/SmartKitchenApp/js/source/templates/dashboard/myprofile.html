@@ -61,16 +61,16 @@
         </div>
         <!-- BODY LENGTH -->
         <div class="col-sm-6" style="vertical-align: middle;">
-            <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
+            <button style="width:100%;" class="btn btn-info" type="submit" ng-click="enterMemberLength()">
                 <img src="img/icons/measure-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
-                <h1 class="text-right" style="display:inline;font-size: 400%;"><b>{{activeMember.MemberLength[MemberLength.length-1].Value}} cm</b></h1>
+                <h1 class="text-right" style="display:inline;font-size: 400%;"><b>{{ lastLength }} cm</b></h1>
             </button>
         </div>
         <!-- BODY WEIGHT -->
         <div class="col-sm-6" style="vertical-align: middle;">
-            <button style="width:100%;" class="btn btn-info" type="submit" onclick="selectMember()">
+            <button style="width:100%;" class="btn btn-info" type="submit" ng-click="enterMemberWeight()">
                 <img src="img/icons/scale-weight-256.png" height="200px" class="img-circle" style="margin:20px 10px 20px 10px;display:inline;" />
-                <p class="text-right" style="display:inline;font-size: 400%;"><b>{{activeMember.MemberWeight[MemberWeight.length-1].Value}} kg</b></p>
+                <p class="text-right" style="display:inline;font-size: 400%;"><b>{{ lastWeight }} kg</b></p>
             </button>
         </div>
     </div>

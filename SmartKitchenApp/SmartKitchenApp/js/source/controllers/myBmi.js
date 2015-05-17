@@ -1,4 +1,4 @@
-app.controller('myprofile', [
+app.controller('mybmi', [
     '$scope',
     '$rootScope',
     'memberservice',
@@ -10,7 +10,7 @@ app.controller('myprofile', [
         */
 
         var init = function () {
-            console.log("myprofile controller started");
+            console.log("mybmi controller started");
             showLengthWeight();
         };
 
@@ -20,13 +20,13 @@ app.controller('myprofile', [
         */
 
         var showLengthWeight = function () {
-            if ($scope.editedMember.MemberLength.length > 0) {
-                $scope.lastLength = $scope.editedMember.MemberLength[$scope.editedMember.MemberLength.length - 1].Value;
+            if ($rootScope.activeMember.MemberLength.length > 0) {
+                $scope.lastLength = $rootScope.activeMember.MemberLength[$rootScope.activeMember.MemberLength.length - 1].Value;
             } else {
                 $scope.lastLength = "XXX";
             }
-            if ($scope.editedMember.MemberWeight.length > 0) {
-                $scope.lastWeight = $scope.editedMember.MemberWeight[$scope.editedMember.MemberWeight.length - 1].Value;
+            if ($rootScope.activeMember.MemberWeight.length > 0) {
+                $scope.lastWeight = $rootScope.activeMember.MemberWeight[$rootScope.activeMember.MemberWeight.length - 1].Value;
             } else {
                 $scope.lastWeight = "XX";
             }
@@ -141,9 +141,6 @@ app.controller('myprofile', [
         ------------------
         */
 
-        $scope.editedMember = new app.Member(); //$rootScope.activeMember
-        $scope.editedMember = $rootScope.activeMember;
-        $scope.editedMember.GameActivated = "true";
         $scope.editStatus = "0";
         $scope.lastWeight = "";
         $scope.lastLength = "";
@@ -151,55 +148,6 @@ app.controller('myprofile', [
         /* Stap5: Scope functions
         -------------------------
         */
-
-        $scope.editProfile = function (isValid) {
-            if (isValid) {
-                $scope.editStatus = "1";
-                console.log("New credentials:");
-                console.dir($scope.editedMember);
-                // Save the new member information and push to server
-                $rootScope.activeMember = $scope.editedMember;
-                memberservice.updateProfile({
-                    'id': $scope.editedMember.Id,
-                    'Firstname': $scope.editedMember.Firstname,
-                    'Lastname': $scope.editedMember.Lastname,
-                    'DateOfBirth': $scope.editedMember.DateOfBirth,
-                    'Email': $scope.editedMember.Email,
-                    'Active': $scope.editedMember.Active,
-                    'DefaultColor': $scope.editedMember.DefaultColor,
-                    'GameActivated': $scope.editedMember.GameActivated,
-                    'GamePoints': $scope.editedMember.GamePoints
-                })
-                 .$promise
-                        .then(function onSuccess(data) {
-                            // Update list of all members
-                            for (var i in $scope.allMembers) {
-                                if ($scope.allMembers[i].Id == $scope.editedMember.Id) {
-                                    $scope.allMembers[i] = $scope.editedMember;
-                                    break; //Stop this loop, we found it!
-                                }
-                            }
-                            // Data stored successfull
-                            $scope.editStatus = "0";
-                            showLengthWeight();
-                            bootbox.hideAll();
-                            bootbox.dialog({
-                                title: "<h1 class='text-center'>Hooray!!</h1>",
-                                message: "<h2 class='text-center'><i class='fa fa-thumbs-o-up'></i>&nbsp; Your profile has been updated successfully.</h2>",
-                                buttons: {
-                                    success: {
-                                        label: "Thanks!",
-                                        className: "btn-success"
-                                    }
-                                }
-                            });
-                        }, function onFail(data) {
-                            // Something went wrong
-                            console.log("FAILED: Data Return from Edit Members Profile");
-                            bootbox.alert("Something went wrong... Please try again later.");
-                        });
-            }
-        };
 
         $scope.enterMemberLength = function () {
             bootbox.prompt("Enter your length below. Use the unit centimeters (cm)", function (result) {

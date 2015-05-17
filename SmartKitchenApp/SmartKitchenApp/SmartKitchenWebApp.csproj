@@ -118,6 +118,7 @@
     <Content Include="img\icons\Belgium.png" />
     <Content Include="img\icons\Finland.png" />
     <Content Include="js\source\controllers\myPoints.js" />
+    <Content Include="js\source\controllers\myBmi.js" />
     <Content Include="js\source\controllers\products.js" />
     <Content Include="js\source\controllers\myHealth.js" />
     <Content Include="js\source\controllers\myProfile.js" />

@@ -31,7 +31,7 @@
                 }
             },
             AddMember: {
-                url: app.serviceUrl + 'Kitchen/Member/:id',
+                url: app.serviceUrl + 'Kitchen/Member/:id', //id from the kitchen where it should be stored.
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -47,7 +47,7 @@
                 }
             },
             UpdateProfile: {
-                url: app.serviceUrl + 'Member/Profile/:id',
+                url: app.serviceUrl + 'Member/Profile/:id', //id from the member where it should be stored.
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,23 +64,25 @@
                 }
             },
             AddMemberLength: {
-                url: app.serviceUrl + 'Kitchen/Member/Length/:id',
+                url: app.serviceUrl + 'Member/Length/:id', //id from the member where it should be stored.
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 params: {
-                    Value: '@value'
+                    Value: '@value',
+                    Date: '@date'
                 }
             },
             AddMemberWeight: {
-                url: app.serviceUrl + 'Kitchen/Member/Weight/:id',
+                url: app.serviceUrl + 'Member/Weight/:id', //id from the member where it should be stored.
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 params: {
-                    Value: '@value'
+                    Value: '@value',
+                    Date: '@date'
                 }
             },
             ForgotPassword: {
