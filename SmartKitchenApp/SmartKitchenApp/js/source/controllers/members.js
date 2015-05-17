@@ -70,9 +70,13 @@ app.controller('members', [
             });
         };
 
-        var playSoundWeclome = function() {
-            var audio = new Audio('././sounds/welcome_dashboard.mp3');
-            audio.play();
+        var playSoundWeclome = function () {
+            try {
+                var audio = new Audio('././sounds/welcome_dashboard.mp3');
+                audio.play();
+            } catch (e) {
+                bootbox.alert("NO SUPPORT FOR AUDIO ON THIS BROWSER");
+            } 
         };
 
         /*
@@ -116,13 +120,16 @@ app.controller('members', [
                         }, function onFail(data) {
                             // Something went wrong
                             console.dir("FAILED: Data Return from New Member\n" + data);
+                            bootbox.hideAll();
+                            bootbox.alert("<i class='fa fa-exclamation-triangle'></i> Oops, something went wrong...");
                         });
                 } else {
                     bootbox.hideAll();
                     bootbox.alert("<i class='fa fa-exclamation-triangle'></i> Oops, something went wrong...");
                 }
             } catch (e) {
-
+                bootbox.hideAll();
+                bootbox.alert("Something went wrong... Please try again later.");
             }
         };
 

@@ -75,6 +75,8 @@ app.controller('login', [
                     });
             } catch (e) {
                 console.log("An login Error occurred: " + e.message);
+                bootbox.hideAll();
+                bootbox.alert("Something went wrong... Please try again later.");
             }
         };
 
@@ -104,6 +106,8 @@ app.controller('login', [
 
             } catch (e) {
                 console.log("An register Error occurred: " + e.message);
+                bootbox.hideAll();
+                bootbox.alert("Something went wrong... Please try again later.");
             }
         };
 
