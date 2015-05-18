@@ -130,6 +130,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
+                    <a href="" role="button" onclick="window.location.reload()" ng-show="activeMember != null"><i class="fa fa-power-off fa-lg"></i>&nbsp;&nbsp;Log Out</a>
+                </li>
+                <li>
                     <a href="" role="button" data-ng-click="enterKitchen()" ng-show="activeMember == null"><i class=" fa fa-home fa-lg"></i>&nbsp;&nbsp;{{"Enter your Kitchen!"}}</a>
                     <a href="" role="button" data-ng-click="enterKitchen()" ng-show="activeMember != null"><i class="fa fa-home fa-lg"></i>&nbsp;&nbsp;Hello {{activeMember.Firstname}}!</a>
                 </li>

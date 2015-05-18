@@ -83,6 +83,7 @@ app.controller('dashboard', [
         ------------------
         */
 
+        $scope.fridgeTemp = app.CurrentKitchen.TemperatureFridge;
 
         /* Stap5: Scope functions
         -------------------------
