@@ -30,6 +30,9 @@ app.controller('mybmi', [
             } else {
                 $scope.lastWeight = "XX";
             }
+            if ($scope.activeMember.AgeCategory != "child") {
+                $scope.calculatedBmi = (parseFloat($scope.lastWeight) / ((parseFloat($scope.lastLength) / 100) * (parseFloat($scope.lastLength) / 100))).toFixed(2);
+            }
         };
 
         /*
@@ -144,6 +147,14 @@ app.controller('mybmi', [
         $scope.editStatus = "0";
         $scope.lastWeight = "";
         $scope.lastLength = "";
+        $scope.calculatedBmi = null;
+        $scope.BodyMassIndex = [
+            { min: 0, max: 37, name: 'Underweight', color: 'info' },
+            { min: 37, max: 50, name: 'Normal', color: 'success' },
+            { min: 50, max: 60, name: 'Overweight', color: 'warning' },
+            { min: 60, max: 80, name: 'Obese', color: 'danger' },
+            { min: 80, max: 100, name: 'Extreme Obese', color: 'primary' }
+        ];
 
         /* Stap5: Scope functions
         -------------------------

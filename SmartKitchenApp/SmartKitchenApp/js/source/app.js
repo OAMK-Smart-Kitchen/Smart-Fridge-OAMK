@@ -1,7 +1,7 @@
 var app = angular.module('SmartKitchenApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'jsonDate', 'typeFilter', 'geolocation', 'datatables']);
 
-//app.serviceUrl = 'http://api.verhofstadt.eu/service/';
-app.serviceUrl = 'http://localhost:63666/service/';
+app.serviceUrl = 'http://api.verhofstadt.eu/service/';
+//app.serviceUrl = 'http://localhost:63666/service/';
 //app.blobUrl = 'http://urltopictures.com';
 app.CryptoJS = function (message) {
     return CryptoJS.SHA256(message);

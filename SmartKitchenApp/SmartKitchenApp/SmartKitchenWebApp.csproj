@@ -57,6 +57,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="css\jquery.dataTables.css" />
     <Content Include="css\jquery.dataTables.min.css">
       <DependentUpon>jquery.dataTables.css</DependentUpon>
@@ -169,7 +173,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\bootstrap.min.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\style.css" />
