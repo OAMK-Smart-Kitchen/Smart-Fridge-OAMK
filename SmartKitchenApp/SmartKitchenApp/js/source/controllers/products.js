@@ -53,7 +53,7 @@ app.controller('products', [
         ------------------
         */
 
-        $scope.AllFridgeProducts = new Array();
+        $scope.AllFridgeProducts = [];
 
         /* Stap5: Scope functions
         -------------------------

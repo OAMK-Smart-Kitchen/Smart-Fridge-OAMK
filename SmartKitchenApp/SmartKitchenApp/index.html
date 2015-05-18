@@ -13,8 +13,6 @@
     <script src='js/vendor/angular-route.js'></script>
     <script src='js/vendor/angular-resource.min.js'></script>
     <script src="js/vendor/angular-datatables.min.js"></script>
-    <!--<script src="js/vendor/d3.min.js"></script>
-    <script src="js/vendor/Donut3D.js"></script>-->
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/vendor/bootbox.min.js"></script>
     <script src="js/vendor/ui-bootstrap-custom-0.12.0.min.js"></script>
@@ -47,7 +45,6 @@
 
     <!-- Javascript Services-->
     <script type="text/javascript" src="js/source/services/memberservice.js"></script>
-    <script type="text/javascript" src="js/source/services/weatherservice.js"></script>
     <script type="text/javascript" src="js/source/services/fridgeproductsservice.js"></script>
 
     <!-- Css -->
@@ -126,8 +123,14 @@
                 <li ng-show="currentPage != '/get-started' && currentPage != '/about' && currentPage != '/login' && currentPage != '/'" ng-class="{'active' : currentPage == '/members'}">
                     <a href="" role="button" data-ng-click="goToMembers()">Select other member</a>
                 </li>
+                <li ng-show="currentPage != '/get-started' && currentPage != '/about' && currentPage != '/login' && currentPage != '/'" ng-class="{'active' : currentPage == '/dashboard'}">
+                    <a href="" role="button" data-ng-click="enterKitchen()">Dashboard</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="" role="button" onclick="window.location.reload()" ng-show="activeMember != null"><i class="fa fa-power-off fa-lg"></i>&nbsp;&nbsp;Log Out</a>
+                </li>
                 <li>
                     <a href="" role="button" data-ng-click="enterKitchen()" ng-show="activeMember == null"><i class=" fa fa-home fa-lg"></i>&nbsp;&nbsp;{{"Enter your Kitchen!"}}</a>
                     <a href="" role="button" data-ng-click="enterKitchen()" ng-show="activeMember != null"><i class="fa fa-home fa-lg"></i>&nbsp;&nbsp;Hello {{activeMember.Firstname}}!</a>

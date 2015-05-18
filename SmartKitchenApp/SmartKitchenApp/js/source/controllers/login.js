@@ -65,7 +65,6 @@ app.controller('login', [
                     .then(function onSuccess(data) {
                         processData(data);
                         //EMPTY form
-                        resetRegisterForm();
                         $scope.loginStatus = 3; //SUCCESS
                         $scope.NavToDashboard();
                     }, function onFail(data) {

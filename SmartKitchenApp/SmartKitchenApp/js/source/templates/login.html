@@ -47,7 +47,7 @@
                 <!-- DATE OF BIRTH -->
                 <div class="form-group" ng-class="{ 'has-error' : registerFormMember.dateofbirth.$invalid && !registerFormMember.dateofbirth.$pristine }">
                     <label>Date of Birth</label>
-                    <input type="text" name="dateofbirth" class="form-control" ng-model="Member.DateOfBirth" placeholder="dd-mm-yyyy" required ng-minlength="10" ng-maxlength="10">
+                    <input type="text" name="dateofbirth" class="form-control" ng-model="Member.DateOfBirth" required ng-minlength="10" ng-maxlength="10" angular-mask="00-00-0000" placeholder="dd-mm-yyyy">
                     <p ng-show="registerFormMember.dateofbirth.$invalid && !registerFormMember.dateofbirth.$pristine" class="help-block">Your Date of Birth is required or incorrect. Format: dd-mm-YYYY</p>
                 </div>
 

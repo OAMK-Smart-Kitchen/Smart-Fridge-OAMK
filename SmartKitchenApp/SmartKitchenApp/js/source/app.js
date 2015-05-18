@@ -1,7 +1,7 @@
 var app = angular.module('SmartKitchenApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'jsonDate', 'typeFilter', 'geolocation', 'datatables']);
 
-//app.serviceUrl = 'http://api.verhofstadt.eu/service/';
-app.serviceUrl = 'http://localhost:63666/service/';
+app.serviceUrl = 'http://api.verhofstadt.eu/service/';
+//app.serviceUrl = 'http://localhost:63666/service/';
 //app.blobUrl = 'http://urltopictures.com';
 app.CryptoJS = function (message) {
     return CryptoJS.SHA256(message);
@@ -26,7 +26,7 @@ app.Member = function () {
     this.Gender = null;
     this.AgeCategory = null;
     this.MemberLength = new Array();
-    this.MemberWeight = new Array();
+    this.MemberWeight = [];
 };
 app.CurrentMember = new app.Member();
 //Kitchen Object

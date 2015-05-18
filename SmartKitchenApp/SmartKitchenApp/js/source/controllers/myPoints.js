@@ -115,7 +115,7 @@ app.controller('mypoints', [
         ------------------
         */
 
-        $scope.AllExercises = new Array();
+        $scope.AllExercises = [];
         $scope.MyPoints = $rootScope.activeMember.GamePoints;
 
         /* Stap5: Scope functions
