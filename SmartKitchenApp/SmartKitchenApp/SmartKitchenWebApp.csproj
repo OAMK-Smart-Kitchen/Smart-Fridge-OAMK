@@ -138,7 +138,6 @@
     <Content Include="js\source\controllers\getstarted.js" />
     <Content Include="js\source\controllers\rootcontroller.js" />
     <Content Include="js\source\services\fridgeproductsservice.js" />
-    <Content Include="js\source\services\weatherservice.js" />
     <Content Include="js\source\templates\dashboard\dashboard.html" />
     <Content Include="js\source\templates\dashboard\members.html" />
     <Content Include="js\source\templates\dashboard\mybmi.html" />

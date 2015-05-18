@@ -3,9 +3,9 @@ app.controller('dashboard', [
     '$location',
     '$rootScope',
     'geolocation',
-    'weatherservice',
+    '$sce',
     '$q',
-    function ($scope, $location, $rootScope, geolocation, weatherservice, $q) {
+    function ($scope, $location, $rootScope, geolocation, $sce, $q) {
 
         /*
         Stap1: functie Init
@@ -33,49 +33,21 @@ app.controller('dashboard', [
 
 
         var getWeatherForecast = function () {
-            var lati = 0; var longi = 0;
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    lati = position.coords.latitude;
-                    longi = position.coords.longitude;
-                    console.log(lati);
-                    console.log(longi);
-                    weatherservice.getWeather(lati, longi)
-                       .then(function (data) {
-                           var weather = angular.fromJson(data);
-                           
-                           var tempArr = [];
-                           //console.log(weather);
-                           for (var i = 0; i < 6; i++) {
-                               var resMinF = weather.daily.data[i].temperatureMin;
-                               var resMaxF = weather.daily.data[i].temperatureMax;
-                               var resMinC = Math.round(((resMinF - 32) / 1.8) * 10) / 10;
-                               var resMaxC = Math.round(((resMaxF - 32) / 1.8) * 10) / 10;
-                               var resTimeUnix = weather.daily.data[i].time; //GMT+2 -> 3600 (1h) * 2 = 7200
-
-                               var d = new Date();
-                               d.setSeconds(resTimeUnix);
-                               
-                               var weekday = new Array(7);
-                               weekday[0] = "Sunday";
-                               weekday[1] = "Monday";
-                               weekday[2] = "Tuesday";
-                               weekday[3] = "Wednesday";
-                               weekday[4] = "Thursday";
-                               weekday[5] = "Friday";
-                               weekday[6] = "Saturday";
-
-                               var resTimeDay = weekday[d.getDay()];
-
-                               tempArr.push({ 'min': "" + resMinC + "", 'max': "" + resMaxC + "", 'day': "" + resTimeDay + "" });
-                           }
-                           $scope.forecast = tempArr;
-                           //console.log($scope.forecast);
-                           $scope.$apply();
-                       });
+                    $scope.lati = position.coords.latitude;
+                    $scope.longi = position.coords.longitude;
+                    console.log($scope.lati);
+                    console.log($scope.longi);
                 });
+            } else {
+                $scope.lati = 65.000065;
+                $scope.longi = 25.5097513;
+            }
 
-            };
+            var fcUrl = "http://forecast.io/embed/#lat=" + $scope.lati + "&lon=" + $scope.longi + "&color=#2c3e50&font=sans-serif&units=ca";
+            $scope.ForecastEmbedUrl = $sce.trustAsResourceUrl(fcUrl);
+            $scope.$apply();
         };
 
         /*
@@ -84,6 +56,9 @@ app.controller('dashboard', [
         */
 
         $scope.fridgeTemp = app.CurrentKitchen.TemperatureFridge;
+        $scope.lati = 65.000065;
+        $scope.longi = 25.5097513;
+        $scope.ForecastEmbedUrl = null;
 
         /* Stap5: Scope functions
         -------------------------
