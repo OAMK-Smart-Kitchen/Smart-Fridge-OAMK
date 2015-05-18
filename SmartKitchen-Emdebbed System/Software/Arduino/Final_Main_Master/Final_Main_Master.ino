@@ -46,7 +46,6 @@ bool ReadNFC = true;
 int count = 100;
 String productID = "";
 int ReadDelay = 500;
-int counter = 0;
 boolean Available = true;
 
 // UserDetection
@@ -85,49 +84,15 @@ void loop()
 
   //readID();
   //productID = readID();
-  ReadMod1();
-  if (counter == 1000)
+  for (int i = MOD1_R; i > MOD3_R; i++)
   {
-    Serial.print("XD");
-    Serial.print(productID);
-    Serial.print("D");
-    Serial.print("A");
-    Serial.print(MOD1_R);
-    Serial.print("B");
-    Serial.print(Available);
-    Serial.print("BX");
-    delay(1000);
+    ReadMod(i);
+    readID();
+    SendToWifi(productID, i, Available);
+    delay(5000);
   }
-  ReadMod2();
-  if (counter == 2000)
-  {
-    Serial.print("XD");
-    Serial.print(productID);
-    Serial.print("D");
-    Serial.print("A");
-    Serial.print(MOD2_R);
-    Serial.print("B");
-    Serial.print(Available);
-    Serial.print("BX");
-    delay(1000);
-  }
-  ReadMod3();
-  if (counter == 3000)
-  {
-    Serial.print("XD");
-    Serial.print(productID);
-    Serial.print("D");
-    Serial.print("A");
-    Serial.print(MOD3_R);
-    Serial.print("B");
-    Serial.print(Available);
-    Serial.print("BX");
-    counter = 0;
-    delay(1000);
-  }
-  readID();
-  Serial.println(counter);
-  counter++;
+
+
 
   /*
   if (DetectUser())
@@ -214,6 +179,17 @@ void readID()
   //delay(ReadDelay);
 }
 
+void SendToWifi(String iD, int location, boolean Available)
+{
+  Serial.print("XD");  // Start Header - Start ID
+  Serial.print(iD);
+  Serial.print("DA");  // Start Adres  
+  Serial.print(location);
+  Serial.print("AB");   // Start avaiable
+  Serial.print(Available);
+  Serial.print("BX");
+}
+
 void VisualRGBCheck()
 {
   int timer = 200;
@@ -271,33 +247,34 @@ boolean DetectUser()
   delay(500);
 }
 
-void ReadMod1()
+void ReadMod(int SelectedMod)
 {
-  ModuleWrite(Purple, MOD1);
-  ModuleWrite(White, MOD2);
-  ModuleWrite(White, MOD3);
-  ModuleWrite(Read, MOD1_R);
-  ModuleWrite(Off, MOD2_R);
-  ModuleWrite(Off, MOD3_R);
-}
+  switch (SelectedMod) {
+    case MOD1_R:
+      ModuleWrite(Purple, MOD1);
+      ModuleWrite(White, MOD2);
+      ModuleWrite(White, MOD3);
+      ModuleWrite(Read, MOD1_R);
+      ModuleWrite(Off, MOD2_R);
+      ModuleWrite(Off, MOD3_R);
+      break;
+    case MOD2_R:
+      ModuleWrite(White, MOD1);
+      ModuleWrite(Purple, MOD2);
+      ModuleWrite(White, MOD3);
+      ModuleWrite(Off, MOD1_R);
+      ModuleWrite(Read, MOD2_R);
+      ModuleWrite(Off, MOD3_R);
+      break;
 
-void ReadMod2()
-{
-  ModuleWrite(White, MOD1);
-  ModuleWrite(Purple, MOD2);
-  ModuleWrite(White, MOD3);
-  ModuleWrite(Off, MOD1_R);
-  ModuleWrite(Read, MOD2_R);
-  ModuleWrite(Off, MOD3_R);
-}
-
-void ReadMod3()
-{
-  ModuleWrite(White, MOD1);
-  ModuleWrite(White, MOD2);
-  ModuleWrite(Purple, MOD3);
-  ModuleWrite(Off, MOD1_R);
-  ModuleWrite(Off, MOD2_R);
-  ModuleWrite(Read, MOD3_R);
+    case MOD3_R:
+      ModuleWrite(White, MOD1);
+      ModuleWrite(White, MOD2);
+      ModuleWrite(Purple, MOD3);
+      ModuleWrite(Off, MOD1_R);
+      ModuleWrite(Off, MOD2_R);
+      ModuleWrite(Read, MOD3_R);
+      break;
+  }
 }
 
