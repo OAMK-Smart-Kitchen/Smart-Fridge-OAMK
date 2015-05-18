@@ -13,8 +13,6 @@
     <script src='js/vendor/angular-route.js'></script>
     <script src='js/vendor/angular-resource.min.js'></script>
     <script src="js/vendor/angular-datatables.min.js"></script>
-    <!--<script src="js/vendor/d3.min.js"></script>
-    <script src="js/vendor/Donut3D.js"></script>-->
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/vendor/bootbox.min.js"></script>
     <script src="js/vendor/ui-bootstrap-custom-0.12.0.min.js"></script>
@@ -125,6 +123,9 @@
                 </li>
                 <li ng-show="currentPage != '/get-started' && currentPage != '/about' && currentPage != '/login' && currentPage != '/'" ng-class="{'active' : currentPage == '/members'}">
                     <a href="" role="button" data-ng-click="goToMembers()">Select other member</a>
+                </li>
+                <li ng-show="currentPage != '/get-started' && currentPage != '/about' && currentPage != '/login' && currentPage != '/'" ng-class="{'active' : currentPage == '/dashboard'}">
+                    <a href="" role="button" data-ng-click="enterKitchen()">Dashboard</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
