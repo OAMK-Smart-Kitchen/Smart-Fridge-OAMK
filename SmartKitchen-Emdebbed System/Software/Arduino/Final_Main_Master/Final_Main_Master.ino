@@ -70,25 +70,17 @@ void setup()
   ModuleWrite(Off, MOD4_R);
   ModuleWrite(Off, MOD5_R);
 
-
-  //timer.setInterval(3000, ReadMod1);
 }
 
 void loop()
 {
   //VisualRGBCheck();
-  //ModuleWrite(Red, MOD1);
-  //ModuleWrite(Read, MOD2_R);
-  //readID();
-
-
-  //readID();
-  //productID = readID();
-  for (int i = MOD1_R; i > MOD3_R; i++)
+  for (int i = 61 ; i <= 63; i++)
   {
-    ReadMod(i);
+    SetMod(i);
     readID();
     SendToWifi(productID, i, Available);
+    productID = "";
     delay(5000);
   }
 
@@ -183,11 +175,11 @@ void SendToWifi(String iD, int location, boolean Available)
 {
   Serial.print("XD");  // Start Header - Start ID
   Serial.print(iD);
-  Serial.print("DA");  // Start Adres  
+  Serial.print("DA");  // Start Adres
   Serial.print(location);
   Serial.print("AB");   // Start avaiable
   Serial.print(Available);
-  Serial.print("BX");
+  Serial.println("BX");
 }
 
 void VisualRGBCheck()
@@ -247,16 +239,17 @@ boolean DetectUser()
   delay(500);
 }
 
-void ReadMod(int SelectedMod)
+void SetMod(int SelectedMod)
 {
   switch (SelectedMod) {
-    case MOD1_R:
+    case 61:
       ModuleWrite(Purple, MOD1);
       ModuleWrite(White, MOD2);
       ModuleWrite(White, MOD3);
       ModuleWrite(Read, MOD1_R);
       ModuleWrite(Off, MOD2_R);
       ModuleWrite(Off, MOD3_R);
+      Serial.println("MOD 1 selected");
       break;
     case MOD2_R:
       ModuleWrite(White, MOD1);
@@ -265,6 +258,7 @@ void ReadMod(int SelectedMod)
       ModuleWrite(Off, MOD1_R);
       ModuleWrite(Read, MOD2_R);
       ModuleWrite(Off, MOD3_R);
+      Serial.println("MOD 2 selected");
       break;
 
     case MOD3_R:
@@ -274,6 +268,7 @@ void ReadMod(int SelectedMod)
       ModuleWrite(Off, MOD1_R);
       ModuleWrite(Off, MOD2_R);
       ModuleWrite(Read, MOD3_R);
+      Serial.println("MOD 3 selected");
       break;
   }
 }
