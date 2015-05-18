@@ -1,3 +1,5 @@
+#include <SimpleTimer.h>
+
 
 // B00000000 Off
 // B00000001 Green
@@ -44,6 +46,8 @@ bool ReadNFC = true;
 int count = 100;
 String productID = "";
 int ReadDelay = 500;
+int counter = 0;
+boolean Available = true;
 
 // UserDetection
 int duration;                //Stores duration of pulse in
@@ -66,16 +70,64 @@ void setup()
   ModuleWrite(Off, MOD3_R);
   ModuleWrite(Off, MOD4_R);
   ModuleWrite(Off, MOD5_R);
+
+
+  //timer.setInterval(3000, ReadMod1);
 }
 
 void loop()
 {
   //VisualRGBCheck();
-   ModuleWrite(Red, MOD3);
-  ModuleWrite(Read, MOD3_R);
-  ModuleWrite(Off, MOD1_R);
-  ModuleWrite(Off, MOD2_R);
+  //ModuleWrite(Red, MOD1);
+  //ModuleWrite(Read, MOD2_R);
+  //readID();
+
+
+  //readID();
+  //productID = readID();
+  ReadMod1();
+  if (counter == 1000)
+  {
+    Serial.print("XD");
+    Serial.print(productID);
+    Serial.print("D");
+    Serial.print("A");
+    Serial.print(MOD1_R);
+    Serial.print("B");
+    Serial.print(Available);
+    Serial.print("BX");
+    delay(1000);
+  }
+  ReadMod2();
+  if (counter == 2000)
+  {
+    Serial.print("XD");
+    Serial.print(productID);
+    Serial.print("D");
+    Serial.print("A");
+    Serial.print(MOD2_R);
+    Serial.print("B");
+    Serial.print(Available);
+    Serial.print("BX");
+    delay(1000);
+  }
+  ReadMod3();
+  if (counter == 3000)
+  {
+    Serial.print("XD");
+    Serial.print(productID);
+    Serial.print("D");
+    Serial.print("A");
+    Serial.print(MOD3_R);
+    Serial.print("B");
+    Serial.print(Available);
+    Serial.print("BX");
+    counter = 0;
+    delay(1000);
+  }
   readID();
+  Serial.println(counter);
+  counter++;
 
   /*
   if (DetectUser())
@@ -120,14 +172,12 @@ void readID()
     if (tempcharBuf[i] == '4' && tempcharBuf[i + 1] == '8' && tempcharBuf[i + 2] == '5' && tempcharBuf[i + 3] == '2' && (i + 3) < LengthCharArr) // Shifting array
     {
       StartShifting = true;
-      Serial.println("Start");
     }
     if (StartShifting)
     {
-      charBuf[index] = tempcharBuf[i]; //
+      charBuf[index] = tempcharBuf[i];
       index++;
     }
-
   }
   //charBuf = tempcharBuf;
   for (int i = 6; i <= LengthCharArr; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
@@ -153,15 +203,14 @@ void readID()
     // Comparing the boxes
     if (boxA == boxB && boxA != "")
     {
-      productID = boxA;          // Final productID
+      productID = boxA;    // Final productID
+      for ( int i = 0; i < LengthCharArr;  ++i )    // Clear buffer of chars
+      {
+        charBuf[i] = (char)0;
+        tempcharBuf[i] = (char)0;
+      }
     }
   }
-
-  for ( int i = 0; i < LengthCharArr;  ++i )    // Clear buffer of chars
-  {
-    charBuf[i] = (char)0;
-  }
-  Serial.println(productID);
   //delay(ReadDelay);
 }
 
@@ -181,7 +230,7 @@ void VisualRGBCheck()
     delay(timer);
     ModuleWrite(Purple, MOD1 + count);
     delay(timer);
-        ModuleWrite(Green, MOD1 + count);
+    ModuleWrite(Green, MOD1 + count);
     delay(timer);
   }
   for (int i = 0; i < 3; i++) {
@@ -194,16 +243,6 @@ void VisualRGBCheck()
     }
     delay(timer);
   }
-
-
-
-/*
-for (int count = 3; count >= 0; count--) {
-  digitalWrite(pinArray[count], HIGH);
-  delay(timer);
-  digitalWrite(pinArray[count], LOW);
-  delay(timer);
-} .*/
 }
 
 boolean DetectUser()
@@ -230,5 +269,35 @@ boolean DetectUser()
     return false;
   }
   delay(500);
+}
+
+void ReadMod1()
+{
+  ModuleWrite(Purple, MOD1);
+  ModuleWrite(White, MOD2);
+  ModuleWrite(White, MOD3);
+  ModuleWrite(Read, MOD1_R);
+  ModuleWrite(Off, MOD2_R);
+  ModuleWrite(Off, MOD3_R);
+}
+
+void ReadMod2()
+{
+  ModuleWrite(White, MOD1);
+  ModuleWrite(Purple, MOD2);
+  ModuleWrite(White, MOD3);
+  ModuleWrite(Off, MOD1_R);
+  ModuleWrite(Read, MOD2_R);
+  ModuleWrite(Off, MOD3_R);
+}
+
+void ReadMod3()
+{
+  ModuleWrite(White, MOD1);
+  ModuleWrite(White, MOD2);
+  ModuleWrite(Purple, MOD3);
+  ModuleWrite(Off, MOD1_R);
+  ModuleWrite(Off, MOD2_R);
+  ModuleWrite(Read, MOD3_R);
 }
 
