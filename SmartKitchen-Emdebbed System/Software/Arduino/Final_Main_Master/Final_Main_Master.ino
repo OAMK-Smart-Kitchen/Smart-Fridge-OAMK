@@ -44,8 +44,10 @@ String incomingString = "";
 String tempString = "";
 bool ReadNFC = true;
 int count = 100;
-String productID = "";
-int ReadDelay = 500;
+String productID = "0000";
+int ReadDelay = 3000;
+
+int Temprature = 20;
 boolean Available = true;
 
 // UserDetection
@@ -79,13 +81,25 @@ void loop()
   {
     SetMod(i);
     readID();
-    SendToWifi(productID, i, Available);
-    productID = "";
-    delay(5000);
+    if (productID != "0000")
+    {
+      ModuleWrite(Green, i - 5);
+      Available = true;
+      SendToWifi(productID, i, Available, Temprature);  
+      SendToWifi(productID, i, Available, Temprature); 
+      SendToWifi(productID, i, Available, Temprature); 
+    }
+    else
+    {
+      ModuleWrite(Red, i - 5);
+      Available = false;
+      SendToWifi(productID, i, Available, Temprature);
+      SendToWifi(productID, i, Available, Temprature); 
+      SendToWifi(productID, i, Available, Temprature); 
+    }
+    productID = "0000";
+    delay(ReadDelay);
   }
-
-
-
   /*
   if (DetectUser())
   {
@@ -171,7 +185,7 @@ void readID()
   //delay(ReadDelay);
 }
 
-void SendToWifi(String iD, int location, boolean Available)
+void SendToWifi(String iD, int location, boolean Available, int temprature)
 {
   Serial.print("XD");  // Start Header - Start ID
   Serial.print(iD);
@@ -179,7 +193,9 @@ void SendToWifi(String iD, int location, boolean Available)
   Serial.print(location);
   Serial.print("AB");   // Start avaiable
   Serial.print(Available);
-  Serial.println("BX");
+  Serial.print("BT");
+  Serial.print(temprature);
+  Serial.print("TX");
 }
 
 void VisualRGBCheck()
@@ -246,29 +262,26 @@ void SetMod(int SelectedMod)
       ModuleWrite(Purple, MOD1);
       ModuleWrite(White, MOD2);
       ModuleWrite(White, MOD3);
-      ModuleWrite(Read, MOD1_R);
-      ModuleWrite(Off, MOD2_R);
+      ModuleWrite(Off, MOD1_R);
+      ModuleWrite(Read, MOD2_R);
       ModuleWrite(Off, MOD3_R);
-      Serial.println("MOD 1 selected");
       break;
     case MOD2_R:
       ModuleWrite(White, MOD1);
       ModuleWrite(Purple, MOD2);
       ModuleWrite(White, MOD3);
       ModuleWrite(Off, MOD1_R);
-      ModuleWrite(Read, MOD2_R);
-      ModuleWrite(Off, MOD3_R);
-      Serial.println("MOD 2 selected");
+      ModuleWrite(Off, MOD2_R);
+      ModuleWrite(Read, MOD3_R);
       break;
 
     case MOD3_R:
       ModuleWrite(White, MOD1);
       ModuleWrite(White, MOD2);
       ModuleWrite(Purple, MOD3);
-      ModuleWrite(Off, MOD1_R);
+      ModuleWrite(Read, MOD1_R);
       ModuleWrite(Off, MOD2_R);
-      ModuleWrite(Read, MOD3_R);
-      Serial.println("MOD 3 selected");
+      ModuleWrite(Off, MOD3_R);
       break;
   }
 }

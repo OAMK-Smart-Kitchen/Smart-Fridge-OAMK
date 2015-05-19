@@ -46,63 +46,63 @@ SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 void setup() {
   Serial.begin(9600);
   Serial1.begin(9600);
-  
-  ConnectionInfo connection_info;
-  int i;
-  // Initialize Serial port
-  Serial.println("----------------------------------");
-  Serial.println("SmartFridge CC3000 - PUT to Server");
-  Serial.println("----------------------------------");
-
-  // Initialize CC3000 (configure SPI communications)
-  if ( wifi.init() ) {
-    Serial.println("CC3000 initialization complete");
-  } else {
-    Serial.println("Error: CC3000 initialization incomplete");
-  }
-
-  // Connect using DHCP
-  Serial.print("Connecting to SSID: ");
-  Serial.println(ap_ssid);
-  if (!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
-    Serial.println("Error: Could not connect to AP");
-  }
-
-  // Connection details and print IP address
-  if ( !wifi.getConnectionInfo(connection_info) ) {
-    Serial.println("Error: Could not obtain connection details");
-  } else {
-    Serial.print("IP Address: ");
-    for (i = 0; i < IP_ADDR_LEN; i++) {
-      Serial.print(connection_info.ip_address[i]);
-      if ( i < IP_ADDR_LEN - 1 ) {
-        Serial.print(".");
-      }
-    }
-    Serial.println();
-  }
-
-  // Make TCP connection to remote host
-  Serial.print("Performing HTTP PUT to: ");
-  Serial.println(server);
-
-  client.connect(server, 80);
-  if (client.connected()) { //initiate connection
-    Serial.print("Connected to: ");
-  }
-  else {
-    Serial.print("Failed to connect with: ");
-  }
-  Serial.println(server);
-
   /*
-    // Make a HTTP GET request (works!)
-    client.println("GET /service/exercises HTTP/1.1");
-    client.print("Host: ");
-    client.println(server);
-    client.println("Connection: close");
-    client.println();
-    Serial.println(); */
+    ConnectionInfo connection_info;
+    int i;
+    // Initialize Serial port
+    Serial.println("----------------------------------");
+    Serial.println("SmartFridge CC3000 - PUT to Server");
+    Serial.println("----------------------------------");
+
+    // Initialize CC3000 (configure SPI communications)
+    if ( wifi.init() ) {
+      Serial.println("CC3000 initialization complete");
+    } else {
+      Serial.println("Error: CC3000 initialization incomplete");
+    }
+
+    // Connect using DHCP
+    Serial.print("Connecting to SSID: ");
+    Serial.println(ap_ssid);
+    if (!wifi.connect(ap_ssid, ap_security, ap_password, timeout)) {
+      Serial.println("Error: Could not connect to AP");
+    }
+
+    // Connection details and print IP address
+    if ( !wifi.getConnectionInfo(connection_info) ) {
+      Serial.println("Error: Could not obtain connection details");
+    } else {
+      Serial.print("IP Address: ");
+      for (i = 0; i < IP_ADDR_LEN; i++) {
+        Serial.print(connection_info.ip_address[i]);
+        if ( i < IP_ADDR_LEN - 1 ) {
+          Serial.print(".");
+        }
+      }
+      Serial.println();
+    }
+
+    // Make TCP connection to remote host
+    Serial.print("Performing HTTP PUT to: ");
+    Serial.println(server);
+
+    client.connect(server, 80);
+    if (client.connected()) { //initiate connection
+      Serial.print("Connected to: ");
+    }
+    else {
+      Serial.print("Failed to connect with: ");
+    }
+    Serial.println(server);
+
+    /*
+      // Make a HTTP GET request (works!)
+      client.println("GET /service/exercises HTTP/1.1");
+      client.print("Host: ");
+      client.println(server);
+      client.println("Connection: close");
+      client.println();
+      Serial.println(); */
 }
 
 void loop()
@@ -111,18 +111,34 @@ void loop()
   {
     incommingByte = Serial1.read();
     incommingString.concat(incommingByte);
-    incommingString.toCharArray(charArray, 150);
+    incommingString.toCharArray(charArray, 100);
   }
 
   if (!initComplete)
   {
     CheckInit();
+
   }
   else
   {
-    data = "{\"IdNFC\":\"" + GetId(); + "\",\"Address\":\"" + GetAddress(); + "\",\"Available\":\"" + GetAvailability(); + "\"}"; // Constructing Json to PUT
+    // Constructing Json to PUT
+    
+    //Serial.print(GetAddress());
+    String ID = GetId();
+    String Address = GetAddress();
+    String Available = GetAvailability();
+    String temprature = GetTemprature();
+    data = "{\"IdNFC\":\"" + ID  + "\",\"Address\":\"" + Address + "\",\"Available\":\"" + Available + "\",\"TemperatureFridge\":\"" + temprature + "\"}";
+    Serial.print(data);
+    delay(1000);
     //    data = "{\"IdNFC\":\"" + GetId(); + "\",\"Address\":\"" + GetAddress(); + "\",\"Available\":\"" + (String)Available + "\"}";
     dataReceived = true;
+    //initComplete = false;
+    CheckInit();
+    for ( int i = 0; i < 100;  ++i )    // Clear buffer of chars
+    {
+      charArray[i] = (char)0;
+    }
 
     /*
     NFC_ID = GetId();
@@ -135,6 +151,7 @@ void loop()
      Serial.println(Temprature);
      */
   }
+  /*
   if (dataReceived)
   {
     if (client.connect(server, 80))
@@ -170,20 +187,25 @@ void loop()
       Serial.print(c);
     }
     */
+  /*
 
-    if ( client.available() )  // If there are incoming bytes, read them.
+  if ( client.available() )  // If there are incoming bytes, read them.
+  {
+    for (int i = 0; i < 50; i++)
     {
       char z = client.read();
       Serial.print(z);
     }
-    dataReceived = false;
+  }
+  dataReceived = false;
   }
   else
   {
-    if (client.connected()) {
-      client.stop();	// DISCONNECT FROM THE SERVER}
-    }
+  if (client.connected()) {
+    client.stop();	// DISCONNECT FROM THE SERVER}
   }
+  }
+  */
 }
 void CheckInit()
 {
