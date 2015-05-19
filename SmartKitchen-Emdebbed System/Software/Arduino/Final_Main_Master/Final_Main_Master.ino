@@ -184,16 +184,28 @@ void readID()
 
 void SendToWifi(String iD, int location, boolean Available, int temprature)
 {
-  Serial.print("XD");  // Start Header - Start ID
+  /*
+  Serial.write("XD");  // Start Header - Start ID
   Serial.print(iD);
   Serial.print("DA");  // Start Adres
   Serial.print(location);
   Serial.print("AB");   // Start avaiable
   Serial.print(Available);
   Serial.print("BX");
-  //Serial.print(temprature);
-  //Serial.print("TX");
+  Serial.print(temprature);
+  Serial.print("TX");*/
   
+  char charArray[50];
+  String tempStr = "XD" + iD + "DA" + (String)location + "AB" + (String)Available + "BT" + (String)temprature + "TX";
+  //char* buff;
+  
+  tempStr.toCharArray(charArray,50);
+  
+  
+  
+  //String test = "T" + "T";
+  
+  Serial.write(charArray);  
 }
 
 void VisualRGBCheck()

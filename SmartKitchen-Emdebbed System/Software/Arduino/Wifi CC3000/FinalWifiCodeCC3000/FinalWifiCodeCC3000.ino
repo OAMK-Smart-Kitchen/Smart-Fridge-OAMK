@@ -106,9 +106,41 @@ void setup() {
 }
 
 int index = 0;
+String inData = "";
 
 void loop()
 {
+  inData = "";
+  
+  if (Serial1.available()) 
+  {
+    delay(100); //allows all serial sent to be received together
+    while(Serial1.available()) 
+    {
+      char recieved = Serial1.read();
+          inData += recieved;
+    }
+  }
+  
+  if(!inData.equals(""))
+  {
+     //Serial.println(inData);
+     inData.toCharArray(charArray, 100);
+     
+    //Constructing Json to PUT
+    String ID = GetId();
+    String Address = GetAddress();
+    String Available = GetAvailability();
+    String temprature = GetTemprature();
+    data = "{\"IdNFC\":\"" + ID  + "\",\"Address\":\"" + Address + "\",\"Available\":\"" + Available + "\",\"TemperatureFridge\":\"" + temprature + "\"}";
+    Serial.print(data);
+    //SendToServer(data);
+  }
+
+  
+  
+ 
+  /*
   if(index >= 99)
   {
     index = 0;
@@ -162,7 +194,7 @@ void loop()
       Serial.print(charArray[i]);
     }*/
     //delay(1000);
-  }
+  //}
 
   /*
 
