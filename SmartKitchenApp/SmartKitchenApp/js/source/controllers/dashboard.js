@@ -47,7 +47,6 @@ app.controller('dashboard', [
 
             var fcUrl = "http://forecast.io/embed/#lat=" + $scope.lati + "&lon=" + $scope.longi + "&color=#2c3e50&font=sans-serif&units=ca";
             $scope.ForecastEmbedUrl = $sce.trustAsResourceUrl(fcUrl);
-            $scope.$apply();
         };
 
         /*
