@@ -31,7 +31,7 @@ String data = " ";
 // Reading from Master Module
 char incommingByte;
 String incommingString;
-char charArray[150];
+char charArray[80];
 boolean initComplete = false;
 boolean dataReceived = false;
 String NFC_ID = "";
@@ -105,88 +105,65 @@ void setup() {
       Serial.println(); */
 }
 
+int index = 0;
+
 void loop()
 {
+  if(index >= 99)
+  {
+    index = 0;
+    }
+  
+  
   if (Serial1.available())
   {
     incommingByte = Serial1.read();
-    incommingString.concat(incommingByte);
-    incommingString.toCharArray(charArray, 100);
+    //incommingString.concat(incommingByte);
+    //incommingString.toCharArray(charArray, 100);
+    charArray[index] = incommingByte;
+    index++;
   }
+
+  for ( int i = 0; i < sizeof(charArray);  ++i )    // Clear buffer of chars
+  {
+    Serial.print(charArray[i]);
+  }
+  Serial.println();
+
 
   if (!initComplete)
   {
-    CheckInit();
-
+    CheckInit(); // Get header
   }
-  else
+
+  if (initComplete)
   {
+
     // Constructing Json to PUT
-    
-    //Serial.print(GetAddress());
-    String ID = GetId();
-    String Address = GetAddress();
-    String Available = GetAvailability();
-    String temprature = GetTemprature();
-    data = "{\"IdNFC\":\"" + ID  + "\",\"Address\":\"" + Address + "\",\"Available\":\"" + Available + "\",\"TemperatureFridge\":\"" + temprature + "\"}";
-    Serial.print(data);
-    delay(1000);
+    //String ID = GetId();
+    //String Address = GetAddress();
+    //String Available = GetAvailability();
+    //String temprature = GetTemprature();
+    //data = "{\"IdNFC\":\"" + ID  + "\",\"Address\":\"" + Address + "\",\"Available\":\"" + Available + "\",\"TemperatureFridge\":\"" + temprature + "\"}";
+    // Serial.print(data);
+    //SendToServer(data);
     //    data = "{\"IdNFC\":\"" + GetId(); + "\",\"Address\":\"" + GetAddress(); + "\",\"Available\":\"" + (String)Available + "\"}";
-    dataReceived = true;
-    //initComplete = false;
-    CheckInit();
-    for ( int i = 0; i < 100;  ++i )    // Clear buffer of chars
-    {
-      charArray[i] = (char)0;
-    }
+    initComplete = false;
 
+
+    ClearArray();
+
+
+    //incommingString = "";
+    
     /*
-    NFC_ID = GetId();
-    Address = GetAddress();
-    Availability = GetAvailability();
-    Temprature = GetTemprature();
-     Serial.println(NFC_ID);
-     Serial.println(Address);
-     Serial.println(Availability);
-     Serial.println(Temprature);
-     */
+        for ( int i = 0; i < sizeof(charArray);  ++i )    // Clear buffer of chars
+    {
+      Serial.print(charArray[i]);
+    }*/
+    //delay(1000);
   }
-  /*
-  if (dataReceived)
-  {
-    if (client.connect(server, 80))
-    {
-      if (client.connected())
-      {
-        client.println("PUT /service/Hardware/Product HTTP/1.1");
-        client.print("Host: ");
-        client.println(server);
-        client.print("Content-Length: ");
-        client.println(data.length()); // deleting quotes
-        client.println("Cache-Control: no-cache");
-        //client.println("Connection: keep-alive");
-        //client.println("Content-Type: text/plain; charset=utf-8");
-        //client.println("Content-Transfer-Encoding: base64");
-        //client.println("Accept-Encoding: gzip, deflate, sdch");
-        client.println("Content-Type: application/json");
-        client.println();
-        client.println(data);
-        //client.println("{\"IdNFC\":\"48525352706548656557515256481310\",\"Address\":\"0156\",\"Available\":\"true\"}");
-        delay(3000);
-      }
-      //client.stop();
-    }
-    else
-    {
-      Serial.println("Error: Could not make TCP connection");
-    }
-    /*
-    for (int i = 0; i < 20; i++)
-    {
-      char c = client.read();
-      Serial.print(c);
-    }
-    */
+
   /*
 
   if ( client.available() )  // If there are incoming bytes, read them.
@@ -207,6 +184,17 @@ void loop()
   }
   */
 }
+
+void ClearArray()
+{
+    for ( int i = 0; i < sizeof(charArray);  ++i )    // Clear buffer of chars
+    {
+      //charArray[i] = (char)0;
+      charArray[i] = 'Q';
+    }
+    index = 0;
+}
+
 void CheckInit()
 {
   int count = 0;
@@ -228,6 +216,7 @@ String GetContentByFilterOn(char filter)
   bool readd = false;
   bool stopread = false;
   String content = "";
+  
   for (int i = 0; i < sizeof(charArray); i++)
   {
     if (stopread)
@@ -254,6 +243,45 @@ String GetContentByFilterOn(char filter)
   }
 }
 
+void SendToServer(String data)
+{
+  if (client.connect(server, 80))
+  {
+    if (client.connected())
+    {
+      client.println("PUT /service/Hardware/Product HTTP/1.1");
+      client.print("Host: ");
+      client.println(server);
+      client.print("Content-Length: ");
+      client.println(data.length()); // deleting quotes
+      client.println("Cache-Control: no-cache");
+      //client.println("Connection: keep-alive");
+      //client.println("Content-Type: text/plain; charset=utf-8");
+      //client.println("Content-Transfer-Encoding: base64");
+      //client.println("Accept-Encoding: gzip, deflate, sdch");
+      client.println("Content-Type: application/json");
+      client.println();
+      client.println(data);
+      delay(3000);
+    }
+    //client.stop();
+  }
+  else
+  {
+    Serial.println("Error: Could not make TCP connection");
+  }
+
+  for (int i = 0; i < 20; i++)
+  {
+    char c = client.read();
+    Serial.print(c);
+  }
+}
+
+String GetHeader()
+{
+  return GetContentByFilterOn('X');    // Filer NFC-ID by data between 'D'
+}
 String GetId()
 {
   return GetContentByFilterOn('D');    // Filer NFC-ID by data between 'D'

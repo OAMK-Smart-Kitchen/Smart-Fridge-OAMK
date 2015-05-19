@@ -45,7 +45,7 @@ String tempString = "";
 bool ReadNFC = true;
 int count = 100;
 String productID = "0000";
-int ReadDelay = 3000;
+int ReadDelay = 1000;
 
 int Temprature = 20;
 boolean Available = true;
@@ -77,7 +77,7 @@ void setup()
 void loop()
 {
   //VisualRGBCheck();
-  for (int i = 61 ; i <= 63; i++)
+  for (int i = MOD1_R ; i <= MOD3_R ; i++)
   {
     SetMod(i);
     readID();
@@ -85,18 +85,15 @@ void loop()
     {
       ModuleWrite(Green, i - 5);
       Available = true;
-      SendToWifi(productID, i, Available, Temprature);  
-      SendToWifi(productID, i, Available, Temprature); 
-      SendToWifi(productID, i, Available, Temprature); 
     }
     else
     {
       ModuleWrite(Red, i - 5);
       Available = false;
-      SendToWifi(productID, i, Available, Temprature);
-      SendToWifi(productID, i, Available, Temprature); 
-      SendToWifi(productID, i, Available, Temprature); 
     }
+    SendToWifi("123456", 60, 1, 3);
+        //SendToWifi(productID, i, Available, Temprature);
+
     productID = "0000";
     delay(ReadDelay);
   }
@@ -193,9 +190,10 @@ void SendToWifi(String iD, int location, boolean Available, int temprature)
   Serial.print(location);
   Serial.print("AB");   // Start avaiable
   Serial.print(Available);
-  Serial.print("BT");
-  Serial.print(temprature);
-  Serial.print("TX");
+  Serial.print("BX");
+  //Serial.print(temprature);
+  //Serial.print("TX");
+  
 }
 
 void VisualRGBCheck()
