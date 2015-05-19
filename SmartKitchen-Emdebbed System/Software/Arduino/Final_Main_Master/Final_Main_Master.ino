@@ -91,8 +91,8 @@ void loop()
       ModuleWrite(Red, i - 5);
       Available = false;
     }
-    SendToWifi("123456", 60, 1, 3);
-        //SendToWifi(productID, i, Available, Temprature);
+    //SendToWifi("123456", 60, 1, 3);
+    SendToWifi(productID, i, Available, Temprature);
 
     productID = "0000";
     delay(ReadDelay);
