@@ -59,6 +59,9 @@ app.controller('products', [
         -------------------------
         */
 
+        $scope.$on("$destroy", function (event) {
+            clearInterval(reloadDate);
+        });
        
         /* Stap6: init aanroepen
         --------------------

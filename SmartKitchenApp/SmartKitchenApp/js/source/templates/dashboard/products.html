@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="product in AllFridgeProducts | filter: { Available: 'true' }">
+            <tr ng-repeat="product in AllFridgeProducts | filter: { Available: '1' }">
                 <td>{{ product.Name }}</td>
                 <td>{{ product.Category }}</td>
                 <td>{{ product.Quantity }}</td>

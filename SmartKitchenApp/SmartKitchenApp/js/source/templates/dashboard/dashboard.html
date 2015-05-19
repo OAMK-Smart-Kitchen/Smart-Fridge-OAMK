@@ -1,7 +1,7 @@
 ﻿<div data-ng-controller="dashboard" class="container">
     <h1 class="text-center">Hi {{activeMember.Firstname}}!</h1>
     <h2 class="text-center">What can I do for you?</h2>
-    <div class="row text-center" style="margin-top:40px;">
+    <!--<div class="row text-center" style="margin-top:40px;">
         <div class="col-sm-offset-0 col-sm-4">
             <button style="width:100%;" class="btn btn-info" type="submit" data-ng-click="goToProducts()">
                 <img src="img/icons/wine.png" class="img-circle" style="height:150px; display: block; margin:10px auto 10px auto;" />
@@ -20,23 +20,29 @@
                 <h3 class="text-center">Shopping Bag</h3>
             </button>
         </div>
-    </div>
-    <div class="row text-center" style="margin-top:30px; margin-bottom:30px;">
+    </div>-->
+    <div class="row text-center" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class="col-sm-offset-0 col-sm-4">
+            <button style="width:100%;" class="btn btn-info" type="submit" data-ng-click="goToProducts()">
+                <img src="img/icons/wine.png" class="img-circle" style="height:150px; display: block; margin:10px auto 10px auto;" />
+                <h3 class="text-center">All Products</h3>
+            </button>
+        </div>
         <div class="col-sm-4">
-            <button style="width:100%;" class="btn btn-info" type="submit" data-ng-click="goToMyHealth()">
-                <img src="img/icons/graph.png" class="img-circle" style="height:150px; display: block; margin:10px auto 10px auto;" />
+            <button style="width: 100%;" class="btn btn-info" type="submit" data-ng-click="goToMyHealth()">
+                <img src="img/icons/graph.png" class="img-circle" style="height: 150px; display: block; margin: 10px auto 10px auto;"/>
                 <h3 class="text-center">My Health</h3>
             </button>
         </div>
-        <div class="col-sm-4">
-            <button style="width:100%;" class="btn btn-info" type="submit" disabled data-ng-click="goToHealthGame()">
-                <img src="img/icons/joypad.png" class="img-circle" style="height:150px; display: block; margin:10px auto 10px auto;" />
+        <!--<div class="col-sm-4">
+            <button style="width: 100%;" class="btn btn-info" type="submit" disabled data-ng-click="goToHealthGame()">
+                <img src="img/icons/joypad.png" class="img-circle" style="height: 150px; display: block; margin: 10px auto 10px auto;"/>
                 <h3 class="text-center">Health Game</h3>
             </button>
-        </div>
+        </div>-->
         <div class="col-sm-4">
-            <button style="width:100%;" class="btn btn-info" type="submit" data-ng-click="goToMyProfile()">
-                <img src="img/icons/settings.png" class="img-circle" style="height:150px; display: block; margin:10px auto 10px auto;" />
+            <button style="width: 100%;" class="btn btn-info" type="submit" data-ng-click="goToMyProfile()">
+                <img src="img/icons/settings.png" class="img-circle" style="height: 150px; display: block; margin: 10px auto 10px auto;"/>
                 <h3 class="text-center">My Profile</h3>
             </button>
         </div>
