@@ -27,6 +27,7 @@ unsigned int ap_security = WLAN_SEC_WPA2; // Security of network
 unsigned int timeout = 30000;             // Milliseconds
 char server[] = "api.verhofstadt.eu";     // Remote host site
 String data = " ";
+int led = 50;
 
 // Reading from Master Module
 char incommingByte;
@@ -46,6 +47,8 @@ SFE_CC3000_Client client = SFE_CC3000_Client(wifi);
 void setup() {
   Serial.begin(9600);
   Serial1.begin(9600);
+  pinMode(led, OUTPUT); 
+  digitalWrite(led, LOW);
 
   ConnectionInfo connection_info;
   int i;
@@ -89,9 +92,11 @@ void setup() {
   client.connect(server, 80);
   if (client.connected()) { //initiate connection
     Serial.print("Connected to: ");
+    digitalWrite(led, HIGH);
   }
   else {
     Serial.print("Failed to connect with: ");
+    digitalWrite(led, LOW);
   }
   Serial.println(server);
 
@@ -113,17 +118,16 @@ void loop()
   if (Serial1.available())
   {
     delay(100); //allows all serial sent to be received together
-    while(Serial1.available())
+    while (Serial1.available())
     {
       char recieved = Serial1.read();
-          inData += recieved;
+      inData += recieved;
     }
   }
 
-  if(!inData.equals(""))
+  if (!inData.equals(""))
   {
-     //Serial.println(inData);
-     inData.toCharArray(charArray, 100);
+    inData.toCharArray(charArray, 100);
 
     //Constructing Json to PUT
     String ID = GetId();
@@ -131,116 +135,9 @@ void loop()
     String Available = GetAvailability();
     String temprature = GetTemprature();
     data = "{\"IdNFC\":\"" + ID  + "\",\"Address\":\"" + Address + "\",\"Available\":\"" + Available + "\",\"TemperatureFridge\":\"" + temprature + "\"}";
-    //Serial.print(data);
     SendToServer(data);
   }
-
-
-
-
-  /*
-  if(index >= 99)
-  {
-    index = 0;
-    }
-
-
-  if (Serial1.available())
-  {
-    incommingByte = Serial1.read();
-    //incommingString.concat(incommingByte);
-    //incommingString.toCharArray(charArray, 100);
-    charArray[index] = incommingByte;
-    index++;
-  }
-
-  for ( int i = 0; i < sizeof(charArray);  ++i )    // Clear buffer of chars
-  {
-    Serial.print(charArray[i]);
-  }
-  Serial.println();
-
-
-  if (!initComplete)
-  {
-    CheckInit(); // Get header
-  }
-
-  if (initComplete)
-  {
-
-    // Constructing Json to PUT
-    //String ID = GetId();
-    //String Address = GetAddress();
-    //String Available = GetAvailability();
-    //String temprature = GetTemprature();
-    //data = "{\"IdNFC\":\"" + ID  + "\",\"Address\":\"" + Address + "\",\"Available\":\"" + Available + "\",\"TemperatureFridge\":\"" + temprature + "\"}";
-    // Serial.print(data);
-    //SendToServer(data);
-    //    data = "{\"IdNFC\":\"" + GetId(); + "\",\"Address\":\"" + GetAddress(); + "\",\"Available\":\"" + (String)Available + "\"}";
-   // initComplete = false;
-
-
-   // ClearArray();
-
-
-    //incommingString = "";
-
-    /*
-        for ( int i = 0; i < sizeof(charArray);  ++i )    // Clear buffer of chars
-    {
-      Serial.print(charArray[i]);
-    }*/
-//delay(1000);
-//}
-
-/*
-
-if ( client.available() )  // If there are incoming bytes, read them.
-{
-  for (int i = 0; i < 50; i++)
-  {
-    char z = client.read();
-    Serial.print(z);
-  }
 }
-dataReceived = false;
-}
-else
-{
-if (client.connected()) {
-  client.stop();	// DISCONNECT FROM THE SERVER}
-}
-}
-*/
-}
-/*
-void ClearArray()
-{
-    for ( int i = 0; i < sizeof(charArray);  ++i )    // Clear buffer of chars
-    {
-      //charArray[i] = (char)0;
-      charArray[i] = 'Q';
-    }
-    index = 0;
-}
-
-void CheckInit()
-{
-  int count = 0;
-  for (int i = 0; i < sizeof(charArray); i++)
-  {
-    if (charArray[i] == 'X')
-    {
-      count++;
-    }
-  }
-  if (count >= 2)
-  {
-    initComplete = true;
-  }
-}
-*/
 
 String GetContentByFilterOn(char filter)
 {
@@ -281,40 +178,39 @@ void SendToServer(String data)
     if (client.connected())
     {
       client.println("PUT /service/Hardware/Product HTTP/1.1");
+      delay(5);
       client.print("Host: ");
       client.println(server);
+      delay(5);
       client.print("Content-Length: ");
-      client.println(data.length()); // deleting quotes
+      client.println(data.length());             // deleting quotes
+      delay(5);
       client.println("Cache-Control: no-cache");
+      delay(5);
       //client.println("Connection: keep-alive");
       //client.println("Content-Type: text/plain; charset=utf-8");
       //client.println("Content-Transfer-Encoding: base64");
       //client.println("Accept-Encoding: gzip, deflate, sdch");
       client.println("Content-Type: application/json");
+      delay(5);
       client.println();
+      delay(5);
       client.println(data);
-      delay(3000);
-    }
-    if ( client.available() )  // If there are incoming bytes, read them.
-    {
-      for (int i = 0; i < 50; i++)
-      {
-        char z = client.read();
-        Serial.print(z);
+      Serial.println(data);
+            for (int i = 0; i < 50; i++){
+          char c = client.read();
+          Serial.print(c);
       }
-    }
 
-    //client.stop();
+      client.stop();
+      //delay(2000);
+    }
   }
   else
   {
-    Serial.println("Error: Could not make TCP connection");
-  }
-
-  for (int i = 0; i < 20; i++)
-  {
-    char c = client.read();
-    Serial.print(c);
+    Serial.println("Time-out: Could not make TCP connection");
+    //client.stop();
+    client.connect(server, 80);
   }
 }
 
