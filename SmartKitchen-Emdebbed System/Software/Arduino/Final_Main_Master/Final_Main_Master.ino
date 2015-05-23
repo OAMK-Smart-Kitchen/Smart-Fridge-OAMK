@@ -74,27 +74,44 @@ void setup()
 }
 
 void loop()
-{ 
-    //VisualRGBCheck()
-    for (int i = MOD1_R ; i <= MOD3_R ; i++)
-    {
-      SetMod(i);
-      readID();
-      if (productID != "0000")
-      {
-        ModuleWrite(Green, i - 5);
-        Available = true;
-      }
-      else
-      {
-        ModuleWrite(Red, i - 5);
-        Available = false;
-      }
-      SendToWifi(productID, i, Available, Temprature);
+{
+  //VisualRGBCheck();
+  
+  /*
+    if (DetectUser())
+  {
+  ModuleWrite(White, MOD1);
+  ModuleWrite(Blue, MOD2);
+  ModuleWrite(White, MOD3);
+  }
+  else
+  {
+  ModuleWrite(Off, MOD1);
+  ModuleWrite(Yellow, MOD2);
+  ModuleWrite(Red, MOD3);
+  }
+  */
 
-      productID = "0000";
-      delay(ReadDelay);
+  
+  for (int i = MOD1_R ; i <= MOD3_R ; i++)
+  {
+    SetMod(i);
+    readID();
+    if (productID != "0000")
+    {
+      ModuleWrite(Green, i - 5);
+      Available = true;
     }
+    else
+    {
+      ModuleWrite(Red, i - 5);
+      Available = false;
+    }
+    SendToWifi(productID, i, Available, Temprature);
+
+    productID = "0000";
+    delay(ReadDelay);
+  }
 }
 
 void ModuleWrite(byte txData, int Module_Address)
