@@ -71,47 +71,47 @@ void setup()
   ModuleWrite(Off, MOD3_R);
   ModuleWrite(Off, MOD4_R);
   ModuleWrite(Off, MOD5_R);
+
+
 }
 
 void loop()
 {
-  //VisualRGBCheck();
-  
-  /*
-    if (DetectUser())
+
+  // VisualRGBCheck();
+  if (DetectUser())
   {
-  ModuleWrite(White, MOD1);
-  ModuleWrite(Blue, MOD2);
-  ModuleWrite(White, MOD3);
+    ModuleWrite(White, MOD1);
+    ModuleWrite(Blue, MOD2);
+    ModuleWrite(White, MOD3);
   }
-  else
+  else 
   {
   ModuleWrite(Off, MOD1);
   ModuleWrite(Yellow, MOD2);
   ModuleWrite(Red, MOD3);
   }
-  */
+              /*
+              for (int i = MOD1_R ; i <= MOD3_R ; i++)
+              {
+                SetMod(i);
+                readID();
+                if (productID != "0000")
+                {
+                  ModuleWrite(Green, i - 5);
+                  Available = true;
+                }
+                else
+                {
+                  ModuleWrite(Red, i - 5);
+                  Available = false;
+                }
+                SendToWifi(productID, i, Available, Temprature);
 
-  
-  for (int i = MOD1_R ; i <= MOD3_R ; i++)
-  {
-    SetMod(i);
-    readID();
-    if (productID != "0000")
-    {
-      ModuleWrite(Green, i - 5);
-      Available = true;
-    }
-    else
-    {
-      ModuleWrite(Red, i - 5);
-      Available = false;
-    }
-    SendToWifi(productID, i, Available, Temprature);
-
-    productID = "0000";
-    delay(ReadDelay);
-  }
+                productID = "0000";
+                delay(ReadDelay);
+              }
+              */
 }
 
 void ModuleWrite(byte txData, int Module_Address)
@@ -192,8 +192,6 @@ void SendToWifi(String iD, int location, boolean Available, int temprature)
 {
   char charArray[50];
   String tempStr = "XD" + iD + "DA" + (String)location + "AB" + (String)Available + "BT" + (String)temprature + "TX";
-  //char* buff;
-
   tempStr.toCharArray(charArray, 50);
   Serial.write(charArray);
 }
