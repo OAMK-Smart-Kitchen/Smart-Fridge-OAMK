@@ -1,21 +1,24 @@
-/*----------------------------------
-* SEND PRODUCT INFORMATION TO SERVER
-* ----------------------------------
-* Tom Mampaey 3PBA-EA OAMK OULU FINLAND
-*
-* Gets Product information from MASTER-board SmartFridge
-* Sends it to the server using WiFi
-* Based on the GET-request Arduino example of WebClient SFE
+/*
+SEND PRODUCT INFORMATION TO SERVER
+----------------------------------
+Made by Tom Mampaey
+at 'OAMK University of Applied sciences'
+Finland - May 2015
+
+Gets product information from MASTER-board SmartFridge on Serial 1 line. 
+Sends JSON data (PUT) to the server using WiFi
+
+Code based on the GET-request example of WebClient SFE
 */
 
 #include <SPI.h>
 #include <SFE_CC3000.h>
 #include <SFE_CC3000_Client.h>
 
-// Pins
+// Pins 
 #define CC3000_INT 2   // Needs to be an interrupt pin 
 #define CC3000_EN  7   // Digital pin
-#define CC3000_CS  10  // cs pin (best 10 on uno)
+#define CC3000_CS  10  // cs pin (best 10 on if you use uno)
 
 // Connection info data lengths
 #define IP_ADDR_LEN 4   // Length of IP address in bytes
@@ -107,7 +110,8 @@ void setup() {
     client.println(server);
     client.println("Connection: close");
     client.println();
-    Serial.println(); */
+    Serial.println(); 
+  */
 }
 String inData = "";
 
@@ -117,7 +121,7 @@ void loop()
 
   if (Serial1.available())
   {
-    delay(100); //allows all serial sent to be received together
+    delay(100);                       //allows all serial sent to be received together
     while (Serial1.available())
     {
       char recieved = Serial1.read();
@@ -178,12 +182,12 @@ void SendToServer(String data)
     if (client.connected())
     {
       client.println("PUT /service/Hardware/Product HTTP/1.1");
-      delay(5);
+      delay(5);                                  // added short dealys to avoid overload
       client.print("Host: ");
       client.println(server);
       delay(5);
       client.print("Content-Length: ");
-      client.println(data.length());             // deleting quotes
+      client.println(data.length());             // without quotes
       delay(5);
       client.println("Cache-Control: no-cache");
       delay(5);
@@ -201,15 +205,12 @@ void SendToServer(String data)
           char c = client.read();
           Serial.print(c);
       }
-
       client.stop();
-      //delay(2000);
     }
   }
   else
   {
     Serial.println("Time-out: Could not make TCP connection");
-    //client.stop();
     client.connect(server, 80);
   }
 }
