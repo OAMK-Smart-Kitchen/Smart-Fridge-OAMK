@@ -1,0 +1,282 @@
+<pre>
+
+<span style="color: #7E7E7E;">/*&nbsp;</span>
+
+<span style="color: #7E7E7E;">Master&nbsp;Module&nbsp;of&nbsp;Smart&nbsp;Fridge</span>
+<span style="color: #7E7E7E;">-----------------------------</span>
+<span style="color: #7E7E7E;">Made&nbsp;by&nbsp;Tom&nbsp;Mampaey</span>
+<span style="color: #7E7E7E;">at&nbsp;'OAMK&nbsp;University&nbsp;of&nbsp;Applied&nbsp;sciences'</span>
+<span style="color: #7E7E7E;">May&nbsp;2015</span>
+
+<span style="color: #7E7E7E;">The&nbsp;mastermodule&nbsp;controls&nbsp;all&nbsp;the&nbsp;connected&nbsp;slavemodules&nbsp;by&nbsp;I2C-protocol&nbsp;on&nbsp;the&nbsp;two&nbsp;RJ-11&nbsp;connectors&nbsp;(on&nbsp;right).</span>
+<span style="color: #7E7E7E;">It&nbsp;also&nbsp;has&nbsp;a&nbsp;motionsensor&nbsp;port&nbsp;(on&nbsp;left),&nbsp;a&nbsp;temraturesensor&nbsp;and&nbsp;a&nbsp;output&nbsp;port&nbsp;to&nbsp;Wifi&nbsp;(underneath).</span>
+<span style="color: #7E7E7E;">The&nbsp;mastermodule&nbsp;is&nbsp;powerd&nbsp;by&nbsp;an&nbsp;12V&nbsp;1,5A&nbsp;DC&nbsp;adapter</span>
+
+<span style="color: #7E7E7E;">This&nbsp;code&nbsp;controls&nbsp;all&nbsp;the&nbsp;serial&nbsp;switches&nbsp;on&nbsp;the&nbsp;NFC-readers&nbsp;and&nbsp;converts&nbsp;this&nbsp;data&nbsp;to&nbsp;ID's.</span>
+<span style="color: #7E7E7E;">Seven&nbsp;diffrent&nbsp;colors&nbsp;can&nbsp;be&nbsp;dedicated&nbsp;to&nbsp;the&nbsp;RGB-strips&nbsp;of&nbsp;the&nbsp;selected&nbsp;Slave&nbsp;Module.</span>
+<span style="color: #7E7E7E;">The&nbsp;converted&nbsp;data&nbsp;will&nbsp;be&nbsp;set&nbsp;in&nbsp;a&nbsp;header&nbsp;before&nbsp;sending&nbsp;over&nbsp;the&nbsp;serial&nbsp;line&nbsp;of&nbsp;the&nbsp;output-port.</span>
+<span style="color: #7E7E7E;">*/</span>
+
+<span style="color: #7E7E7E;">//&nbsp;Module&nbsp;adresses:</span>
+#define&nbsp;&nbsp;MOD1&nbsp;&nbsp;56
+#define&nbsp;&nbsp;MOD2&nbsp;&nbsp;57
+#define&nbsp;&nbsp;MOD3&nbsp;&nbsp;58
+#define&nbsp;&nbsp;MOD4&nbsp;&nbsp;59
+#define&nbsp;&nbsp;MOD5&nbsp;&nbsp;60
+#define&nbsp;&nbsp;MOD1_R&nbsp;&nbsp;61
+#define&nbsp;&nbsp;MOD2_R&nbsp;&nbsp;62
+#define&nbsp;&nbsp;MOD3_R&nbsp;&nbsp;63
+#define&nbsp;&nbsp;MOD4_R&nbsp;&nbsp;64
+#define&nbsp;&nbsp;MOD5_R&nbsp;&nbsp;65
+
+<span style="color: #7E7E7E;">//&nbsp;Colors:</span>
+#define&nbsp;Off&nbsp;B00000000
+#define&nbsp;Read&nbsp;B00000001
+#define&nbsp;Green&nbsp;B00000001
+#define&nbsp;Red&nbsp;B00000010
+#define&nbsp;Yellow&nbsp;B00000011
+#define&nbsp;Blue&nbsp;B00000100
+#define&nbsp;BrightBlue&nbsp;B00000101
+#define&nbsp;Purple&nbsp;B11111110
+#define&nbsp;White&nbsp;B11111111
+
+#include&nbsp;&lt;<span style="color: #CC6600;">Wire</span>.h&gt;
+
+<span style="color: #7E7E7E;">//&nbsp;NFC</span>
+<span style="color: #CC6600;">int</span> incomingByte = 0;         <span style="color: #7E7E7E;">// for incoming serial data</span>
+<span style="color: #CC6600;">char</span> charBuf[100];
+<span style="color: #CC6600;">char</span> tempcharBuf[100];
+<span style="color: #CC6600;">String</span> incomingString = <span style="color: #006699;">""</span>;
+<span style="color: #CC6600;">String</span> tempString = <span style="color: #006699;">""</span>;
+<span style="color: #CC6600;">boolean</span> ReadNFC = <span style="color: #CC6600;">true</span>;
+<span style="color: #CC6600;">int</span> count = 100;
+<span style="color: #CC6600;">String</span> productID = <span style="color: #006699;">"0000"</span>;
+<span style="color: #CC6600;">int</span> ReadDelay = 1000;
+
+<span style="color: #CC6600;">int</span> Temprature = 20;        <span style="color: #7E7E7E;">// test value</span>
+<span style="color: #CC6600;">boolean</span> Available = <span style="color: #CC6600;">true</span>;
+
+<span style="color: #7E7E7E;">//&nbsp;UserDetection</span>
+<span style="color: #CC6600;">int</span> duration;                <span style="color: #7E7E7E;">// Stores duration of pulse in</span>
+<span style="color: #CC6600;">int</span> distance;                <span style="color: #7E7E7E;">// Stores distance</span>
+<span style="color: #CC6600;">int</span> sensorpin = 7;
+<span style="color: #CC6600;">int</span> UserDistance = 30;       <span style="color: #7E7E7E;">// in cm</span>
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">Wire</span>.<span style="color: #CC6600;">begin</span>();
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">begin</span>(9600);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD1);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD2);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD3);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD4);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD5);
+
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD1_R);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD2_R);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD3_R);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD4_R);
+&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD5_R);
+}
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>()
+{
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//VisualRGBCheck();          // Visual knight rider of 7 colors for visual check of connection</span>
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// if (DetectUser()) {}      // Can be interactive, from chaning colors to sending to server (works)</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i = MOD1_R ; i &lt;= MOD3_R ; i++)  <span style="color: #7E7E7E;">// Read all the readers. </span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;SetMod(i);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Select NFC-reader</span>
+&nbsp;&nbsp;&nbsp;&nbsp;readID();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (productID != <span style="color: #006699;">"0000"</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Green,&nbsp;i&nbsp;-&nbsp;5);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Product detected</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Available&nbsp;=&nbsp;<span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Red,&nbsp;i&nbsp;-&nbsp;5);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// No product</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Available&nbsp;=&nbsp;<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;SendToWifi(productID,&nbsp;i,&nbsp;Available,&nbsp;Temprature);
+
+&nbsp;&nbsp;&nbsp;&nbsp;productID&nbsp;=&nbsp;<span style="color: #006699;">"0000"</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(ReadDelay);
+&nbsp;&nbsp;}
+}
+
+<span style="color: #7E7E7E;">//&nbsp;Sends&nbsp;assigned&nbsp;data&nbsp;(color&nbsp;or&nbsp;state&nbsp;of&nbsp;serial&nbsp;switch)&nbsp;to&nbsp;specific&nbsp;Module.</span>
+<span style="color: #CC6600;">void</span> ModuleWrite(<span style="color: #CC6600;">byte</span> txData, <span style="color: #CC6600;">int</span> Module_Address)
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">Wire</span>.<span style="color: #CC6600;">beginTransmission</span>(Module_Address);
+&nbsp;&nbsp;<span style="color: #CC6600;">Wire</span>.<span style="color: #CC6600;">write</span>(txData);
+&nbsp;&nbsp;<span style="color: #CC6600;">Wire</span>.<span style="color: #CC6600;">endTransmission</span>();
+}
+
+<span style="color: #7E7E7E;">//&nbsp;Reads&nbsp;the&nbsp;data&nbsp;and&nbsp;translates&nbsp;it&nbsp;to&nbsp;an&nbsp;ID</span>
+<span style="color: #CC6600;">void</span> readID()
+{
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// ----- NFC-Tag Detection -----</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> LengthCharArr = sizeof(charBuf);
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i = 0; i &lt;= LengthCharArr; i++)            <span style="color: #7E7E7E;">// Put incomingbytes in a string of 100 chars</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">available</span>() &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;incomingByte&nbsp;=&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempString&nbsp;=&nbsp;<span style="color: #CC6600;">String</span>(incomingByte);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;incomingString&nbsp;+=&nbsp;tempString;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;incomingString.toCharArray(tempcharBuf,&nbsp;LengthCharArr);&nbsp;&nbsp;<span style="color: #7E7E7E;">// Put incomingString (size 100) in char array (100)</span>
+&nbsp;&nbsp;incomingString&nbsp;=&nbsp;<span style="color: #006699;">""</span>;
+
+&nbsp;&nbsp;<span style="color: #CC6600;">boolean</span> StartShifting = <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> index = 0;
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i = 0; i &lt;= LengthCharArr; i++)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (tempcharBuf[i] == <span style="color: #006699;">'4'</span> &amp;&amp; tempcharBuf[i + 1] == <span style="color: #006699;">'8'</span> &amp;&amp; tempcharBuf[i + 2] == <span style="color: #006699;">'5'</span> &amp;&amp; tempcharBuf[i + 3] == <span style="color: #006699;">'2'</span> &amp;&amp; (i + 3) &lt; LengthCharArr) <span style="color: #7E7E7E;">// Shifting array to brand</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartShifting&nbsp;=&nbsp;<span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (StartShifting)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charBuf[index]&nbsp;=&nbsp;tempcharBuf[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index++;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i = 6; i &lt;= LengthCharArr; i++)     <span style="color: #7E7E7E;">// Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">String</span> boxA = <span style="color: #006699;">""</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">String</span> boxB = <span style="color: #006699;">""</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Box A</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> j = 0; j &lt; i; j++)       <span style="color: #7E7E7E;">// Make the first box bigger every round by adding the first chars starting from char 0 -&gt; 6</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boxA&nbsp;+=&nbsp;charBuf[j];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Add the char at location J (Start: 0 -&gt; 6 and increments each round)</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Box B</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> j = 0; j &lt; i; j++)      <span style="color: #7E7E7E;">// Make the second box bigger every round by adding the chars starting from char 6 -&gt; 12</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (j + i &lt; LengthCharArr)             <span style="color: #7E7E7E;">// As long as the locations are smaller than the buffersize</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boxB&nbsp;+=&nbsp;charBuf[j&nbsp;+&nbsp;i];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Add the char at the location i + j (starting after chars from box A) 6 -&gt; 12</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Comparing the boxes</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (boxA == boxB &amp;&amp; boxA != <span style="color: #006699;">""</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productID&nbsp;=&nbsp;boxA;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Final productID</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> ( <span style="color: #CC6600;">int</span> i = 0; i &lt; LengthCharArr;  ++i )    <span style="color: #7E7E7E;">// Clear buffer of chars</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charBuf[i]&nbsp;=&nbsp;(<span style="color: #CC6600;">char</span>)0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempcharBuf[i]&nbsp;=&nbsp;(<span style="color: #CC6600;">char</span>)0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//&nbsp;Puts&nbsp;the&nbsp;variables&nbsp;in&nbsp;headers&nbsp;on&nbsp;the&nbsp;serial&nbsp;line&nbsp;to&nbsp;send&nbsp;out&nbsp;the&nbsp;output&nbsp;port&nbsp;</span>
+<span style="color: #CC6600;">void</span> SendToWifi(<span style="color: #CC6600;">String</span> iD, <span style="color: #CC6600;">int</span> location, <span style="color: #CC6600;">boolean</span> Available, <span style="color: #CC6600;">int</span> temprature)
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">char</span> charArray[50];
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> tempStr = <span style="color: #006699;">"XD"</span> + iD + <span style="color: #006699;">"DA"</span> + (<span style="color: #CC6600;">String</span>)location + <span style="color: #006699;">"AB"</span> + (<span style="color: #CC6600;">String</span>)Available + <span style="color: #006699;">"BT"</span> + (<span style="color: #CC6600;">String</span>)temprature + <span style="color: #006699;">"TX"</span>;
+
+&nbsp;&nbsp;tempStr.toCharArray(charArray,&nbsp;50);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">write</span>(charArray);
+}
+
+<span style="color: #7E7E7E;">//&nbsp;Visual&nbsp;knight&nbsp;rider&nbsp;of&nbsp;7&nbsp;colors&nbsp;for&nbsp;visual&nbsp;check&nbsp;of&nbsp;connection</span>
+<span style="color: #CC6600;">void</span> VisualRGBCheck()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> timer = 200;
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> count = 0; count &lt; 3; count++) {
+&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Green,&nbsp;MOD1&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Red,&nbsp;MOD1&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Yellow,&nbsp;MOD1&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Blue,&nbsp;MOD1&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(BrightBlue,&nbsp;MOD1&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Purple,&nbsp;MOD1&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Green,&nbsp;MOD1&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i = 0; i &lt; 3; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> count = 0; count &lt; 3; count++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Off,&nbsp;56&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> count = 0; count &lt; 3; count++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(White,&nbsp;56&nbsp;+&nbsp;count);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(timer);
+&nbsp;&nbsp;}
+}
+
+<span style="color: #7E7E7E;">//&nbsp;Detects&nbsp;users&nbsp;in&nbsp;front&nbsp;of&nbsp;fridge,&nbsp;gives&nbsp;countless&nbsp;options&nbsp;to&nbsp;implement</span>
+<span style="color: #CC6600;">boolean</span> DetectUser()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(sensorpin, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(sensorpin, <span style="color: #006699;">LOW</span>);                          <span style="color: #7E7E7E;">// Make pin low before sending a short high to trigger ranging</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(2);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(sensorpin, <span style="color: #006699;">HIGH</span>);                         <span style="color: #7E7E7E;">// Sends short 10 microsecond high on pin to start ranging</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(10);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(sensorpin, <span style="color: #006699;">LOW</span>);                          <span style="color: #7E7E7E;">// Set pin low again before waiting for pulse back in</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(sensorpin, <span style="color: #006699;">INPUT</span>);
+&nbsp;&nbsp;duration&nbsp;=&nbsp;<span style="color: #CC6600;">pulseIn</span>(sensorpin, <span style="color: #006699;">HIGH</span>);                   <span style="color: #7E7E7E;">// Reads echo pulse in from SRF05 in microseconds</span>
+&nbsp;&nbsp;distance&nbsp;=&nbsp;duration&nbsp;/&nbsp;58;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// /58 is distance in cm</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Seesam says: "</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( distance &lt; UserDistance)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"USER DETECTED IN FRONT OF FRIDGE!"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Motion detected on "</span>);                                              <span style="color: #7E7E7E;">// Wait before looping to do it again</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(distance);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(500);
+}
+
+<span style="color: #7E7E7E;">//&nbsp;Configures&nbsp;the&nbsp;modules&nbsp;correctly&nbsp;to&nbsp;make&nbsp;sure&nbsp;only&nbsp;that&nbsp;module&nbsp;is&nbsp;reading!</span>
+<span style="color: #CC6600;">void</span> SetMod(<span style="color: #CC6600;">int</span> SelectedMod)
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">switch</span> (SelectedMod) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">case</span> 61:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Purple,&nbsp;MOD1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(White,&nbsp;MOD2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(White,&nbsp;MOD3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD1_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Read,&nbsp;MOD2_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD3_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">case</span> MOD2_R:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(White,&nbsp;MOD1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Purple,&nbsp;MOD2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(White,&nbsp;MOD3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD1_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD2_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Read,&nbsp;MOD3_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">break</span>;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">case</span> MOD3_R:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(White,&nbsp;MOD1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(White,&nbsp;MOD2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Purple,&nbsp;MOD3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Read,&nbsp;MOD1_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD2_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleWrite(Off,&nbsp;MOD3_R);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">break</span>;
+&nbsp;&nbsp;}
+}
+
+</pre>

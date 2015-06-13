@@ -1,16 +1,22 @@
-#include <SimpleTimer.h>
 
+/* 
 
-// B00000000 Off
-// B00000001 Green
-// B00000010 Red
-// B00000011 Yellow
-// B00000100 Blue
-// B00000101 Bright Blue
-// B11111110 Purple
-// B11111111 White
+Master Module of Smart Fridge
+-----------------------------
+Made by Tom Mampaey
+at 'OAMK University of Applied sciences'
+May 2015
 
-// Adresses:
+The mastermodule controls all the connected slavemodules by I2C-protocol on the two RJ-11 connectors (on right).
+It also has a motionsensor port (on left), a temraturesensor and a output port to Wifi (underneath).
+The mastermodule is powerd by an 12V 1,5A DC adapter
+
+This code controls all the serial switches on the NFC-readers and converts this data to ID's.
+Seven diffrent colors can be dedicated to the RGB-strips of the selected Slave Module.
+The converted data will be set in a header before sending over the serial line of the output-port.
+*/
+
+// Module adresses:
 #define  MOD1  56
 #define  MOD2  57
 #define  MOD3  58
@@ -33,7 +39,6 @@
 #define Purple B11111110
 #define White B11111111
 
-
 #include <Wire.h>
 
 // NFC
@@ -42,16 +47,16 @@ char charBuf[100];
 char tempcharBuf[100];
 String incomingString = "";
 String tempString = "";
-bool ReadNFC = true;
+boolean ReadNFC = true;
 int count = 100;
 String productID = "0000";
 int ReadDelay = 1000;
 
-int Temprature = 20;
+int Temprature = 20;        // test value
 boolean Available = true;
 
 // UserDetection
-int duration;                //Stores duration of pulse in
+int duration;                // Stores duration of pulse in
 int distance;                // Stores distance
 int sensorpin = 7;
 int UserDistance = 30;       // in cm
@@ -75,36 +80,21 @@ void setup()
 
 void loop()
 {
-  //VisualRGBCheck();
+  //VisualRGBCheck();          // Visual knight rider of 7 colors for visual check of connection
+  // if (DetectUser()) {}      // Can be interactive, from chaning colors to sending to server (works)
   
-  /*
-    if (DetectUser())
+  for (int i = MOD1_R ; i <= MOD3_R ; i++)  // Read all the readers. 
   {
-  ModuleWrite(White, MOD1);
-  ModuleWrite(Blue, MOD2);
-  ModuleWrite(White, MOD3);
-  }
-  else
-  {
-  ModuleWrite(Off, MOD1);
-  ModuleWrite(Yellow, MOD2);
-  ModuleWrite(Red, MOD3);
-  }
-  */
-
-  
-  for (int i = MOD1_R ; i <= MOD3_R ; i++)
-  {
-    SetMod(i);
+    SetMod(i);                            // Select NFC-reader
     readID();
     if (productID != "0000")
     {
-      ModuleWrite(Green, i - 5);
+      ModuleWrite(Green, i - 5);          // Product detected
       Available = true;
     }
     else
     {
-      ModuleWrite(Red, i - 5);
+      ModuleWrite(Red, i - 5);            // No product
       Available = false;
     }
     SendToWifi(productID, i, Available, Temprature);
@@ -114,6 +104,7 @@ void loop()
   }
 }
 
+// Sends assigned data (color or state of serial switch) to specific Module.
 void ModuleWrite(byte txData, int Module_Address)
 {
   Wire.beginTransmission(Module_Address);
@@ -121,11 +112,12 @@ void ModuleWrite(byte txData, int Module_Address)
   Wire.endTransmission();
 }
 
+// Reads the data and translates it to an ID
 void readID()
 {
   // ----- NFC-Tag Detection -----
   int LengthCharArr = sizeof(charBuf);
-  //productID = "S";
+  
   for (int i = 0; i <= LengthCharArr; i++)            // Put incomingbytes in a string of 100 chars
   {
     if (Serial.available() > 0) {
@@ -133,9 +125,8 @@ void readID()
       tempString = String(incomingByte);
       incomingString += tempString;
     }
-    //productID = productID + "E";
-
   }
+  
   incomingString.toCharArray(tempcharBuf, LengthCharArr);  // Put incomingString (size 100) in char array (100)
   incomingString = "";
 
@@ -143,7 +134,7 @@ void readID()
   int index = 0;
   for (int i = 0; i <= LengthCharArr; i++)
   {
-    if (tempcharBuf[i] == '4' && tempcharBuf[i + 1] == '8' && tempcharBuf[i + 2] == '5' && tempcharBuf[i + 3] == '2' && (i + 3) < LengthCharArr) // Shifting array
+    if (tempcharBuf[i] == '4' && tempcharBuf[i + 1] == '8' && tempcharBuf[i + 2] == '5' && tempcharBuf[i + 3] == '2' && (i + 3) < LengthCharArr) // Shifting array to brand
     {
       StartShifting = true;
     }
@@ -153,7 +144,7 @@ void readID()
       index++;
     }
   }
-  //charBuf = tempcharBuf;
+  
   for (int i = 6; i <= LengthCharArr; i++)     // Devide the char array in 'boxes' (Starting with 6 because ID never is shorter)
   {
     String boxA = "";
@@ -185,19 +176,18 @@ void readID()
       }
     }
   }
-  //delay(ReadDelay);
 }
-
+// Puts the variables in headers on the serial line to send out the output port 
 void SendToWifi(String iD, int location, boolean Available, int temprature)
 {
   char charArray[50];
   String tempStr = "XD" + iD + "DA" + (String)location + "AB" + (String)Available + "BT" + (String)temprature + "TX";
-  //char* buff;
 
   tempStr.toCharArray(charArray, 50);
   Serial.write(charArray);
 }
 
+// Visual knight rider of 7 colors for visual check of connection
 void VisualRGBCheck()
 {
   int timer = 200;
@@ -229,17 +219,18 @@ void VisualRGBCheck()
   }
 }
 
+// Detects users in front of fridge, gives countless options to implement
 boolean DetectUser()
 {
   pinMode(sensorpin, OUTPUT);
-  digitalWrite(sensorpin, LOW);                          // Make sure pin is low before sending a short high to trigger ranging
+  digitalWrite(sensorpin, LOW);                          // Make pin low before sending a short high to trigger ranging
   delayMicroseconds(2);
-  digitalWrite(sensorpin, HIGH);                         // Send a short 10 microsecond high burst on pin to start ranging
+  digitalWrite(sensorpin, HIGH);                         // Sends short 10 microsecond high on pin to start ranging
   delayMicroseconds(10);
-  digitalWrite(sensorpin, LOW);                                  // Send pin low again before waiting for pulse back in
+  digitalWrite(sensorpin, LOW);                          // Set pin low again before waiting for pulse back in
   pinMode(sensorpin, INPUT);
-  duration = pulseIn(sensorpin, HIGH);                        // Reads echo pulse in from SRF05 in micro seconds
-  distance = duration / 58;                                    // Dividing this by 58 gives us a distance in cm
+  duration = pulseIn(sensorpin, HIGH);                   // Reads echo pulse in from SRF05 in microseconds
+  distance = duration / 58;                              // /58 is distance in cm
   Serial.print("Seesam says: ");
   if ( distance < UserDistance)
   {
@@ -255,6 +246,7 @@ boolean DetectUser()
   delay(500);
 }
 
+// Configures the modules correctly to make sure only that module is reading!
 void SetMod(int SelectedMod)
 {
   switch (SelectedMod) {

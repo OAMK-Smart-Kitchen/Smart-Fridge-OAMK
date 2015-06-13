@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -15428,7 +15428,7 @@ DIN A3, landscape with location and doc. field</description>
 <sheet>
 <plain>
 <text x="297.18" y="172.72" size="1.778" layer="95">12V - GND - X - TX - SCL - SDA</text>
-<text x="60.96" y="132.08" size="2.54" layer="95">NFC-READER</text>
+<text x="62.23" y="132.08" size="2.54" layer="95">NFC-READER</text>
 <text x="175.26" y="111.76" size="2.54" layer="95">LED-DRIVER</text>
 <text x="299.72" y="177.8" size="2.54" layer="95">BUS-CONNECTION</text>
 <text x="309.88" y="50.8" size="2.54" layer="95">LEDSTRIPS</text>
@@ -15436,7 +15436,7 @@ DIN A3, landscape with location and doc. field</description>
 <text x="241.3" y="177.8" size="2.54" layer="95">POWER REGULATOR</text>
 <text x="292.1" y="-50.8" size="3.81" layer="94">SMART FRIDGE
 PROJECT</text>
-<text x="345.44" y="-40.64" size="2.54" layer="94">Tom Mampaey</text>
+<text x="344.17" y="-40.64" size="2.54" layer="94">Tom Mampaey</text>
 </plain>
 <instances>
 <instance part="Q1" gate="G$1" x="271.78" y="5.08"/>

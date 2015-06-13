@@ -1,0 +1,240 @@
+<pre>
+<span style="color: #7E7E7E;">/*</span>
+<span style="color: #7E7E7E;">SEND&nbsp;PRODUCT&nbsp;INFORMATION&nbsp;TO&nbsp;SERVER</span>
+<span style="color: #7E7E7E;">----------------------------------</span>
+<span style="color: #7E7E7E;">Made&nbsp;by&nbsp;Tom&nbsp;Mampaey</span>
+<span style="color: #7E7E7E;">at&nbsp;'OAMK&nbsp;University&nbsp;of&nbsp;Applied&nbsp;sciences'</span>
+<span style="color: #7E7E7E;">Finland&nbsp;-&nbsp;May&nbsp;2015</span>
+
+<span style="color: #7E7E7E;">Gets&nbsp;product&nbsp;information&nbsp;from&nbsp;MASTER-board&nbsp;SmartFridge&nbsp;on&nbsp;Serial&nbsp;1&nbsp;line.&nbsp;</span>
+<span style="color: #7E7E7E;">Sends&nbsp;JSON&nbsp;data&nbsp;(PUT)&nbsp;to&nbsp;the&nbsp;server&nbsp;using&nbsp;WiFi</span>
+
+<span style="color: #7E7E7E;">Code&nbsp;based&nbsp;on&nbsp;the&nbsp;GET-request&nbsp;example&nbsp;of&nbsp;WebClient&nbsp;SFE</span>
+<span style="color: #7E7E7E;">*/</span>
+
+#include&nbsp;&lt;<span style="color: #CC6600;">SPI</span>.h&gt;
+#include&nbsp;&lt;SFE_CC3000.h&gt;
+#include&nbsp;&lt;SFE_CC3000_Client.h&gt;
+
+<span style="color: #7E7E7E;">//&nbsp;Pins&nbsp;</span>
+#define&nbsp;CC3000_INT&nbsp;2&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Needs to be an interrupt pin </span>
+#define&nbsp;CC3000_EN&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Digital pin</span>
+#define&nbsp;CC3000_CS&nbsp;&nbsp;10&nbsp;&nbsp;<span style="color: #7E7E7E;">// cs pin (best 10 on if you use uno)</span>
+
+<span style="color: #7E7E7E;">//&nbsp;Connection&nbsp;info&nbsp;data&nbsp;lengths</span>
+#define&nbsp;IP_ADDR_LEN&nbsp;4&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Length of IP address in bytes</span>
+
+<span style="color: #7E7E7E;">//&nbsp;Internet&nbsp;settings&nbsp;(constants)</span>
+<span style="color: #CC6600;">char</span> ap_ssid[] = <span style="color: #006699;">"SmartKitchen"</span>;          <span style="color: #7E7E7E;">// SSID of network</span>
+<span style="color: #CC6600;">char</span> ap_password[] = <span style="color: #006699;">"12345678"</span>;          <span style="color: #7E7E7E;">// Password of network</span>
+<span style="color: #CC6600;">unsigned</span> <span style="color: #CC6600;">int</span> ap_security = WLAN_SEC_WPA2; <span style="color: #7E7E7E;">// Security of network</span>
+<span style="color: #CC6600;">unsigned</span> <span style="color: #CC6600;">int</span> timeout = 30000;             <span style="color: #7E7E7E;">// Milliseconds</span>
+<span style="color: #CC6600;">char</span> server[] = <span style="color: #006699;">"api.verhofstadt.eu"</span>;     <span style="color: #7E7E7E;">// Remote host site</span>
+<span style="color: #CC6600;">String</span> data = <span style="color: #006699;">" "</span>;
+<span style="color: #CC6600;">int</span> led = 50;
+
+<span style="color: #7E7E7E;">//&nbsp;Reading&nbsp;from&nbsp;Master&nbsp;Module</span>
+<span style="color: #CC6600;">char</span> incommingByte;
+<span style="color: #CC6600;">String</span> incommingString;
+<span style="color: #CC6600;">char</span> charArray[80];
+<span style="color: #CC6600;">boolean</span> initComplete = <span style="color: #CC6600;">false</span>;
+<span style="color: #CC6600;">boolean</span> dataReceived = <span style="color: #CC6600;">false</span>;
+<span style="color: #CC6600;">String</span> NFC_ID = <span style="color: #006699;">""</span>;
+<span style="color: #CC6600;">String</span> Address = <span style="color: #006699;">""</span>;
+<span style="color: #CC6600;">String</span> Availability = <span style="color: #006699;">""</span>;
+<span style="color: #CC6600;">String</span> Temprature = <span style="color: #006699;">""</span>;
+
+<span style="color: #7E7E7E;">//&nbsp;Global&nbsp;Variables</span>
+SFE_CC3000&nbsp;wifi&nbsp;=&nbsp;SFE_CC3000(CC3000_INT,&nbsp;CC3000_EN,&nbsp;CC3000_CS);
+SFE_CC3000_Client&nbsp;client&nbsp;=&nbsp;SFE_CC3000_Client(wifi);
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>() {
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">begin</span>(9600);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">begin</span>(9600);
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(led, <span style="color: #006699;">OUTPUT</span>); 
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led, <span style="color: #006699;">LOW</span>);
+
+&nbsp;&nbsp;ConnectionInfo&nbsp;connection_info;
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> i;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Initialize Serial port</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"----------------------------------"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"SmartFridge CC3000 - PUT to Server"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"----------------------------------"</span>);
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Initialize CC3000 (configure SPI communications)</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( wifi.init() ) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"CC3000 initialization complete"</span>);
+&nbsp;&nbsp;}&nbsp;<span style="color: #CC6600;">else</span> {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Error: CC3000 initialization incomplete"</span>);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Connect using DHCP</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Connecting to SSID: "</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(ap_ssid);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!wifi.<span style="color: #CC6600;">connect</span>(ap_ssid, ap_security, ap_password, timeout)) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Error: Could not connect to AP"</span>);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Connection details and print IP address</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( !wifi.getConnectionInfo(connection_info) ) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Error: Could not obtain connection details"</span>);
+&nbsp;&nbsp;}&nbsp;<span style="color: #CC6600;">else</span> {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"IP Address: "</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (i = 0; i &lt; IP_ADDR_LEN; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(connection_info.ip_address[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( i &lt; IP_ADDR_LEN - 1 ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"."</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>();
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Make TCP connection to remote host</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Performing HTTP PUT to: "</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(server);
+
+&nbsp;&nbsp;client.<span style="color: #CC6600;">connect</span>(server, 80);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (client.<span style="color: #CC6600;">connected</span>()) { <span style="color: #7E7E7E;">//initiate connection</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Connected to: "</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led, <span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span> {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Failed to connect with: "</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led, <span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(server);
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">/*</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Make&nbsp;a&nbsp;HTTP&nbsp;GET&nbsp;request&nbsp;(works!)</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;client.println("GET&nbsp;/service/exercises&nbsp;HTTP/1.1");</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;client.print("Host:&nbsp;");</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;client.println(server);</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;client.println("Connection:&nbsp;close");</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;client.println();</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;Serial.println();&nbsp;</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;*/</span>
+}
+<span style="color: #CC6600;">String</span> inData = <span style="color: #006699;">""</span>;
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>()
+{
+&nbsp;&nbsp;inData&nbsp;=&nbsp;<span style="color: #006699;">""</span>;
+
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">available</span>())
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);                       <span style="color: #7E7E7E;">//allows all serial sent to be received together</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">available</span>())
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> recieved = <span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inData&nbsp;+=&nbsp;recieved;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!inData.equals(<span style="color: #006699;">""</span>))
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;inData.toCharArray(charArray,&nbsp;100);
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Constructing Json to PUT</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">String</span> ID = GetId();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">String</span> Address = GetAddress();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">String</span> Available = GetAvailability();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">String</span> temprature = GetTemprature();
+&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;=&nbsp;<span style="color: #006699;">"{\"IdNFC\":\""</span> + ID  + <span style="color: #006699;">"\",\"Address\":\""</span> + Address + <span style="color: #006699;">"\",\"Available\":\""</span> + Available + <span style="color: #006699;">"\",\"TemperatureFridge\":\""</span> + temprature + <span style="color: #006699;">"\"}"</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;SendToServer(data);
+&nbsp;&nbsp;}
+}
+
+<span style="color: #CC6600;">String</span> GetContentByFilterOn(<span style="color: #CC6600;">char</span> filter)
+{
+&nbsp;&nbsp;bool&nbsp;readd&nbsp;=&nbsp;<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;bool&nbsp;stopread&nbsp;=&nbsp;<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> content = <span style="color: #006699;">""</span>;
+
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i = 0; i &lt; sizeof(charArray); i++)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (stopread)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> content;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (readd)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (charArray[i] != filter)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content.concat(charArray[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (charArray[i] == filter)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readd&nbsp;=&nbsp;!readd;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (readd == <span style="color: #CC6600;">false</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stopread&nbsp;=&nbsp;<span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+
+<span style="color: #CC6600;">void</span> SendToServer(<span style="color: #CC6600;">String</span> data)
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (client.<span style="color: #CC6600;">connect</span>(server, 80))
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (client.<span style="color: #CC6600;">connected</span>())
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"PUT /service/Hardware/Product HTTP/1.1"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5);                                  <span style="color: #7E7E7E;">// added short dealys to avoid overload</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Host: "</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">println</span>(server);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Content-Length: "</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">println</span>(data.length());             <span style="color: #7E7E7E;">// without quotes</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Cache-Control: no-cache"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//client.println("Connection: keep-alive");</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//client.println("Content-Type: text/plain; charset=utf-8");</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//client.println("Content-Transfer-Encoding: base64");</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//client.println("Accept-Encoding: gzip, deflate, sdch");</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Content-Type: application/json"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">println</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">println</span>(data);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(data);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i = 0; i &lt; 50; i++){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> c = client.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(c);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">stop</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Time-out: Could not make TCP connection"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;client.<span style="color: #CC6600;">connect</span>(server, 80);
+&nbsp;&nbsp;}
+}
+
+<span style="color: #CC6600;">String</span> GetHeader()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">return</span> GetContentByFilterOn(<span style="color: #006699;">'X'</span>);    <span style="color: #7E7E7E;">// Filer NFC-ID by data between 'D'</span>
+}
+<span style="color: #CC6600;">String</span> GetId()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">return</span> GetContentByFilterOn(<span style="color: #006699;">'D'</span>);    <span style="color: #7E7E7E;">// Filer NFC-ID by data between 'D'</span>
+}
+<span style="color: #CC6600;">String</span> GetAddress()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">return</span> GetContentByFilterOn(<span style="color: #006699;">'A'</span>);    <span style="color: #7E7E7E;">// Filer Address by data between 'A'</span>
+}
+<span style="color: #CC6600;">String</span> GetAvailability()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">return</span> GetContentByFilterOn(<span style="color: #006699;">'B'</span>);    <span style="color: #7E7E7E;">// Filer Availability by data between 'B'</span>
+}
+<span style="color: #CC6600;">String</span> GetTemprature()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">return</span> GetContentByFilterOn(<span style="color: #006699;">'T'</span>);    <span style="color: #7E7E7E;">// Filer Temprature by data between 'T'</span>
+}
+
+</pre>

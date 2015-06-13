@@ -6741,6 +6741,7 @@ W = angled&lt;p&gt;
 <junction x="297.18" y="99.06"/>
 <pinref part="J2" gate="G$1" pin="5"/>
 <wire x1="322.58" y1="99.06" x2="322.58" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="G$1" pin="SCL"/>
 </segment>
 </net>
 <net name="N$21" class="0">
